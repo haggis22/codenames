@@ -33,6 +33,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="package.json" />
+    <None Include="server\log4js_config.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="client\index.html" />
+    <Content Include="server\config.js" />
+    <Content Include="server\routes\codeapi.js" />
+    <Content Include="server\server.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
