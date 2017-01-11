@@ -1,0 +1,16 @@
+﻿# Visual Studio-generated files
+*.csproj.user
+*.suo
+bin
+obj
+
+# Node.js dependencies that need to be installed separately
+node_modules
+
+# log4js log files
+logs
+*.log
+
+# locally-built folders for running local server
+build
+localserver
