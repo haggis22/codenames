@@ -14,3 +14,6 @@ logs
 # locally-built folders for running local server
 build
 localserver
+
+# locally-built folders for running browserify angular files
+client/js
