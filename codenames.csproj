@@ -39,10 +39,16 @@
     <None Include="server\log4js_config.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="src\app\app.js" />
     <Content Include="client\index.html" />
+    <Content Include="src\modules\index.js" />
+    <Content Include="src\modules\test-controller.js" />
     <Content Include="server\config.js" />
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="client\js\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
