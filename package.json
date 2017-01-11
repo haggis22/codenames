@@ -1,0 +1,28 @@
+{
+  "name": "CodeNames",
+  "version": "0.0.1",
+  "description": "Online version of CodeNames game",
+  "author": "Daniel Shell <dshell@gmail.com>",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "~1.12.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "log4js": "^0.6.36",
+    "mongodb": "^2.1.21",
+    "monk": "^1.0.1",
+    "q": "^1.4.1",
+    "uuid": "^3.0.1"
+  },
+  "private": true,
+  "main": "index.js",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC"
+}
