@@ -25,7 +25,7 @@ console.log('__dirname = ' + __dirname);
 
 
 // forward any request for the shared objects to the js folder
-app.use('/js', express.static(__dirname + '/js'));
+//app.use('/js', express.static(__dirname + '/js'));
 
 // forward any request to the API to the REST services
 app.use('/api', require(__dirname + '/routes/codeapi'));
@@ -42,7 +42,7 @@ app.use(function (err, req, res, next) {
 // set up the default index page when the file is not specified
 app.get('/', function (req, res) {
     console.log('Serving default file');
-    res.sendFile('index.html', { root: __dirname + '/client' });
+    res.sendFile('index.html', { root: __dirname + '/../client' });
 });
 
 logger.info('__dirname = ' + __dirname);

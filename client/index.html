@@ -7,10 +7,15 @@
 	
         <h2>Can you crack the code?</h2>
 
-        <div ng-app="CodenamesApp" ng-controller="TestCtrl">
-            Hello {{ name }}
+        <div ng-app="codenames.App" ng-controller="TestCtrl">
+            Hello {{ name }}, age {{ age | number:0 }}, eyes: {{ eyes }}
         </div>
 
+
+	    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-resource.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-cookies.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.0/angular-ui-router.js"></script>
 
         <script src="/js/app.js"></script>
 
