@@ -1,0 +1,24 @@
+.name,
+.age {
+  border: 1px solid #000;
+  padding: 3px;
+  background: #eeffcc; }
+
+.input, .error-input {
+  border-radius: 3px;
+  border: 4px solid #ddd;
+  color: #555;
+  font-size: 17px;
+  padding: 10px 20px;
+  display: inline-block;
+  outline: 0; }
+
+.error-input {
+  border: 4px solid #e74c3c; }
+
+.error {
+  color: #f00;
+  font-weight: bold; }
+
+.result {
+  font-weight: bold; }

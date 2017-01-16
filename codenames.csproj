@@ -37,9 +37,18 @@
     <None Include=".gitignore" />
     <None Include="package.json" />
     <None Include="server\log4js_config.json" />
+    <None Include="src\css\style.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
+    <Content Include="js\Constants.js" />
+    <Content Include="js\users\Session.js" />
+    <Content Include="js\users\User.js" />
+    <Content Include="server\crypto\cryptographer.js" />
+    <Content Include="server\managers\users\SessionManager.js" />
+    <Content Include="server\managers\users\UserManager.js" />
+    <Content Include="server\routes\users.js" />
+    <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
     <Content Include="client\index.html" />
     <Content Include="src\modules\constants.js" />
@@ -47,6 +56,7 @@
     <Content Include="server\config.js" />
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
+    <Content Include="src\modules\users\users-dal-service.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

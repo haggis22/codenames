@@ -8,7 +8,7 @@
             age: 22
         });
 
-})(angular.module('codenames.App'));
+})(angular.module('codenames.app'));
 
 
 

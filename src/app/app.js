@@ -1,4 +1,4 @@
 ﻿"use strict";
 
-angular.module('codenames.App', []);
+angular.module('codenames.app', [ 'ngResource' ]);
 
