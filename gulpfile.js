@@ -12,7 +12,8 @@ gulp.task('clean', function () {
 
 gulp.task('css', ['clean'], function () {
 
-    return gulp.src('src/css/**/*.scss')
+    return gulp.src('src/**/*.scss')
+        .pipe(concat('style.css'))
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('client/css'));
 

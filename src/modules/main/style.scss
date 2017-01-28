@@ -1,0 +1,36 @@
+﻿.header
+{
+	float: left;
+	font-size: 20px;
+}
+
+.login-info
+{
+	display: inline-block;
+	width: 250px;
+	height: 60px;
+	float: right;
+	font-size: 14px;
+	border: 1px solid $borderColor;
+	background-color: $backgroundColor;
+	padding: 5px;
+
+
+	.name,
+	.username
+	{
+		text-align: right;
+	}
+
+	.name
+	{
+		font-weight: bold;
+	}
+
+	.username
+	{
+		font-style: italic;
+	}
+
+}
+
