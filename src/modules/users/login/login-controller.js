@@ -2,11 +2,11 @@
     
     "use strict";
 
-    app.controller('codenames.users.loginCtrl', ['$scope', '$state',
-                                                    'codenames.constants', 'codenames.users.dalService', 'codenames.viewService',
+    app.controller('codenames.users.loginCtrl', ['$scope', '$rootScope', '$state',
+                                                    'codenames.constants', 'codenames.userService', 'codenames.viewService',
 
-        function ($scope, $state,
-                    constants, usersDALService, viewService) {
+        function ($scope, $rootScope, $state,
+                    constants, userService, viewService) {
 
             $scope.email = 'dshell@gmail.com';
             $scope.password = 'password';
@@ -14,17 +14,15 @@
 
             $scope.login = function() {
 
-                usersDALService.login.login({}, { email: $scope.email, password: $scope.password })
-                    .$promise
+                userService.login($scope.email, $scope.password)
                     .then(function(result) {
-                        
-                        viewService.session = result;
-                        return $state.go('main.lobby');
+
+                        console.log('Made it here');
 
                     })
                     .catch(function(error) { 
 
-                        $scope.error = error.data || error;
+                        $rootScope.$broadcast('raise-error', { error: error.data || error });
 
                     });
                 

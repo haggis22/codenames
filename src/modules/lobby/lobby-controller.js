@@ -2,10 +2,10 @@
     
     "use strict";
 
-    app.controller('codenames.lobby.lobbyCtrl', ['$scope', '$q', 'codenames.constants', 'codenames.users.dalService', 'codenames.viewService',
+    app.controller('codenames.lobby.lobbyCtrl', ['$scope', '$q', 'codenames.viewService',
 
         function ($scope, $q, 
-                    constants, usersDALService, viewService) {
+                    viewService) {
 
             $scope.viewService = viewService;
 
