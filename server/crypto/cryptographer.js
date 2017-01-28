@@ -61,7 +61,6 @@ Cryptographer.compare = function (text, hash) {
             return deferred.reject(err);
         }
 
-        console.log('compare runtime: ' + ((new Date()).getTime() - startTime) + 'ms');
         return deferred.resolve(res);
 
     });
