@@ -1,0 +1,14 @@
+﻿<div ng-controller="codenames.users.loginCtrl">
+
+    <form name="loginForm">
+        
+        <div>email: <input type="text" ng-model="email" /></div>
+        <div>password: <input type="password" ng-model="password" /></div>
+        <div><button type="button" ng-click="login()">Log In</button></div>
+
+        <div class="result">Result: {{ result }}</div>
+        <div class="error">Error: {{ error }}</div>
+
+    </form>
+
+</div>
