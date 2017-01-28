@@ -50,15 +50,23 @@
     <Content Include="server\routes\users.js" />
     <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
-    <Content Include="client\index.html" />
+    <Content Include="src\index.html" />
+    <Content Include="src\modules\lobby\index.html" />
+    <Content Include="src\modules\lobby\lobby-controller.js" />
+    <Content Include="src\modules\main\index.html" />
+    <Content Include="src\modules\users\login\index.html" />
+    <Content Include="src\app\routes.js" />
     <Content Include="src\modules\constants.js" />
-    <Content Include="src\modules\test-controller.js" />
+    <Content Include="src\modules\users\login\login-controller.js" />
     <Content Include="server\config.js" />
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
-    <Content Include="src\modules\users\users-dal-service.js" />
+    <Content Include="src\services\view-service.js" />
+    <Content Include="src\services\users-dal-service.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="client\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
