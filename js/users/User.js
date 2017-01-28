@@ -1,33 +1,21 @@
-﻿(function (isNode, isAngular) {
+﻿"use strict";
 
-    "use strict";
+class User {
 
-    var UserModule = function () {
+    constructor(user) {
 
-        var User = function (user) {
+        console.log('Creating user from ' + JSON.stringify(user));
 
-            this._id = user._id;
-            this.username = user.username;
-            this.password = user.password;
-            this.updated = user.updated;
-            this.sessionHash = user.sessionHash;
-
-        };
-
-        return User;
-
-    };
-
-    if (isAngular) {
-        // AngularJS module definition
-        angular.module('codenames.app')
-            .factory('User', [UserModule]);
-
-    }
-    else if (isNode) {
-        // NodeJS module definition
-        module.exports = UserModule();
+        this._id = user._id;
+        this.username = user.username;
+        this.password = user.password;
+        this.updated = user.updated;
+        this.first = user.first;
+        this.last = user.last;
+        this.sessionHash = user.sessionHash;
 
     }
 
-})(typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');
+}  // end class declaration
+
+module.exports = User;
