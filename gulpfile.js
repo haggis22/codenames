@@ -3,8 +3,14 @@ var del = require('del');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 
+gulp.task('clean', function () {
 
-gulp.task('css', function () {
+    return del(['./client']);
+
+});
+
+
+gulp.task('css', ['clean'], function () {
 
     return gulp.src('src/css/**/*.scss')
         .pipe(sass().on('error', sass.logError))
@@ -13,12 +19,21 @@ gulp.task('css', function () {
 
 });
 
-gulp.task('client-js', function() {
+gulp.task('client-js', ['clean'], function () {
 
-    return gulp.src([ 'src/app/app.js', 'src/modules/**/*.js' ])
+    return gulp.src([ 'src/**/*.js' ])
         .pipe(concat('app.js'))
         .pipe(gulp.dest('client/js'));
 
 });
 
-gulp.task('default', ['client-js']);
+
+gulp.task('client-html', [ 'clean' ], function () {
+
+    return gulp.src(['src/**/*.html'], { base: './src' })
+        .pipe(gulp.dest('client'));
+
+});
+
+
+gulp.task('default', ['client-js', 'client-html', 'css' ]);
