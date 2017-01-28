@@ -88,12 +88,9 @@ UserManager.login = function (email, password) {
 
         .then(function (user) {
 
-            logger.info('Login function found user ' + JSON.stringify(user));
-
             if (user == null) {
 
-                // this will return a NULL session
-                return null;
+                return { error: 'Unknown user or incorrect password' };
 
             }
 
@@ -101,15 +98,13 @@ UserManager.login = function (email, password) {
 
                 .then(function ([ user, isPasswordMatch ]) {
 
-                    logger.info('Password match? ' + isPasswordMatch);
-
                     if (!isPasswordMatch) {
                         
-                        // invalid password also returns a null session
-                        return null;
+                        return { error: 'Unknown user or incorrect password' };
+
                     }
 
-                    return SessionManager.createSession(user);
+                    return { data: SessionManager.createSession(user) };
 
                 });
 
