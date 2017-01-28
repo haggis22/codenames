@@ -99,11 +99,12 @@ UserManager.login = function (email, password) {
 
             return q.all([user, cryptographer.compare(password, user.password)])
 
-                .spread(function (user, isPasswordMatch) {
+                .then(function ([ user, isPasswordMatch ]) {
 
                     logger.info('Password match? ' + isPasswordMatch);
 
                     if (!isPasswordMatch) {
+                        
                         // invalid password also returns a null session
                         return null;
                     }

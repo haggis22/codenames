@@ -30,12 +30,11 @@ router.post('/login', function (req, res) {
                 res.cookie(constants.cookies.SESSION, session.hash);
 
                 // return the newly-created user session data
-            
                 return res.send(session).end();
             }
 
             // the login failed because of the input, not because of a system error
-            return res.status(401).json({});
+            return res.status(401).send('Invalid username or password');
 
         })
         .catch(function(err) {
