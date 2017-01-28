@@ -48,7 +48,10 @@ SessionManager.fetch = function (query) {
 SessionManager.createSession = function (user) {
 
     // now generate their session id and save it
-    var session = new Session({ username: user.username, hash: uuid.v4() });
+    logger.info('CreateSession for user ' + JSON.stringify(user));
+
+    var session = Session.fromUser(user);
+    session.hash = uuid.v4();
 
     return session;
 
