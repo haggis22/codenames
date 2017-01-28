@@ -15,6 +15,7 @@ var constants = require(__dirname + '/../../js/Constants');
 var UserManager = require(__dirname + '/../managers/users/UserManager');
 
 
+// Returns a Session object if the login is successful
 router.post('/login', function (req, res) {
 
     if (logger.isDebugEnabled) { logger.debug('Login attempt for ' + req.body.email); }
@@ -22,19 +23,21 @@ router.post('/login', function (req, res) {
     // for a POST the parameters come in req.body
     UserManager.login(req.body.email, req.body.password)
 
-        .then(function (session) {
+        .then(function (result) {
 
-            if (session)
+            if (result.data)
             {
                 // put the session in the cookies
-                res.cookie(constants.cookies.SESSION, session.hash);
+                res.cookie(constants.cookies.SESSION, result.data.hash);
+
+                logger.info('session = ' + JSON.stringify(result.data));
 
                 // return the newly-created user session data
-                return res.send(session).end();
+                return res.send(result.data).end();
             }
 
             // the login failed because of the input, not because of a system error
-            return res.status(401).send('Invalid username or password');
+            return res.status(401).send(result.error);
 
         })
         .catch(function(err) {
