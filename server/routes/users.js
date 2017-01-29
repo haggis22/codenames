@@ -48,20 +48,14 @@ router.post('/login', function (req, res) {
 });
 
 
-/*
+
 router.get('/session', function (req, res) {
 
-    if (req.user) {
-
-        var session = new Session(req.user);
-        return res.status(200).send(session).end();
-
-    }
-
-    return res.status(200).send(null).end();
+    // session could be null if not found, but it's still not an error
+    return res.status(200).send(req.session).end();
 
 });
-*/
+
 
 router.get('/me', function (req, res) {
 

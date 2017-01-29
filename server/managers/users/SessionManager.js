@@ -18,16 +18,17 @@ var Session = require(__dirname + '/../../../js/users/Session');
 
 var SessionManager = function () { };
 
+
 SessionManager.fetch = function (query) {
 
     var deferred = q.defer();
 
-    var collection = db.get('users');
+    var collection = db.get('sessions');
 
     collection.find(query, {}, function (err, result) {
 
         if (err) {
-            logger.error('Could not load user from database for query ' + JSON.stringify(query) + ': ' + err);
+            logger.error('Could not load session from database for query ' + JSON.stringify(query) + ': ' + err);
             return deferred.reject(err);
         }
 
@@ -37,13 +38,35 @@ SessionManager.fetch = function (query) {
             return deferred.resolve(null);
         }
 
-        return deferred.resolve(new User(result[0]));
+        return deferred.resolve(new Session(result[0]));
 
     });
 
     return deferred.promise;
 
 };
+
+SessionManager.insert = function (session) {
+
+    var deferred = q.defer();
+
+    var collection = db.get('sessions');
+
+    collection.insert(session, function (err, doc) {
+
+        if (err) {
+            logger.error('Could not insert session into database ' + err);
+            return deferred.reject(err);
+        }
+
+        return deferred.resolve({ data: doc });
+
+    });
+
+    return deferred.promise;
+
+};
+
 
 SessionManager.createSession = function (user) {
 
@@ -53,7 +76,7 @@ SessionManager.createSession = function (user) {
     var session = Session.fromUser(user);
     session.hash = uuid.v4();
 
-    return session;
+    return SessionManager.insert(session);
 
 };
 

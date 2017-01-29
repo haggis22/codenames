@@ -60,6 +60,19 @@ UserManager.fetchByEmail = function (email) {
 
 };
 
+
+UserManager.fetchByID = function (id) {
+
+    // null ID will mean NULL user
+    if (id === null) {
+        return q.resolve(null);
+    }
+
+    return UserManager.fetch({ _id: id });
+
+};
+
+
 UserManager.fetchBySession = function (sessionHash) {
 
     // null hash will mean NULL user
@@ -75,7 +88,7 @@ UserManager.fetchBySession = function (sessionHash) {
                 return null;
             }
 
-            return UserManager.fetchByUsername(session.username);
+            return UserManager.fetch({ _id: session.userID });
 
         });
 
@@ -94,17 +107,16 @@ UserManager.login = function (email, password) {
 
             }
 
-            return q.all([user, cryptographer.compare(password, user.password)])
-
-                .then(function ([ user, isPasswordMatch ]) {
+            return cryptographer.compare(password, user.password)
+                .then(function (isPasswordMatch) {
 
                     if (!isPasswordMatch) {
-                        
+
                         return { error: 'Unknown user or incorrect password' };
 
                     }
 
-                    return { data: SessionManager.createSession(user) };
+                    return SessionManager.createSession(user);
 
                 });
 

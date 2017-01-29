@@ -12,6 +12,7 @@ log4js.configure(config.logging.configFile);
 var logger = log4js.getLogger('codenames');
 
 var constants = require(__dirname + '/../../js/Constants');
+var SessionManager = require(__dirname + '/../managers/users/SessionManager');
 var UserManager = require(__dirname + '/../managers/users/UserManager');
 
 // requests that come through /codeapi should have a cookie once logged in
@@ -24,15 +25,35 @@ router.use(function (req, res, next) {
         sessionHash = req.cookies[constants.cookies.SESSION];
     }
 
-    UserManager.fetchBySession(sessionHash)
+    if (!sessionHash)
+    {
+        // nothing else to do, so move on
+        return next();
+    }
 
-        .then(function (user) {
+    SessionManager.fetchByHash(sessionHash)
 
-            // the user could be returned as NULL for someone not logged in
-            if (logger.isDebugEnabled) { logger.debug('User in request = ' + user); }
+        .then(function (session) {
 
-            req.user = user;
-            return next();
+            if (!session)
+            {
+                // could not find the session, so move on
+                return next();
+            }
+
+            req.session = session;
+
+            UserManager.fetchByID(session.userID)
+                
+                .then(function(user) {
+
+                    // the user could be returned as NULL for someone not logged in
+                    if (logger.isDebugEnabled) { logger.debug('User in request = ' + user); }
+
+                    req.user = user;
+                    return next();
+
+                });
 
         })
         .catch(function(err) {
