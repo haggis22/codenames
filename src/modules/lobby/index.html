@@ -1,5 +1,15 @@
-﻿<div ng-controller="codenames.lobby.lobbyCtrl">
+﻿<div ng-controller="codenames.lobbyCtrl">
 
     <h3>Welcome to the Lobby, {{ viewService.session.first }}</h3>
+
+    <div>
+        <a ui-sref="main.game({ gameID: 3 })">Game 3</a>
+    </div>
+
+
+    <div>
+        <button type="button" ng-click="createGame()">Create game</button>
+    </div>
+
 
 </div>

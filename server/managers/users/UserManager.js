@@ -94,6 +94,7 @@ UserManager.fetchBySession = function (sessionHash) {
 
 };
 
+// Success: returns a Session object
 UserManager.login = function (email, password) {
 
     // pull by email address

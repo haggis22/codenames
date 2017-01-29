@@ -65,5 +65,6 @@ router.use(function (req, res, next) {
 });
 
 router.use('/users', require(__dirname + '/users'));
+router.use('/games', require(__dirname + '/games'));
 
 module.exports = router;

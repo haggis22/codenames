@@ -59,7 +59,7 @@ SessionManager.insert = function (session) {
             return deferred.reject(err);
         }
 
-        return deferred.resolve({ data: doc });
+        return deferred.resolve(new Session(doc));
 
     });
 
@@ -70,13 +70,26 @@ SessionManager.insert = function (session) {
 
 SessionManager.createSession = function (user) {
 
-    // now generate their session id and save it
-    logger.info('CreateSession for user ' + JSON.stringify(user));
+    // first check and see whether the user already has a session going
+    return SessionManager.fetch({ userID: user._id })
 
-    var session = Session.fromUser(user);
-    session.hash = uuid.v4();
+        .then(function (session) {
 
-    return SessionManager.insert(session);
+            if (session) {
+
+                // they already have a session, so just return that
+                return { data: session };
+            }
+
+            // otherwise, generate their session id and save it
+            var session = Session.fromUser(user);
+            session.hash = uuid.v4();
+
+            return { data: SessionManager.insert(session) };
+
+        });
+
+
 
 };
 

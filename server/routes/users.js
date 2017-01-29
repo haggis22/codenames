@@ -3,7 +3,7 @@
 var express = require('express');
 var router = express.Router();
 
-console.log('codeapi __dirname = ' + __dirname);
+console.log('users __dirname = ' + __dirname);
 
 var config = require(__dirname + '/../config');
 

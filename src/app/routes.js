@@ -23,7 +23,20 @@
                 .state('main.lobby', {
                     url: "/lobby",
                     templateUrl: "/modules/lobby/index.html?v=" + (new Date()).getTime()
+                })
+
+                .state('main.game', {
+                    url: "/game:gameID",
+                    templateUrl: "/modules/game/index.html?v=" + (new Date()).getTime(),
+                    controller: ['$scope', '$stateParams',
+                        function ($scope, $stateParams) {
+
+                            $scope.gameID = $stateParams.gameID;
+
+                        }
+                    ]
                 });
+
 
         }
     ]);
