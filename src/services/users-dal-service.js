@@ -11,7 +11,9 @@
                 login: $resource('/api/users/login', {},
                     {
                         login: { method: 'POST' }
-                    })
+                    }),
+
+                session: $resource('/api/users/session')
 
 
             };

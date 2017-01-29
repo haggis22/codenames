@@ -40,3 +40,14 @@ body
 {
 	clear: both;
 }
+
+.text-link
+{
+	display: inline-block;
+}
+
+.text-link:hover
+{
+	text-decoration: underline;
+	cursor: pointer;
+}

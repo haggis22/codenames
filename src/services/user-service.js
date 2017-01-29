@@ -2,17 +2,19 @@
 
     "use strict";
 
-    app.factory('codenames.userService', ['$rootScope', 
-                                            'codenames.users.dalService', 'codenames.viewService',
+    app.factory('codenames.userService', ['$rootScope',
+                                            'codenames.constants', 'codenames.users.dalService', 'codenames.viewService',
 
-        function ($rootScope, 
-                    usersDALService, viewService) {
+        function ($rootScope,
+                    constants, usersDALService, viewService) {
 
             return {
 
-                login: login
+                login: login,
+                checkSession: checkSession
 
             };
+
 
             function login(email, password) {
 
@@ -21,12 +23,26 @@
                     .then(function (result) {
 
                         viewService.session = result;
-                        $rootScope.$broadcast('login');
+                        $rootScope.$broadcast(constants.events.SESSION_CHANGE);
 
                     });
 
+            }  // login
 
-            }
+
+            function checkSession() {
+
+                return usersDALService.session.get().$promise
+
+                    .then(function (session) {
+
+                        viewService.session = session;
+                        $rootScope.$broadcast(constants.events.SESSION_CHANGE);
+
+                    });
+
+            }  // login
+
 
         }  // outer function
 

@@ -2,10 +2,11 @@
 	
     <div>
         <div class="header">Codenames</div>
-        <div class="login-info">
+        <div class="login-info" ng-show="viewService.session">
             
             <div class="name">{{ viewService.session.first }} {{ viewService.session.last }}</div>
             <div class="username">{{ viewService.session.username }}</div>
+            <div class="logout"><span class="text-link" ng-click="logout()">Logout</span></div>
 
         </div>
         <div class="breaker">&nbsp;</div>

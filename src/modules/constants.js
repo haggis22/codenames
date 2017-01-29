@@ -4,8 +4,11 @@
 
     app.constant('codenames.constants',
         {
-            name: 'Daniel',
-            age: 22
+            events: 
+            {
+                SESSION_CHANGE: 'session-change'
+            }
+
         });
 
 })(angular.module('codenames.app'));
