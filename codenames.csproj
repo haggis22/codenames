@@ -38,6 +38,7 @@
     <None Include="package.json" />
     <None Include="server\log4js_config.json" />
     <None Include="src\css\style.scss" />
+    <None Include="src\modules\main\style.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
@@ -50,10 +51,13 @@
     <Content Include="server\routes\users.js" />
     <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
+    <Content Include="src\directives\enter-action.js" />
+    <Content Include="src\directives\focus-me.js" />
     <Content Include="src\index.html" />
     <Content Include="src\modules\lobby\index.html" />
     <Content Include="src\modules\lobby\lobby-controller.js" />
     <Content Include="src\modules\main\index.html" />
+    <Content Include="src\modules\main\main-controller.js" />
     <Content Include="src\modules\users\login\index.html" />
     <Content Include="src\app\routes.js" />
     <Content Include="src\modules\constants.js" />
@@ -61,6 +65,7 @@
     <Content Include="server\config.js" />
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
+    <Content Include="src\services\user-service.js" />
     <Content Include="src\services\view-service.js" />
     <Content Include="src\services\users-dal-service.js" />
   </ItemGroup>
