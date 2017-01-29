@@ -18,11 +18,8 @@
             <tr ng-repeat="row in viewService.game.board.rows">
                 <td ng-repeat="cell in row track by $index"
                     ng-click="selectCell(cell)"
-                    ng-class="{ 'red': cell.selected && cell.role == 'red',
-                                'blue': cell.selected && cell.role == 'blue',
-                                'bystander': cell.selected && !cell.role,
-                                'assassin': cell.selected && cell.role == 'assassin' }"
-                >{{ cell.word }}</td>
+                    ng-class="cell.selected ? cell.role : ''"
+                ><span ng-hide="cell.selected">{{ cell.word }}</span></td>
             </tr>
 
         </table><!-- board table -->
