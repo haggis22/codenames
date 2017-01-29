@@ -14,6 +14,13 @@
 
             $scope.login = function() {
 
+                $scope.loginSubmitted = true;
+
+                if (!$scope.loginForm.$valid)
+                {
+                    return;
+                }
+
                 userService.login($scope.email, $scope.password)
                     .then(function(result) {
 
