@@ -113,11 +113,78 @@ class GameManager
 
                 } while (usedWords.hasOwnProperty[word]);
 
-                board.rows[r].push(word);
+                board.rows[r].push({ word: word });
                 usedWords[word] = true;
             }
 
         }
+
+        var taken = {};
+        var row = 0;
+        var column = 0;
+
+        for (var red=0; red < 8; red++)
+        {
+
+            do
+            {
+                row = Math.floor(Math.random() * 5);
+                column = Math.floor(Math.random() * 5);
+            }
+            while (taken.hasOwnProperty(board.rows[row][column].word));
+
+            board.rows[row][column].role = 'red';
+
+            // mark the word as assigned already
+            taken[board.rows[row][column].word] = true;
+
+        }   // red team assigments
+
+        for (var blue=0; blue < 8; blue++)
+        {
+
+            do
+            {
+                row = Math.floor(Math.random() * 5);
+                column = Math.floor(Math.random() * 5);
+            }
+            while (taken.hasOwnProperty(board.rows[row][column].word));
+
+            board.rows[row][column].role = 'blue';
+
+            // mark the word as assigned already
+            taken[board.rows[row][column].word] = true;
+
+        }   // blue team assigments
+        
+        // assign the extra team member
+        do
+        {
+            row = Math.floor(Math.random() * 5);
+            column = Math.floor(Math.random() * 5);
+        }
+        while (taken.hasOwnProperty(board.rows[row][column].word));
+
+        board.rows[row][column].role = Math.random() < 0.5 ? 'blue' : 'red';
+
+        // mark the word as assigned already
+        taken[board.rows[row][column].word] = true;
+
+            
+        // mark the assassin
+
+        do
+        {
+            row = Math.floor(Math.random() * 5);
+            column = Math.floor(Math.random() * 5);
+        }
+        while (taken.hasOwnProperty(board.rows[row][column].word));
+
+        board.rows[row][column].role = 'assassin';
+
+        // mark the word as assigned already
+        taken[board.rows[row][column].word] = true;
+
 
         return board;
 
