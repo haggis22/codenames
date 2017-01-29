@@ -51,3 +51,13 @@ body
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+table
+{
+	background-color: $backgroundColor;
+}
+
+table tfoot td.buttons
+{
+	text-align: center;
+}

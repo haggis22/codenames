@@ -22,7 +22,9 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast('raise-error', { error: error.data || error });
+                        $scope.error = error.data || error;
+
+                        // $rootScope.$broadcast('raise-error', { error: error.data || error });
 
                     });
                 

@@ -2,11 +2,29 @@
 
     <form name="loginForm">
         
-        <div>email: <input type="text" ng-model="email" /></div>
-        <div>password: <input type="password" ng-model="password" /></div>
-        <div><button type="button" ng-click="login()">Log In</button></div>
+        <table class="login" border="1" cellpadding="5" cellspacing="0">
+        
+            <tbody>
+            
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="text" ng-model="email" /></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" ng-model="password" /></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="buttons">
+                        <button type="button" ng-click="login()">Log In</button>
+                    </td>
+                </tr>
+            </tfoot>
 
-        <div class="result">Result: {{ result }}</div>
+        </table>
+
         <div class="error">Error: {{ error }}</div>
 
     </form>
