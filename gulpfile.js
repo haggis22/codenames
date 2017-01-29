@@ -29,12 +29,20 @@ gulp.task('client-js', ['clean'], function () {
 });
 
 
-gulp.task('client-html', [ 'clean' ], function () {
+gulp.task('client-html', ['clean'], function () {
 
     return gulp.src(['src/**/*.html'], { base: './src' })
         .pipe(gulp.dest('client'));
 
 });
 
+gulp.task('images', ['clean'], function () {
 
-gulp.task('default', ['client-js', 'client-html', 'css' ]);
+    return gulp.src(['src/images/*.*'], { base: './src' })
+        .pipe(gulp.dest('client'));
+
+});
+
+
+
+gulp.task('default', ['client-js', 'client-html', 'css', 'images' ]);
