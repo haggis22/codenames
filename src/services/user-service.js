@@ -63,7 +63,18 @@
 
                     .then(function (session) {
 
-                        viewService.session = session;
+                        // in case the session fails, the object is still not null - it has the properties
+                        // related to the promise. We need to look for the hash property specifically
+
+                        if (session && session.hash)
+                        {
+                            viewService.session = session;
+                        }
+                        else
+                        {
+                            delete viewService.session;
+                        }
+
                         $rootScope.$broadcast(constants.events.SESSION_CHANGE);
 
                     });
