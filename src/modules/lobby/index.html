@@ -11,5 +11,20 @@
         <button type="button" ng-click="createGame()">Create game</button>
     </div>
 
+    <div ng-show="viewService.game">
+        
+        <div>Game ID: {{ viewService.game._id }}</div>
+        <div>Dupes: {{ viewService.game.dupes }}</div>
+        
+        <table class="board">
+            
+            <tr ng-repeat="row in viewService.game.board.rows">
+                <td ng-repeat="cell in row track by $index">{{ cell }}</td>
+            </tr>
+
+        </table><!-- board table -->
+
+    </div><!-- ng-show="viewService.game" -->
+
 
 </div>

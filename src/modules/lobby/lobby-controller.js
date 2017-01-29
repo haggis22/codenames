@@ -26,7 +26,6 @@
 
             };
 
-
         }  // outer function
 
     ]);

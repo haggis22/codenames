@@ -40,16 +40,20 @@
     <None Include="src\css\popups.scss" />
     <None Include="src\css\style.scss" />
     <None Include="src\directives\error-message.scss" />
+    <None Include="src\modules\lobby\board.scss" />
     <None Include="src\modules\main\style.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
     <Content Include="js\Constants.js" />
+    <Content Include="js\games\Game.js" />
     <Content Include="js\users\Session.js" />
     <Content Include="js\users\User.js" />
     <Content Include="server\crypto\cryptographer.js" />
+    <Content Include="server\managers\games\GameManager.js" />
     <Content Include="server\managers\users\SessionManager.js" />
     <Content Include="server\managers\users\UserManager.js" />
+    <Content Include="server\routes\games.js" />
     <Content Include="server\routes\users.js" />
     <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
@@ -61,6 +65,8 @@
     <Content Include="src\index.html" />
     <Content Include="src\modules\game\index.html" />
     <Content Include="src\modules\game\game-controller.js" />
+    <Content Include="src\modules\game\game-service.js" />
+    <Content Include="src\modules\game\games-dal-service.js" />
     <Content Include="src\modules\lobby\index.html" />
     <Content Include="src\modules\lobby\lobby-controller.js" />
     <Content Include="src\modules\main\index.html" />
@@ -73,9 +79,9 @@
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
     <Content Include="src\services\error-parser.js" />
-    <Content Include="src\services\user-service.js" />
+    <Content Include="src\modules\users\user-service.js" />
     <Content Include="src\services\view-service.js" />
-    <Content Include="src\services\users-dal-service.js" />
+    <Content Include="src\modules\users\users-dal-service.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="client\" />

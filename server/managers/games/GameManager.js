@@ -91,23 +91,31 @@ class GameManager
 
     static generateBoard() {
 
-        var board = [];
-        var boardMap = {};
+        var board =
+        {
+            rows: []
+        }
+
+        var usedWords = {};
 
         var word = null;
 
-        for (var w=0; w < 25; w++)
+        for (var r=0; r < 5; r++)
         {
-            word = null;
+            // intialize each row
+            board.rows[r] = [];
 
-            do {
+            for (var c=0; c < 5; c++)
+            {
+                do {
 
-                word = wordArray[Math.floor(Math.random() * wordArray.length)];
+                    word = wordArray[Math.floor(Math.random() * wordArray.length)];
 
-            } while (boardMap.hasOwnProperty[word]);
+                } while (usedWords.hasOwnProperty[word]);
 
-            boardMap[word] = true;
-            board.push(word);
+                board.rows[r].push(word);
+                usedWords[word] = true;
+            }
 
         }
 
