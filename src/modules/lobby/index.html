@@ -10,6 +10,9 @@
         
         <div class="game-id">Game ID: {{ viewService.game._id }}</div>
         
+        <div>Red: {{ countRemaining('red') | number:0 }}</div>
+        <div>Blue: {{ countRemaining('blue') | number:0 }}</div>
+        
         <table class="board">
             
             <tr ng-repeat="row in viewService.game.board.rows">
@@ -17,6 +20,7 @@
                     ng-click="selectCell(cell)"
                     ng-class="{ 'red': cell.selected && cell.role == 'red',
                                 'blue': cell.selected && cell.role == 'blue',
+                                'bystander': cell.selected && !cell.role,
                                 'assassin': cell.selected && cell.role == 'assassin' }"
                 >{{ cell.word }}</td>
             </tr>

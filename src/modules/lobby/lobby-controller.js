@@ -31,6 +31,27 @@
 
             };  // selectCell
 
+            $scope.countRemaining = function (role) {
+
+                if (!viewService.game) {
+                    return 0;
+                }
+
+                var num = 0;
+
+                for (var r = 0; r < 5; r++) {
+                    for (var c = 0; c < 5; c++) {
+                        if (viewService.game.board.rows[r][c].role == role && !viewService.game.board.rows[r][c].selected) {
+                            num++;
+                        }
+                    }
+                }
+
+                return num;
+
+            };
+
+
         }  // outer function
 
     ]);
