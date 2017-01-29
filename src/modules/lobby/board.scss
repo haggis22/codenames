@@ -13,5 +13,22 @@ table.board td
 	font-size: 18px;
 	width: 200px;
 	height: 125px;
+
 }
 
+table.board td.red
+{
+	background-color: #ff6666;
+	background-image: url('/images/red-1.jpg');
+
+}
+
+table.board td.blue {
+	background-color: #6666ff;
+	background-image: url('/images/blue-1.jpg');
+}
+
+table.board td.assassin {
+	background-color: #eeeeee;
+	background-image: url('/images/assassin.jpg');
+}

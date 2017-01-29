@@ -23,8 +23,13 @@
 
                     });
 
+            };   // createGame
 
-            };
+            $scope.selectCell = function (cell) {
+
+                cell.selected = !cell.selected;
+
+            };  // selectCell
 
         }  // outer function
 
