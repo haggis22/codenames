@@ -6,7 +6,8 @@
         {
             events: 
             {
-                SESSION_CHANGE: 'session-change'
+                SESSION_CHANGE: 'session-change',
+                ERROR: 'raise-error'
             }
 
         });

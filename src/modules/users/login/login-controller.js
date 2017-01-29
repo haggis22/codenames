@@ -3,10 +3,10 @@
     "use strict";
 
     app.controller('codenames.users.loginCtrl', ['$scope', '$rootScope', '$state',
-                                                    'codenames.constants', 'codenames.userService', 'codenames.viewService',
+                                                    'codenames.constants', 'codenames.userService', 'codenames.viewService', 'codenames.errorParser',
 
         function ($scope, $rootScope, $state,
-                    constants, userService, viewService) {
+                    constants, userService, viewService, errorParser) {
 
             $scope.email = 'dshell@gmail.com';
             $scope.password = 'password';
@@ -31,7 +31,7 @@
 
                         $scope.error = error.data || error;
 
-                        // $rootScope.$broadcast('raise-error', { error: error.data || error });
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Login failure', error));
 
                     });
                 

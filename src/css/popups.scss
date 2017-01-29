@@ -1,0 +1,26 @@
+﻿.popup
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    margin-left: -200px;
+    background-color: #ffeeee; 
+    border: solid 3px #ff0000; 
+    z-index: 5;
+}
+
+.popup-close
+{
+    font-size: 10pt;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.popup-close:hover
+{
+	font-weight: bold;
+}

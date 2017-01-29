@@ -1,0 +1,23 @@
+﻿.error-popup
+{
+    width: 500px;
+    margin-left: -250px;
+    background-color: #ffeeee; 
+    border: solid 3px #ff0000; 
+    padding: 7px 7px 10px 7px;
+    z-index: 5;
+}
+
+.error-details
+{
+    font-weight: bold; 
+    margin: 7px;
+    padding: 10px 15px 10px 15px; 
+    border: solid 1px #000000; 
+    background-color: #eeeeee;
+}
+
+.error-details div
+{
+    margin: 3px 0px;
+}

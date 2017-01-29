@@ -1,0 +1,13 @@
+﻿<div ng-show="error.display" class="popup error-popup" escape-action="close()">
+    <div ng-click="close()" class="popup-close">[ X ]</div>
+    <div class="error">{{ error.header }}</div>
+    <div style="font-size: 0.9em; margin-top: 10px;">
+        <div ng-show="error.httpStatusCode != null"><span style="display: inline-block; width: 100px; font-weight: bold;">HTTP Code:</span>{{ error.httpStatusCode }}</div>
+        <div ng-show="error.responseCode != null"><span style="display: inline-block; width: 100px; font-weight: bold;">Error Code:</span>{{ error.responseCode }} <span ng-show="error.errorCodeText">({{ error.errorCodeText }})</span></div>
+    </div>
+    <div class="error-details" style="margin-top: 10px;">
+        <div ng-repeat="message in error.errors">{{ message }}</div>
+        <div ng-show="!error.errors || error.errors.length == 0">No details available.</div>
+        <div ng-show="error.responseCode === 108" style="font-weight: normal;">Click <a href="/Default.aspx?logout=1" target="_top">here</a> to log in again.</div>
+    </div>
+</div>
