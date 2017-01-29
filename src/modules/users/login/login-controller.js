@@ -21,20 +21,7 @@
                     return;
                 }
 
-                userService.login($scope.email, $scope.password)
-                    .then(function(result) {
-
-                        console.log('Made it here');
-
-                    })
-                    .catch(function(error) { 
-
-                        $scope.error = error.data || error;
-
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Login failure', error));
-
-                    });
-                
+                userService.login($scope.email, $scope.password);
 
             };
 

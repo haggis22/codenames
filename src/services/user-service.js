@@ -3,14 +3,15 @@
     "use strict";
 
     app.factory('codenames.userService', ['$rootScope',
-                                            'codenames.constants', 'codenames.users.dalService', 'codenames.viewService',
+                                            'codenames.constants', 'codenames.users.dalService', 'codenames.viewService', 'codenames.errorParser',
 
         function ($rootScope,
-                    constants, usersDALService, viewService) {
+                    constants, usersDALService, viewService, errorParser) {
 
             return {
 
                 login: login,
+                logout: logout,
                 checkSession: checkSession
 
             };
@@ -25,9 +26,35 @@
                         viewService.session = result;
                         $rootScope.$broadcast(constants.events.SESSION_CHANGE);
 
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Login failure', error));
+
                     });
 
             }  // login
+
+
+
+
+            function logout() {
+
+                return usersDALService.logout.logout({}, {}).$promise
+
+                    .then(function () {
+
+                        viewService.session = null;
+                        $rootScope.$broadcast(constants.events.SESSION_CHANGE);
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Log out failure', error));
+
+                    });
+
+            }  // logout
 
 
             function checkSession() {
@@ -41,7 +68,9 @@
 
                     });
 
-            }  // login
+            }  // checkSession
+
+
 
 
         }  // outer function

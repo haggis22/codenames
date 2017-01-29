@@ -91,6 +91,32 @@ SessionManager.fetchByHash = function (hash) {
 
 };
 
+SessionManager.logout = function (session) {
+
+    if (!session) {
+        return { data: true };
+    }
+
+    var deferred = q.defer();
+
+    var collection = db.get('sessions');
+
+    collection.remove({ hash: session.hash }, function (err, doc) {
+
+        if (err) {
+            logger.error('Could not delete session from database ' + err);
+            return deferred.reject(err);
+        }
+
+        return deferred.resolve({ data: true });
+
+    });
+
+    return deferred.promise;
+
+
+};
+
 
 module.exports = SessionManager;
 

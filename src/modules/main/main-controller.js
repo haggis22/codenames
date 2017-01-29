@@ -40,10 +40,7 @@
 
             $scope.logout = function () {
 
-                // TODO: log out on server, remove cookie
-                viewService.session = null;
-
-                $rootScope.$broadcast(constants.events.SESSION_CHANGE);
+                userService.logout();
 
             };
 

@@ -1,35 +1,16 @@
 ﻿/*jslint node: true */
-(function (isNode, isAngular) {
+"use strict";
 
-    "use strict";
 
-    // This wrapper function returns the contents of the module, with dependencies (if any)
-    var ConstantsModule = function () {
+class Constants {
 
-        var Constants = function () {
-        };
-
-        Constants.cookies =
-        {
+    static get cookies() {
+        return {
             SESSION: 'session'
         };
-
-        Constants.events =
-        {
-            SESSION_CHANGE: 'session-change'
-        };
-
-        return Constants;
-
-    };
-
-    if (isAngular) {
-        // AngularJS module definition
-        angular.module('codenames.app').factory('codenames.constants', [ConstantsModule]);
-    }
-    else if (isNode) {
-        // NodeJS module definition
-        module.exports = ConstantsModule();
     }
 
-})(typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');
+}  // end class declaration
+
+module.exports = Constants;
+

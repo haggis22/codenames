@@ -13,6 +13,7 @@ var logger = log4js.getLogger('codenames');
 
 var constants = require(__dirname + '/../../js/Constants');
 var UserManager = require(__dirname + '/../managers/users/UserManager');
+var SessionManager = require(__dirname + '/../managers/users/SessionManager');
 
 
 // Returns a Session object if the login is successful
@@ -57,19 +58,26 @@ router.get('/session', function (req, res) {
 });
 
 
-router.get('/me', function (req, res) {
+// Returns a Session object if the login is successful
+router.post('/logout', function (req, res) {
 
-    UserManager.fetchByEmail('dshell@gmail.com')
-        .then(function(user) {
+    SessionManager.logout(req.session)
+            
+        .then(function(result) { 
+            
+            // put the session in the cookies
+            res.clearCookie(constants.cookies.SESSION);
 
-            return res.send(user).end();
+            return res.send(result).end();
 
         })
         .catch(function(err) {
-            return res.status(500).send('Could not find user').end();
+            logger.warn('Could not log out for session ' + req.session.hash + ': ' + err.stack);
+            return res.status(500).send('Could not log out').end();
         });
 
 });
+
 
 
 module.exports = router;

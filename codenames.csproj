@@ -37,7 +37,9 @@
     <None Include=".gitignore" />
     <None Include="package.json" />
     <None Include="server\log4js_config.json" />
+    <None Include="src\css\popups.scss" />
     <None Include="src\css\style.scss" />
+    <None Include="src\directives\error-message.scss" />
     <None Include="src\modules\main\style.scss" />
   </ItemGroup>
   <ItemGroup>
@@ -51,8 +53,11 @@
     <Content Include="server\routes\users.js" />
     <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
+    <Content Include="src\directives\escape-action.js" />
+    <Content Include="src\directives\error-message.js" />
     <Content Include="src\directives\enter-action.js" />
     <Content Include="src\directives\focus-me.js" />
+    <Content Include="src\directives\error-message.html" />
     <Content Include="src\index.html" />
     <Content Include="src\modules\lobby\index.html" />
     <Content Include="src\modules\lobby\lobby-controller.js" />
@@ -65,6 +70,7 @@
     <Content Include="server\config.js" />
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
+    <Content Include="src\services\error-parser.js" />
     <Content Include="src\services\user-service.js" />
     <Content Include="src\services\view-service.js" />
     <Content Include="src\services\users-dal-service.js" />

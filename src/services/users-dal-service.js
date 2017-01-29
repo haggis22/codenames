@@ -13,7 +13,12 @@
                         login: { method: 'POST' }
                     }),
 
-                session: $resource('/api/users/session')
+                session: $resource('/api/users/session'),
+                
+                logout: $resource('/api/users/logout', {},
+                    {
+                        logout: { method: 'POST' }
+                    })
 
 
             };
