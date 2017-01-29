@@ -5,6 +5,7 @@ class Session {
     constructor(session) {
 
         this.hash = session.hash;
+        this.userID = session.userID;
         this.username = session.username;
         this.first = session.first;
         this.last = session.last;
@@ -16,6 +17,7 @@ class Session {
 
         return new Session(
         {
+            userID: user._id,
             username: user.username,
             first: user.first,
             last: user.last,
