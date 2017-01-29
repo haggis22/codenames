@@ -172,7 +172,6 @@ class GameManager
 
             
         // mark the assassin
-
         do
         {
             row = Math.floor(Math.random() * 5);
@@ -184,6 +183,18 @@ class GameManager
 
         // mark the word as assigned already
         taken[board.rows[row][column].word] = true;
+
+        // assign the rest to be bystanders of some sort
+        for (row=0; row < 5; row++)
+        {
+            for (column = 0; column < 5; column++)
+            {
+                if (!board.rows[row][column].role)
+                {
+                    board.rows[row][column].role = Math.random() < 0.5 ? 'bystander1': 'bystander2';
+                }
+            }
+        }
 
 
         return board;
