@@ -13,6 +13,7 @@ var db = monk(config.db);
 
 var q = require('q');
 
+
 const wordArray = 
 [
     'Acne', 'Acre', 'Addendum', 'Advertise', 'Aircraft', 'Aisle', 'Alligator', 'Alphabetize', 'America', 'Ankle', 'Apathy', 'Applause', 'Applesauc', 'Application', 'Archaeologist', 'Aristocrat', 'Arm', 'Armada', 'Asleep', 'Astronaut', 'Athlete', 'Atlantis', 'Aunt', 'Avocado', 
@@ -111,7 +112,7 @@ class GameManager
 
                     word = wordArray[Math.floor(Math.random() * wordArray.length)];
 
-                } while (usedWords.hasOwnProperty[word]);
+                } while (usedWords.hasOwnProperty(word));
 
                 board.rows[r].push({ word: word });
                 usedWords[word] = true;
@@ -123,6 +124,7 @@ class GameManager
         var row = 0;
         var column = 0;
 
+        // assign the red spies
         for (var red=0; red < 8; red++)
         {
 
@@ -140,6 +142,7 @@ class GameManager
 
         }   // red team assigments
 
+        // assign the blue spies
         for (var blue=0; blue < 8; blue++)
         {
 
