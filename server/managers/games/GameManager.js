@@ -75,9 +75,12 @@ class GameManager
 
         logger.info("Create game");
 
-        var board = this.generateBoard();
+        var game = new Game();
+        game.board = this.generateBoard();
+        // set the first team's turn
+        game.turn = game.board.first;
+        game.state = Game.STATE_SETUP;
 
-        var game = new Game({ board: board });
 
         return this.insert(game)
 
@@ -94,7 +97,8 @@ class GameManager
 
         var board =
         {
-            rows: []
+            rows: [],
+            first: null
         }
 
         var usedWords = {};
@@ -168,9 +172,11 @@ class GameManager
         }
         while (taken.hasOwnProperty(board.rows[row][column].word));
 
-        board.rows[row][column].role = Math.random() < 0.5 ? 'blue' : 'red';
-
-        // mark the word as assigned already
+        // determine which team will go first...
+        board.first = Math.random() < 0.5 ? 'blue' : 'red';
+        // ...and that team has the extra spy
+        board.rows[row][column].role = board.first;
+        // mark the word as assigned 
         taken[board.rows[row][column].word] = true;
 
             
