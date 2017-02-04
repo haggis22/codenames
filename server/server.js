@@ -21,7 +21,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-console.log('__dirname = ' + __dirname);
+logger.info('__dirname = ' + __dirname);
 
 
 // forward any request for the shared objects to the js folder
@@ -41,7 +41,6 @@ app.use(function (err, req, res, next) {
 
 // set up the default index page when the file is not specified
 app.get('/', function (req, res) {
-    console.log('Serving default file');
     res.sendFile('index.html', { root: __dirname + '/../client' });
 });
 

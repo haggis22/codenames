@@ -3,8 +3,6 @@
 var express = require('express');
 var router = express.Router();
 
-console.log('codeapi __dirname = ' + __dirname);
-
 var config = require(__dirname + '/../config');
 
 var log4js = require('log4js');
@@ -48,7 +46,7 @@ router.use(function (req, res, next) {
                 .then(function(user) {
 
                     // the user could be returned as NULL for someone not logged in
-                    if (logger.isDebugEnabled) { logger.debug('User in request = ' + user); }
+                    if (logger.isDebugEnabled && user) { logger.debug('User in request = ' + user.username); }
 
                     req.user = user;
                     return next();

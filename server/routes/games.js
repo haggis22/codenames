@@ -3,8 +3,6 @@
 var express = require('express');
 var router = express.Router();
 
-console.log('games __dirname = ' + __dirname);
-
 var config = require(__dirname + '/../config');
 
 var log4js = require('log4js');
