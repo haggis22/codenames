@@ -8,7 +8,9 @@
 
             return {
 
-                create: $resource('/api/games/create', {},
+                games: $resource('/api/games/', {}),
+
+                create: $resource('/api/games/', {},
                     {
                         create: { method: 'POST' }
                     })

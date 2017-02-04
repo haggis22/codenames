@@ -6,6 +6,23 @@
         <button type="button" ng-click="createGame()">Create game</button>
     </div>
 
+    <div class="loader" ng-show="viewService.pullingGames">Pulling games...</div>
+
+    <div ng-show="viewService.games">
+        <table class="datagrid" cellpadding="5" cellspacing="0" border="1">
+            <thead>
+                <tr>
+                    <th>Game ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="game in viewService.games">
+                    <td>{{ game._id }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div><!-- ng-show="viewService.games" -->
+
     <div ng-show="viewService.game">
         
         <div class="game-id">Game ID: {{ viewService.game._id }}</div>

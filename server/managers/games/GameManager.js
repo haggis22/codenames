@@ -17,14 +17,41 @@ var q = require('q');
 var BoardManager = require(__dirname + '/BoardManager');
 var Game = require(__dirname + '/../../../js/games/game');
 
+var COLLECTION_NAME = 'games';
+
+
 class GameManager
 {
 
+    // returns a promise to an array of modules
+    static fetch() {
+
+        var deferred = q.defer();
+
+        var collection = db.get(COLLECTION_NAME);
+
+        collection.find({}, {}, function (err, result) {
+
+            if (err) {
+                logger.error('Could not load games from database: ' + err);
+                return deferred.reject(err);
+            }
+
+            // turn the array of results to an array of Games
+            return deferred.resolve({ data: result.map(function(row) { return new Game(row); }) });
+
+        });
+
+        return deferred.promise;
+
+    }   // fetch
+
+    
     static insert(game) {
 
         var deferred = q.defer();
 
-        var collection = db.get('games');
+        var collection = db.get(COLLECTION_NAME);
 
         collection.insert(game, function (err, doc) {
 

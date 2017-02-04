@@ -10,9 +10,28 @@
 
             return {
 
+                pullGames: pullGames,
                 create: create
 
             };
+
+
+            function pullGames()
+            {
+                return dalService.games.query({}).$promise
+
+                    .then(function (result) {
+
+                        viewService.games = result;
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not fetch games', error));
+
+                    });
+
+            }  // pullGames
 
 
             function create() {

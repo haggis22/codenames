@@ -14,8 +14,35 @@ var constants = require(__dirname + '/../../js/Constants');
 var GameManager = require(__dirname + '/../managers/games/GameManager');
 
 
+// Returns a list of Game objects
+router.get('/', function (req, res) {
+
+    GameManager.fetch()
+
+        .then(function (result) {
+
+            if (result.data)
+            {
+                logger.info('Fetched games!');
+
+                // return the games
+                return res.send(result.data).end();
+            }
+
+            // the shouldn't really get here....
+            return res.status(400).send(result.error);
+
+        })
+        .catch(function(err) {
+            logger.warn('Could not fetch games ' + err.stack);
+            return res.status(500).send('Could not fetch games').end();
+        });
+
+});
+
+
 // Returns a Game object if the login is successful
-router.post('/create', function (req, res) {
+router.post('/', function (req, res) {
 
     // for a POST the parameters come in req.body
     GameManager.create()

@@ -11,6 +11,9 @@
             $scope.viewService = viewService;
 
 
+            gameService.pullGames();
+
+
             $scope.createGame = function () {
 
 
