@@ -4,8 +4,6 @@ class User {
 
     constructor(user) {
 
-        console.log('Creating user from ' + JSON.stringify(user));
-
         this._id = user._id;
         this.username = user.username;
         this.email = user.email;
