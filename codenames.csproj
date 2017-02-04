@@ -50,6 +50,7 @@
     <Content Include="js\users\Session.js" />
     <Content Include="js\users\User.js" />
     <Content Include="server\crypto\cryptographer.js" />
+    <Content Include="server\managers\games\WordManager.js" />
     <Content Include="server\managers\games\GameManager.js" />
     <Content Include="server\managers\users\SessionManager.js" />
     <Content Include="server\managers\users\UserManager.js" />
