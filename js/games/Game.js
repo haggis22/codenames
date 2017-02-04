@@ -26,8 +26,6 @@ class Game {
 
 }  // end class declaration
 
-Game.NUM_AGENTS = 8;
-Game.NUM_CELLS = 25;
 
 Game.STATE_SETUP = 'setup';
 Game.STATE_PLAY = 'play';
