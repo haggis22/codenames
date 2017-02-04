@@ -18,7 +18,7 @@
 
                     .then(function () {
 
-                        console.log('created game');
+                        console.debug('created game');
 
                         // convert the board from an array into cells
                         viewService.game.board.rows = getRows(viewService.game.board);
