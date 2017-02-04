@@ -12,6 +12,8 @@
         
         <div>Red: {{ countRemaining('red') | number:0 }}</div>
         <div>Blue: {{ countRemaining('blue') | number:0 }}</div>
+
+        <div>{{ getRows(viewService.game.board) }}</div>
         
         <table class="board">
             

@@ -23,27 +23,6 @@
 
                         viewService.game = result;
 
-                        var map = {};
-
-                        var hasDupes = false;
-
-                        for (var r=0; r < result.board.rows.length; r++) {
-
-                            for (var c=0; c > result.board.rows[r].length; c++) {
-
-                                hasDupes = hasDupes || map.hasOwnProperty(result.board.rows[r][c]);
-
-                                map[result.board.rows[r][c]] = true;
-
-                            }
-
-                        }
-
-                        viewService.game.dupes = hasDupes;
-
-
-
-
                     })
                     .catch(function(error) { 
 

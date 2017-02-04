@@ -97,7 +97,7 @@ class GameManager
 
         var board =
         {
-            rows: [],
+            cells: [],
             first: null
         }
 
@@ -105,103 +105,88 @@ class GameManager
 
         var word = null;
 
-        for (var r=0; r < 5; r++)
+        for (var c=0; c < Game.NUM_CELLS; c++)
         {
-            // intialize each row
-            board.rows[r] = [];
+            do {
 
-            for (var c=0; c < 5; c++)
-            {
-                do {
+                word = wordArray[Math.floor(Math.random() * wordArray.length)];
 
-                    word = wordArray[Math.floor(Math.random() * wordArray.length)];
+            } while (usedWords.hasOwnProperty(word));
 
-                } while (usedWords.hasOwnProperty(word));
-
-                board.rows[r].push({ word: word });
-                usedWords[word] = true;
-            }
-
+            board.cells.push({ word: word });
+            usedWords[word] = true;
         }
 
         var taken = {};
-        var row = 0;
-        var column = 0;
+        var cellIndex = 0;
 
         // assign the red spies
-        for (var red=0; red < 8; red++)
+        for (var red=0; red < Game.NUM_AGENTS; red++)
         {
 
             do
             {
-                row = Math.floor(Math.random() * 5);
-                column = Math.floor(Math.random() * 5);
+                cellIndex = Math.floor(Math.random() * Game.NUM_CELLS);
             }
-            while (taken.hasOwnProperty(board.rows[row][column].word));
+            while (taken.hasOwnProperty(cellIndex));
 
-            board.rows[row][column].role = 'red';
+            board.cells[cellIndex].role = 'red';
 
             // mark the word as assigned already
-            taken[board.rows[row][column].word] = true;
+            taken[cellIndex] = true;
 
         }   // red team assigments
 
         // assign the blue spies
-        for (var blue=0; blue < 8; blue++)
+        for (var blue=0; blue < Game.NUM_AGENTS; blue++)
         {
 
             do
             {
-                row = Math.floor(Math.random() * 5);
-                column = Math.floor(Math.random() * 5);
+                cellIndex = Math.floor(Math.random() * Game.NUM_CELLS);
             }
-            while (taken.hasOwnProperty(board.rows[row][column].word));
+            while (taken.hasOwnProperty(cellIndex));
 
-            board.rows[row][column].role = 'blue';
+            board.cells[cellIndex].role = 'blue';
 
             // mark the word as assigned already
-            taken[board.rows[row][column].word] = true;
+            taken[cellIndex] = true;
 
         }   // blue team assigments
         
         // assign the extra team member
         do
         {
-            row = Math.floor(Math.random() * 5);
-            column = Math.floor(Math.random() * 5);
+            cellIndex = Math.floor(Math.random() * Game.NUM_CELLS);
         }
-        while (taken.hasOwnProperty(board.rows[row][column].word));
+        while (taken.hasOwnProperty(cellIndex));
 
         // determine which team will go first...
         board.first = Math.random() < 0.5 ? 'blue' : 'red';
         // ...and that team has the extra spy
-        board.rows[row][column].role = board.first;
+        board.cells[cellIndex].role = board.first;
         // mark the word as assigned 
-        taken[board.rows[row][column].word] = true;
+        taken[cellIndex] = true;
 
             
         // mark the assassin
         do
         {
-            row = Math.floor(Math.random() * 5);
-            column = Math.floor(Math.random() * 5);
+            cellIndex = Math.floor(Math.random() * Game.NUM_CELLS);
         }
-        while (taken.hasOwnProperty(board.rows[row][column].word));
+        while (taken.hasOwnProperty(cellIndex));
 
-        board.rows[row][column].role = 'assassin';
+        board.cells[cellIndex].role = 'assassin';
 
         // mark the word as assigned already
-        taken[board.rows[row][column].word] = true;
+        taken[cellIndex] = true;
 
         // assign the rest to be bystanders of some sort
-        for (row=0; row < 5; row++)
+        for (var cell of board.cells)
         {
-            for (column = 0; column < 5; column++)
+            if (!cell.role)
             {
-                if (!board.rows[row][column].role)
-                {
-                    board.rows[row][column].role = Math.random() < 0.5 ? 'bystander1': 'bystander2';
-                }
+                cell.role = Math.random() < 0.5 ? 'bystander1': 'bystander2';
             }
         }
 
