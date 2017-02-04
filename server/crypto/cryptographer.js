@@ -35,7 +35,7 @@ Cryptographer.encrypt = function (text) {
                 return deferred.reject(err);
             }
 
-            console.log('encrypt runtime: ' + ((new Date()).getTime() - startTime) + 'ms');
+            if (logger.isDebugEnabled) { logger.debug('encrypt runtime: ' + ((new Date()).getTime() - startTime) + 'ms'); }
 
             return deferred.resolve(hash);
 
