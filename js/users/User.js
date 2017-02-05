@@ -15,6 +15,17 @@ class User {
 
     }
 
+    static safeUser(user) {
+
+        var safe = new User();
+        safe.username = user.username;
+        safe.first = user.first;
+        safe.last = user.last;
+
+        return safe;
+
+    }
+
 }  // end class declaration
 
 module.exports = User;

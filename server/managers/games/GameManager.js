@@ -16,6 +16,7 @@ var q = require('q');
 
 var BoardManager = require(__dirname + '/BoardManager');
 var Game = require(__dirname + '/../../../js/games/game');
+var Player = require(__dirname + '/../../../js/games/Player');
 
 var COLLECTION_NAME = 'games';
 
@@ -69,11 +70,16 @@ class GameManager
     }
 
 
-    static create() {
+    static create(user) {
 
         logger.info("Create game");
 
         var game = new Game();
+        game.created = new Date();
+
+        // this will create a new player, identified as the owner of the game
+        game.players.push(Player.fromUser(user, true));
+
         game.board = BoardManager.generate();
 
         // set the first team's turn

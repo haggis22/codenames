@@ -6,28 +6,33 @@ var log4js = require('log4js');
 log4js.configure(config.logging.configFile);
 var logger = log4js.getLogger('codenames');
 
+var Cell = require(__dirname + '/../../../js/games/Cell');
+var Board = require(__dirname + '/../../../js/games/Board');
+var Team = require(__dirname + '/../../../js/games/Team');
 
 var WordManager = require(__dirname + '/WordManager');
 
-var NUM_AGENTS = 8;
-var NUM_CELLS = 25;
 
 class BoardManager
 {
 
+
+    static generateBystander()
+    {
+        return Math.random() < 0.5 ? Cell.BYSTANDER_1: Cell.BYSTANDER_2;
+
+    }  // generateBystander
+
+
     static generate() {
 
-        var board =
-        {
-            cells: [],
-            first: null
-        }
+        var board = new Board();
 
         var usedWords = {};
 
         var word = null;
 
-        for (var c=0; c < NUM_CELLS; c++)
+        for (var c=0; c < Board.NUM_CELLS; c++)
         {
             board.cells.push({ word: WordManager.pickNewWord(usedWords) });
         }
@@ -36,16 +41,16 @@ class BoardManager
         var cellIndex = 0;
 
         // assign the red spies
-        for (var red=0; red < NUM_AGENTS; red++)
+        for (var red=0; red < Board.NUM_AGENTS; red++)
         {
 
             do
             {
-                cellIndex = Math.floor(Math.random() * NUM_CELLS);
+                cellIndex = Math.floor(Math.random() * Board.NUM_CELLS);
             }
             while (taken.hasOwnProperty(cellIndex));
 
-            board.cells[cellIndex].role = 'red';
+            board.cells[cellIndex].role = Team.RED;
 
             // mark the word as assigned already
             taken[cellIndex] = true;
@@ -53,16 +58,16 @@ class BoardManager
         }   // red team assigments
 
         // assign the blue spies
-        for (var blue=0; blue < NUM_AGENTS; blue++)
+        for (var blue=0; blue < Board.NUM_AGENTS; blue++)
         {
 
             do
             {
-                cellIndex = Math.floor(Math.random() * NUM_CELLS);
+                cellIndex = Math.floor(Math.random() * Board.NUM_CELLS);
             }
             while (taken.hasOwnProperty(cellIndex));
 
-            board.cells[cellIndex].role = 'blue';
+            board.cells[cellIndex].role = Team.BLUE;
 
             // mark the word as assigned already
             taken[cellIndex] = true;
@@ -72,12 +77,12 @@ class BoardManager
         // assign the extra team member
         do
         {
-            cellIndex = Math.floor(Math.random() * NUM_CELLS);
+            cellIndex = Math.floor(Math.random() * Board.NUM_CELLS);
         }
         while (taken.hasOwnProperty(cellIndex));
 
         // determine which team will go first...
-        board.first = Math.random() < 0.5 ? 'blue' : 'red';
+        board.first = Math.random() < 0.5 ? Team.BLUE : Team.RED;
         // ...and that team has the extra spy
         board.cells[cellIndex].role = board.first;
         // mark the word as assigned 
@@ -87,11 +92,11 @@ class BoardManager
         // mark the assassin
         do
         {
-            cellIndex = Math.floor(Math.random() * NUM_CELLS);
+            cellIndex = Math.floor(Math.random() * Board.NUM_CELLS);
         }
         while (taken.hasOwnProperty(cellIndex));
 
-        board.cells[cellIndex].role = 'assassin';
+        board.cells[cellIndex].role = Cell.ASSASSIN;
 
         // mark the word as assigned already
         taken[cellIndex] = true;
@@ -101,7 +106,7 @@ class BoardManager
         {
             if (!cell.role)
             {
-                cell.role = Math.random() < 0.5 ? 'bystander1': 'bystander2';
+                cell.role = this.generateBystander();
             }
         }
 

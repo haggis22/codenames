@@ -45,7 +45,7 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
 
     // for a POST the parameters come in req.body
-    GameManager.create()
+    GameManager.create(req.user)
 
         .then(function (result) {
 

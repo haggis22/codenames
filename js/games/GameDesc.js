@@ -1,9 +1,8 @@
 ﻿"use strict";
 
-var Board = require(__dirname + '/Board');
 var Player = require(__dirname + '/Player');
 
-class Game {
+class GameDesc {
 
     constructor(game) {
 
@@ -22,7 +21,6 @@ class Game {
             this.state = game.state;
             this.winner = game.winner;
             this.moves = game.moves;
-            this.created = game.created;
         }
 
         this.players = this.players || [];
