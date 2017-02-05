@@ -50,13 +50,29 @@ class GameManager
 
 
     // returns a promise to an array of game descriptions
-    static fetchDescs() {
+    static fetchGamesForUser(user) {
+
+        if (!user)
+        {
+            return q.resolve({ data: [] });
+        }
 
         var deferred = q.defer();
 
         var collection = db.get(COLLECTION_NAME);
 
-        collection.find({}, {}, function (err, result) {
+        var query = 
+        { 
+            players: 
+            { 
+                $elemMatch: 
+                { 
+                    _id: user._id
+                }
+            }
+        };
+
+        collection.find(query, {}, function (err, result) {
 
             if (err) {
                 logger.error('Could not load games from database: ' + err);
