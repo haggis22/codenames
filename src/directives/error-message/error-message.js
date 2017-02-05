@@ -13,7 +13,7 @@
                 //                },
                 restrict: 'E',
                 replace: true,
-                templateUrl: '/directives/error-message.html?v=' + (new Date()).getTime(),
+                templateUrl: '/directives/error-message/error-message.html?v=' + (new Date()).getTime(),
 
                 link: function ($scope, $element, $attributes) {
 
