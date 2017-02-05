@@ -26,12 +26,12 @@
                 })
 
                 .state('main.game', {
-                    url: "/game:gameID",
+                    url: "/game/:gameID",
                     templateUrl: "/modules/game/index.html?v=" + (new Date()).getTime(),
-                    controller: ['$scope', '$stateParams',
-                        function ($scope, $stateParams) {
+                    controller: ['$stateParams', 'codenames.viewService',
+                        function ($stateParams, viewService) {
 
-                            $scope.gameID = $stateParams.gameID;
+                            viewService.gameID = $stateParams.gameID;
 
                         }
                     ]

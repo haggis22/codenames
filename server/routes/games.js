@@ -17,6 +17,11 @@ var GameManager = require(__dirname + '/../managers/games/GameManager');
 // Returns a list of Game objects
 router.get('/', function (req, res) {
 
+    if (!req.user)
+    {
+        return res.status(401).send('Not logged in');
+    }
+
     GameManager.fetchGamesForUser(req.user)
 
         .then(function (result) {
@@ -29,8 +34,43 @@ router.get('/', function (req, res) {
                 return res.send(result.data).end();
             }
 
-            // the shouldn't really get here....
+            // the shouldn't really get here - worst case scenario, we'd get an empty list
             return res.status(400).send(result.error);
+
+        })
+        .catch(function(err) {
+            logger.warn('Could not fetch games ' + err.stack);
+            return res.status(500).send('Could not fetch games').end();
+        });
+
+});
+
+// Returns a list of Game objects
+router.get('/:gameID', function (req, res) {
+
+    if (!req.user)
+    {
+        return res.status(401).send('Not logged in');
+    }
+
+    if (!req.params.gameID)
+    {
+        return res.status(404).send('Invalid game ID');
+    }
+
+    GameManager.fetchGame(req.user, req.params.gameID)
+
+        .then(function (result) {
+
+            if (result.data)
+            {
+                logger.info('Fetched games');
+
+                // return the games
+                return res.send(result.data).end();
+            }
+
+            return res.status(404).send(result.error);
 
         })
         .catch(function(err) {

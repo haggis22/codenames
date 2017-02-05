@@ -26,13 +26,13 @@ class GameManager
 {
 
     // returns a promise to an array of modules
-    static fetch() {
+    static fetch(query) {
 
         var deferred = q.defer();
 
         var collection = db.get(COLLECTION_NAME);
 
-        collection.find({}, {}, function (err, result) {
+        collection.find(query, {}, function (err, result) {
 
             if (err) {
                 logger.error('Could not load games from database: ' + err);
@@ -52,15 +52,6 @@ class GameManager
     // returns a promise to an array of game descriptions
     static fetchGamesForUser(user) {
 
-        if (!user)
-        {
-            return q.resolve({ data: [] });
-        }
-
-        var deferred = q.defer();
-
-        var collection = db.get(COLLECTION_NAME);
-
         var query = 
         { 
             players: 
@@ -72,23 +63,57 @@ class GameManager
             }
         };
 
-        collection.find(query, {}, function (err, result) {
-
-            if (err) {
-                logger.error('Could not load games from database: ' + err);
-                return deferred.reject(err);
-            }
-
+        return GameManager.fetch(query);
             // turn the array of results to an array of GameDesc objects
-            return deferred.resolve({ data: result.map(function(row) { return new GameDesc(row); }) });
-
-        });
-
-        return deferred.promise;
+            // return deferred.resolve({ data: result.map(function(row) { return new GameDesc(row); }) });
 
     }   // fetch
 
     
+    // returns a promise to an array of game descriptions
+    static fetchGame(user, gameID) {
+
+        var query = 
+        { 
+            _id: gameID,
+
+            players: 
+            { 
+                $elemMatch: 
+                { 
+                    _id: user._id
+                }
+            }
+        };
+
+        return GameManager.fetch(query)
+            
+
+            .then(function(gameArray) {
+
+                if (gameArray.error)
+                {
+                    return gameArray;
+                }
+
+                if (gameArray.data.length == 0)
+                {
+                    return { error: 'Could not find game' };
+                }
+
+                if (gameArray.data.length > 1)
+                {
+                    return { error: 'Matched more than one game' };
+                }
+
+                return { data: gameArray.data[0] };
+
+            });
+        
+
+    }   // fetch
+
+
     static insert(game) {
 
         var deferred = q.defer();
