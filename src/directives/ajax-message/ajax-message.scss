@@ -1,0 +1,24 @@
+﻿/* styles related to the loading message */
+.angular-loading-div-outer
+{
+    background-color: #39577b; 
+    padding: 2px; 
+    margin: 10px 0px 10px 0px;
+    display: inline-block;
+    border-radius: 8px;
+}
+
+.angular-loading-div-inner
+{
+    background-color: #ffffff; 
+    padding: 5px 15px 5px 5px;
+    vertical-align: middle;
+    border-radius: 6px;
+}
+
+.angular-loading-message
+{
+    font-size: 10px;
+    font-weight: bold;
+    color: #39577b;
+}
