@@ -13,11 +13,21 @@
             <thead>
                 <tr>
                     <th>Game ID</th>
+                    <th># Players</th>
+                    <th>State</th>
+                    <th>Turn</th>
+                    <th>Winner</th>
+                    <th>Created</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="game in viewService.games">
                     <td>{{ game._id }}</td>
+                    <td>{{ game.players.length | number:0 }}</td>
+                    <td>{{ game.state }}</td>
+                    <td>{{ game.turn }}</td>
+                    <td>{{ game.winner }}</td>
+                    <td>{{ game.created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
                 </tr>
             </tbody>
         </table>

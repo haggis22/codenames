@@ -17,7 +17,7 @@ var GameManager = require(__dirname + '/../managers/games/GameManager');
 // Returns a list of Game objects
 router.get('/', function (req, res) {
 
-    GameManager.fetch()
+    GameManager.fetchDescs()
 
         .then(function (result) {
 

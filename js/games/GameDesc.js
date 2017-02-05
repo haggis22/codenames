@@ -15,24 +15,18 @@ class GameDesc {
                 this.players = game.players.map(function(player) { return new Player(player); });
             }
 
-            this.board = new Board(game.board);
-
-            this.turn = game.turn;
+            this.created = game.created;
             this.state = game.state;
+            this.turn = game.turn;
             this.winner = game.winner;
-            this.moves = game.moves;
+
         }
 
         this.players = this.players || [];
-        this.moves = this.moves || [];
 
     }
 
 }  // end class declaration
 
 
-Game.STATE_SETUP = 'setup';
-Game.STATE_PLAY = 'play';
-Game.STATE_COMPLETE = 'complete';
-
-module.exports = Game;
+module.exports = GameDesc;

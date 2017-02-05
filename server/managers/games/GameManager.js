@@ -15,7 +15,8 @@ var q = require('q');
 
 
 var BoardManager = require(__dirname + '/BoardManager');
-var Game = require(__dirname + '/../../../js/games/game');
+var Game = require(__dirname + '/../../../js/games/Game');
+var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Player = require(__dirname + '/../../../js/games/Player');
 
 var COLLECTION_NAME = 'games';
@@ -40,6 +41,30 @@ class GameManager
 
             // turn the array of results to an array of Games
             return deferred.resolve({ data: result.map(function(row) { return new Game(row); }) });
+
+        });
+
+        return deferred.promise;
+
+    }   // fetch
+
+
+    // returns a promise to an array of game descriptions
+    static fetchDescs() {
+
+        var deferred = q.defer();
+
+        var collection = db.get(COLLECTION_NAME);
+
+        collection.find({}, {}, function (err, result) {
+
+            if (err) {
+                logger.error('Could not load games from database: ' + err);
+                return deferred.reject(err);
+            }
+
+            // turn the array of results to an array of GameDesc objects
+            return deferred.resolve({ data: result.map(function(row) { return new GameDesc(row); }) });
 
         });
 
