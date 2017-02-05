@@ -22,7 +22,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="game in viewService.games">
-                    <td>{{ game._id }}</td>
+                    <td class="text-link"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></td>
                     <td>{{ game.players.length | number:0 }}</td>
                     <td>{{ game.state }}</td>
                     <td>{{ game.turn }}</td>
@@ -32,28 +32,5 @@
             </tbody>
         </table>
     </div><!-- ng-show="viewService.games" -->
-
-    <div ng-show="viewService.game">
-        
-        <div class="game-id">Game ID: {{ viewService.game._id }}</div>
-        
-        <div>Red: {{ countRemaining('red') | number:0 }}</div>
-        <div>Blue: {{ countRemaining('blue') | number:0 }}</div>
-
-        <div>{{ getRows(viewService.game.board) }}</div>
-        
-        <table class="board">
-            
-            <tr ng-repeat="row in viewService.game.board.rows">
-                <td ng-repeat="cell in row track by $index"
-                    ng-click="selectCell(cell)"
-                    ng-class="cell.selected ? cell.role : ''"
-                ><span ng-hide="cell.selected">{{ cell.word }}</span></td>
-            </tr>
-
-        </table><!-- board table -->
-
-    </div><!-- ng-show="viewService.game" -->
-
 
 </div>

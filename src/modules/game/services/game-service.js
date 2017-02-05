@@ -11,6 +11,7 @@
             return {
 
                 pullGames: pullGames,
+                pullGame: pullGame,
                 create: create
 
             };
@@ -32,6 +33,36 @@
                     });
 
             }  // pullGames
+
+            function pullGame(gameID)
+            {
+                if (!gameID)
+                {
+                    debugger;
+                    return $q.when(null);
+                }
+
+                viewService.pullingGame = true;
+
+                return dalService.game.get({ gameID: gameID }).$promise
+
+                    .then(function (result) {
+
+                        viewService.game = result;
+                        return
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not fetch game', error));
+
+                    })
+                    .finally(function() { 
+                        viewService.pullingGame = false;
+                    });
+
+            }  // pullGame
+
 
 
             function create() {

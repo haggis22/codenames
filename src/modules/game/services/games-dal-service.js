@@ -10,6 +10,8 @@
 
                 games: $resource('/api/games/', {}),
 
+                game: $resource('/api/games/:gameID', { gameID: '@gameID' }),
+
                 create: $resource('/api/games/', {},
                     {
                         create: { method: 'POST' }
