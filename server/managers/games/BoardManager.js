@@ -34,7 +34,7 @@ class BoardManager
 
         for (var c=0; c < Board.NUM_CELLS; c++)
         {
-            board.cells.push({ word: WordManager.pickNewWord(usedWords) });
+            board.cells.push(new Cell({ word: WordManager.pickNewWord(usedWords) }));
         }
 
         var taken = {};

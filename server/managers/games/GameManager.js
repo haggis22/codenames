@@ -87,7 +87,6 @@ class GameManager
         };
 
         return GameManager.fetch(query)
-            
 
             .then(function(gameArray) {
 
@@ -105,6 +104,8 @@ class GameManager
                 {
                     return { error: 'Matched more than one game' };
                 }
+
+                Game.sanitizeForClient(gameArray.data[0]);
 
                 return { data: gameArray.data[0] };
 

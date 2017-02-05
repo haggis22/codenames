@@ -2,7 +2,26 @@
 
 class Cell {
 
-    constructor() {
+    constructor(cell) {
+
+        cell.revealed = false;
+
+        if (cell)
+        {
+            this.word = cell.word;
+            this.role = cell.role;
+            this.revealed = cell.revealed;
+        }
+
+    }  // constructor
+
+    static sanitizeForClient(cell)
+    {
+        if (cell && !this.revealed)
+        {
+            // don't tell what it is if it hasn't been selected
+            delete cell.role;
+        }
 
     }
 

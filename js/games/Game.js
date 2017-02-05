@@ -30,6 +30,15 @@ class Game {
 
     }
 
+    static sanitizeForClient(game) {
+
+        if (game)
+        {
+            Board.sanitizeForClient(game.board);
+        }
+
+    }
+
 }  // end class declaration
 
 

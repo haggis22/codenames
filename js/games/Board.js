@@ -1,18 +1,38 @@
 ﻿"use strict";
 
+var Cell = require(__dirname + '/Cell');
+
 class Board {
 
     constructor(board) {
 
         if (board)
         {
-            this.cells = board.cells;
+            if (board.cells)
+            {
+                this.cells = board.cells.map(function(cell) { return new Cell(cell); });
+            }
+
             this.first = board.first;
         }
 
         this.cells = this.cells || [];
 
-    }
+    }   // constructor
+
+
+    static sanitizeForClient(board) {
+
+        if (board)
+        {
+            for (var cell of board.cells)
+            {
+                Cell.sanitizeForClient(cell);
+            }
+
+        }
+
+    }   // getClientBoard
 
 }  // end class declaration
 
