@@ -8,29 +8,6 @@ body
 	font-family: $font-family;
 }
 
-.input 
-{
-  border-radius: 3px;
-  border: 4px solid #ddd;
-  color: #555;
-  font-size: 17px;
-  padding: 10px 20px;
-  display: inline-block;
-  outline: 0;
-}
-
-.field-error 
-{
-  border:4px solid #e74c3c;
-}
-
-
-.error
-{
-	color: #f00;
-	font-weight: bold;
-}
-
 .result
 {
 	font-weight: bold;
@@ -52,16 +29,6 @@ body
 	cursor: pointer;
 }
 
-table
-{
-	background-color: $backgroundColor;
-}
-
-table tfoot td.buttons
-{
-	text-align: center;
-}
-
 .loader
 {
 	font-style: italic;
@@ -69,5 +36,4 @@ table tfoot td.buttons
 	border-radius: 6px;
 	padding: 5px;
 }
-
 

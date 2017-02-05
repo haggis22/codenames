@@ -37,6 +37,8 @@
     <None Include=".gitignore" />
     <None Include="package.json" />
     <None Include="server\log4js_config.json" />
+    <None Include="src\css\forms.scss" />
+    <None Include="src\css\tables.scss" />
     <None Include="src\css\popups.scss" />
     <None Include="src\css\style.scss" />
     <None Include="src\directives\error-message.scss" />

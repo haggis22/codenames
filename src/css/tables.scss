@@ -1,0 +1,28 @@
+﻿table
+{
+	background-color: $backgroundColor;
+}
+
+table.datagrid
+{
+	font-size: 12px;
+}
+
+table tfoot td.buttons
+{
+	text-align: center;
+}
+
+table.zebra tbody tr:nth-child(odd)
+{
+	background-color: #eeeeee;
+}
+
+table.zebra tbody tr:nth-child(even)
+{
+	background-color: #ffffff;
+}
+
+
+
+
