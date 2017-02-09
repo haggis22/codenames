@@ -45,7 +45,7 @@ router.get('/', function (req, res) {
 
 });
 
-// Returns a list of Game objects
+// Returns a specific game, if the user has acccess
 router.get('/:gameID', function (req, res) {
 
     if (!req.user)
