@@ -5,3 +5,43 @@
 	padding: 10px;
 	background-color: pink;
 }
+
+div.remaining
+{
+	border: 1px solid #000000;
+	margin-top: 15px;
+	padding: 5px;
+	background: #ffffff;
+	display: inline-block;
+	width: 100px;
+
+	table
+	{
+		width: 100%;
+
+		.count
+		{
+			text-align: right;
+		}
+
+	}
+
+
+
+}
+
+
+.team-blue
+{
+	color: blue;
+}
+
+.team-red
+{
+	color: red;
+}
+
+table.board
+{
+	margin-top: 15px;
+}
