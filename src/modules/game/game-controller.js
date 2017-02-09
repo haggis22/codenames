@@ -30,11 +30,11 @@
                     return 0;
                 }
 
-                var num = 0;
+                var num = 9;
 
                 for (var cell of viewService.game.board.cells) {
-                    if (cell.role == role && !cell.selected) {
-                        num++;
+                    if (cell.role == role) {
+                        num--;
                     }
                 }
 
@@ -80,6 +80,24 @@
 
             };
 
+
+            $scope.getTurnClass = function() {
+
+                if (viewService.game)
+                {
+                    switch (viewService.game.turn)
+                    {
+                        case 'blue': 
+                            return 'team-blue';
+
+                        case 'red':
+                            return 'team-red';
+                    }
+                }
+
+                return '';
+
+            };  // getTurnClass
 
 
         }  // outer function

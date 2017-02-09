@@ -6,8 +6,24 @@
         
         <div class="game-id">Game ID: {{ viewService.game._id }}</div>
         
-        <div>Red: {{ countRemaining('red') | number:0 }}</div>
-        <div>Blue: {{ countRemaining('blue') | number:0 }}</div>
+        <div class="turn">Turn: 
+            <span ng-class="getTurnClass()">{{ viewService.game.turn }}</span>
+        </div>
+
+        <div class="remaining">
+            <table border="0" cellpadding="5" cellspacing="0">
+                <tbody>
+                    <tr class="team-red">
+                        <td>Red:</td>
+                        <td class="count">{{ countRemaining('red') | number:0 }}</td>
+                    </tr>
+                    <tr class="team-blue">
+                        <td>Blue:</td>
+                        <td class="count">{{ countRemaining('blue') | number:0 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div>{{ getRows(viewService.game.board) }}</div>
         
