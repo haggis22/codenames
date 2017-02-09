@@ -66,8 +66,13 @@ router.get('/:gameID', function (req, res) {
             {
                 logger.info('Fetched games');
 
-                // return the games
-                return res.send(result.data).end();
+                var game = result.data;
+
+                // clean the game before sending it back to the client
+                GameManager.sanitizeForClient(game);
+
+                // return the game
+                return res.send(game).end();
             }
 
             return res.status(404).send(result.error);

@@ -17,9 +17,9 @@ class Cell {
 
     static sanitizeForClient(cell)
     {
-        if (cell && !this.revealed)
+        if (cell && !cell.revealed)
         {
-            // don't tell what it is if it hasn't been selected
+            // don't tell what it is if it hasn't been revealed
             delete cell.role;
         }
 

@@ -32,13 +32,12 @@
             <tr ng-repeat="row in viewService.game.board.rows">
                 <td ng-repeat="cell in row track by $index"
                     ng-click="selectCell(cell)"
-                    ng-class="cell.selected ? cell.role : ''"
-                ><span ng-hide="cell.selected">{{ cell.word }}</span></td>
+                    ng-class="cell.revealed ? cell.role : ''"
+                ><span ng-hide="cell.revealed">{{ cell.word }}</span></td>
             </tr>
 
         </table><!-- board table -->
 
     </div><!-- ng-show="viewService.game" -->
-
 
 </div>

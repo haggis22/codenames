@@ -70,7 +70,7 @@ class GameManager
     }   // fetch
 
     
-    // returns a promise to an array of game descriptions
+    // returns a promise to a particuluar game
     static fetchGame(user, gameID) {
 
         var query = 
@@ -104,8 +104,6 @@ class GameManager
                 {
                     return { error: 'Matched more than one game' };
                 }
-
-                Game.sanitizeForClient(gameArray.data[0]);
 
                 return { data: gameArray.data[0] };
 
@@ -162,6 +160,12 @@ class GameManager
 
             });
             
+
+    }
+
+    static sanitizeForClient(game) { 
+
+        Game.sanitizeForClient(game);
 
     }
 

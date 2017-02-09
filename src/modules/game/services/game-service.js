@@ -12,7 +12,8 @@
 
                 pullGames: pullGames,
                 pullGame: pullGame,
-                create: create
+                create: create,
+                selectCell: selectCell
 
             };
 
@@ -34,11 +35,53 @@
 
             }  // pullGames
 
+
+            function convertGame(game) {
+
+                if (game == null || !game.board)
+                {
+                    return game;
+                }
+
+                
+                var rows = [];
+                var row = [];
+                
+                // we are going to make a square out of the board, so 25 cells is 5 x 5 rows/columns
+                var numRows = Math.ceil(Math.sqrt(game.board.cells.length));
+                var numCols = Math.ceil(game.board.cells.length / numRows);
+
+                for (var c=0; c < game.board.cells.length; c++)
+                {
+                    game.board.cells[c].cellIndex = c;
+
+                    row.push(game.board.cells[c]);
+
+                    if (((c + 1) % numCols) == 0)
+                    {
+                        rows.push(row);
+                        row = [];
+                    }
+
+                }
+
+                // see if we have any left over...
+                if (row.length > 0)
+                {
+                    // ...and add the last row (might not be a complete row, but we'll take it)
+                    rows.push(row);
+                }
+
+                game.board.rows = rows;
+
+                return game;
+            }
+
+
             function pullGame(gameID)
             {
                 if (!gameID)
                 {
-                    debugger;
                     return $q.when(null);
                 }
 
@@ -48,8 +91,7 @@
 
                     .then(function (result) {
 
-                        viewService.game = result;
-                        return
+                        viewService.game = convertGame(result);
 
                     })
                     .catch(function(error) { 
@@ -82,6 +124,25 @@
 
             }  // create
 
+
+            function selectCell(cell) {
+
+                var command = { gameID: viewService.game._id, cellID: cell.cellIndex };
+
+                return dalService.play.move({}, command).$promise
+
+                    .then(function (result) {
+                        
+                        viewService.game = convertGame(result);
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Game creation failure', error));
+
+                    });
+
+            }
 
 
 

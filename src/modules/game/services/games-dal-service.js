@@ -15,7 +15,13 @@
                 create: $resource('/api/games/', {},
                     {
                         create: { method: 'POST' }
+                    }),
+
+                play: $resource('/api/play/', {},
+                    {
+                        move: { method: 'POST' }
                     })
+
 
             };
 
