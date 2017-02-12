@@ -13,7 +13,6 @@
 
             gameService.pullGames();
 
-
             $scope.createGame = function () {
 
 
@@ -22,7 +21,7 @@
                     .then(function () {
 
                         console.debug('created game');
-
+                        gameService.pullGames();
 
                     });
 
