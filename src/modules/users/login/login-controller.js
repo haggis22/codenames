@@ -3,7 +3,7 @@
     "use strict";
 
     app.controller('codenames.users.loginCtrl', ['$scope', '$rootScope', '$state',
-                                                    'codenames.constants', 'codenames.userService', 'codenames.viewService', 'codenames.errorParser',
+                                                    'codenames.Constants', 'codenames.userService', 'codenames.viewService', 'codenames.errorParser',
 
         function ($scope, $rootScope, $state,
                     constants, userService, viewService, errorParser) {

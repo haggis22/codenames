@@ -1,43 +1,46 @@
-﻿"use strict";
+﻿(function(isNode, isAngular) {
 
-var Cell = require(__dirname + '/Cell');
+    "use strict";
 
-class Board {
+    var BoardModule = function(Cell) { 
 
-    constructor(board) {
+        class Board {
 
-        if (board)
-        {
-            if (board.cells)
-            {
-                this.cells = board.cells.map(function(cell) { return new Cell(cell); });
-            }
+            constructor(board) {
 
-            this.first = board.first;
-        }
+                if (board)
+                {
+                    if (board.cells)
+                    {
+                        this.cells = board.cells.map(function(cell) { return new Cell(cell); });
+                    }
 
-        this.cells = this.cells || [];
+                    this.first = board.first;
+                }
 
-    }   // constructor
+                this.cells = this.cells || [];
 
+            }   // constructor
 
-    static sanitizeForClient(board) {
+        }  // end class declaration
 
-        if (board)
-        {
-            for (var cell of board.cells)
-            {
-                Cell.sanitizeForClient(cell);
-            }
+        Board.NUM_AGENTS = 8;
+        Board.NUM_CELLS = 25;
 
-        }
+        return Board;
 
-    }   // getClientBoard
+    };  // BoardModule
 
-}  // end class declaration
+    if (isAngular)
+    {
+        angular.module('codenames.app')
+            .factory('codenames.Board', [ 'codenames.Cell', BoardModule ]);
 
+    } else if (isNode)
+    {
 
-Board.NUM_AGENTS = 8;
-Board.NUM_CELLS = 25;
+        module.exports = BoardModule(require(__dirname + '/Cell'));
 
-module.exports = Board;
+    }
+
+}) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');

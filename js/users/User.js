@@ -1,31 +1,50 @@
-﻿"use strict";
+﻿(function(isNode, isAngular) {
 
-class User {
+    "use strict";
 
-    constructor(user) {
+    var UserModule = function() {
 
-        this._id = user._id;
-        this.username = user.username;
-        this.email = user.email;
-        this.password = user.password;
-        this.updated = user.updated;
-        this.first = user.first;
-        this.last = user.last;
-        this.sessionHash = user.sessionHash;
+        class User {
 
+            constructor(user) {
+
+                this._id = user._id;
+                this.username = user.username;
+                this.email = user.email;
+                this.password = user.password;
+                this.updated = user.updated;
+                this.first = user.first;
+                this.last = user.last;
+                this.sessionHash = user.sessionHash;
+
+            }
+
+            static safeUser(user) {
+
+                var safe = new User();
+                safe.username = user.username;
+                safe.first = user.first;
+                safe.last = user.last;
+
+                return safe;
+
+            }
+
+        }  // end class declaration
+
+        return User;
+
+    };  // UserModule
+
+    if (isAngular) 
+    {
+        angular.module('codenames.app')
+            .factory('codenames.User', [ UserModule ]);
+    }
+    else if (isNode)
+    {
+        module.exports = UserModule();
     }
 
-    static safeUser(user) {
+}) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');
 
-        var safe = new User();
-        safe.username = user.username;
-        safe.first = user.first;
-        safe.last = user.last;
-
-        return safe;
-
-    }
-
-}  // end class declaration
-
-module.exports = User;

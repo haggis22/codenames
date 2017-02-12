@@ -1,49 +1,55 @@
-﻿"use strict";
+﻿(function(isNode, isAngular) {
 
-var Board = require(__dirname + '/Board');
-var Player = require(__dirname + '/Player');
+    "use strict";
 
-class Game {
+    var GameModule = function(Board, Player) {
 
-    constructor(game) {
+        class Game {
 
-        if (game)
-        {
-            this._id = game._id;
+            constructor(game) {
+
+                if (game)
+                {
+                    this._id = game._id;
             
-            if (game.players)
-            {
-                this.players = game.players.map(function(player) { return new Player(player); });
+                    if (game.players)
+                    {
+                        this.players = game.players.map(function(player) { return new Player(player); });
+                    }
+
+                    this.board = new Board(game.board);
+
+                    this.turn = game.turn;
+                    this.state = game.state;
+                    this.winner = game.winner;
+                    this.moves = game.moves;
+                    this.created = game.created;
+                }
+
+                this.players = this.players || [];
+                this.moves = this.moves || [];
+
             }
 
-            this.board = new Board(game.board);
 
-            this.turn = game.turn;
-            this.state = game.state;
-            this.winner = game.winner;
-            this.moves = game.moves;
-            this.created = game.created;
-        }
+        }  // end class declaration
 
-        this.players = this.players || [];
-        this.moves = this.moves || [];
+        Game.STATE_SETUP = 'setup';
+        Game.STATE_PLAY = 'play';
+        Game.STATE_COMPLETE = 'complete';
 
+        return Game;
+
+    };   // GameModule
+
+    if (isAngular)
+    {
+        angular.module('codenames.app')
+            .factory('codenames.Game', [ 'codenames.Board', 'codenames.Player', GameModule ]);
+    }
+    else if (isNode)
+    {
+        module.exports = GameModule(require(__dirname + '/Board'), require(__dirname + '/Player'));
     }
 
-    static sanitizeForClient(game) {
-
-        if (game)
-        {
-            Board.sanitizeForClient(game.board);
-        }
-
-    }
-
-}  // end class declaration
-
-
-Game.STATE_SETUP = 'setup';
-Game.STATE_PLAY = 'play';
-Game.STATE_COMPLETE = 'complete';
-
-module.exports = Game;
+}) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');

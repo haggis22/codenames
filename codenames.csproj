@@ -60,6 +60,7 @@
     <Content Include="js\users\User.js" />
     <Content Include="server\crypto\cryptographer.js" />
     <Content Include="server\managers\games\BoardManager.js" />
+    <Content Include="server\managers\games\Sanitizer.js" />
     <Content Include="server\managers\games\WordManager.js" />
     <Content Include="server\managers\games\GameManager.js" />
     <Content Include="server\managers\users\SessionManager.js" />
@@ -99,7 +100,6 @@
     <Content Include="src\modules\main\main-controller.js" />
     <Content Include="src\modules\users\login\index.html" />
     <Content Include="src\app\routes.js" />
-    <Content Include="src\modules\constants.js" />
     <Content Include="src\modules\users\login\login-controller.js" />
     <Content Include="server\config.js" />
     <Content Include="server\routes\codeapi.js" />

@@ -1,32 +1,48 @@
-﻿"use strict";
+﻿(function(isNode, isAngular) {
 
-var Player = require(__dirname + '/Player');
+    "use strict";
 
-class GameDesc {
+    var GameDescModule = function(Player) {
 
-    constructor(game) {
+        class GameDesc {
 
-        if (game)
-        {
-            this._id = game._id;
+            constructor(game) {
+
+                if (game)
+                {
+                    this._id = game._id;
             
-            if (game.players)
-            {
-                this.players = game.players.map(function(player) { return new Player(player); });
+                    if (game.players)
+                    {
+                        this.players = game.players.map(function(player) { return new Player(player); });
+                    }
+
+                    this.created = game.created;
+                    this.state = game.state;
+                    this.turn = game.turn;
+                    this.winner = game.winner;
+
+                }
+
+                this.players = this.players || [];
+
             }
 
-            this.created = game.created;
-            this.state = game.state;
-            this.turn = game.turn;
-            this.winner = game.winner;
+        }  // end class declaration
 
-        }
+        return GameDesc;
+    
+    };
 
-        this.players = this.players || [];
+    if (isAngular)
+    {
+        angular.module('codenames.app')
+            .factory('codenames.GameDesc', [ 'codenames.Player', GameDescModule ]);
 
     }
+    else if (isNode)
+    {
+        module.exports = GameDescModule(require(__dirname + '/Player'));
+    }
 
-}  // end class declaration
-
-
-module.exports = GameDesc;
+}) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');

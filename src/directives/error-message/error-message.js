@@ -2,7 +2,7 @@
 
     "use strict";
 
-    app.directive('errorMessage', ['codenames.constants',
+    app.directive('errorMessage', ['codenames.Constants',
 
         function (constants) {
 

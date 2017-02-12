@@ -1,16 +1,39 @@
 ﻿/*jslint node: true */
-"use strict";
+(function(isNode, isAngular) {
 
+    "use strict";
 
-class Constants {
+    var ConstantsModule = function() {
 
-    static get cookies() {
-        return {
+        class Constants {
+
+        }  // end class declaration
+
+        Constants.cookies = 
+        {
             SESSION: 'session'
         };
+
+        Constants.events = 
+        {
+            SESSION_CHANGE: 'session-change',
+            ERROR: 'raise-error'
+        };
+
+        return Constants;
+
+    };
+
+    if (isAngular)
+    {
+        angular.module('codenames.app')
+            .factory('codenames.Constants', [ ConstantsModule ]);
+
+    } 
+    else if (isNode)
+    {
+        module.exports = ConstantsModule();
     }
 
-}  // end class declaration
-
-module.exports = Constants;
+}) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');
 

@@ -3,7 +3,7 @@
     "use strict";
 
     app.controller('codenames.mainCtrl', ['$scope', '$rootScope', '$state',
-                                            'codenames.constants', 'codenames.viewService', 'codenames.userService',
+                                            'codenames.Constants', 'codenames.viewService', 'codenames.userService',
 
         function ($scope, $rootScope, $state,
                     constants, viewService, userService) {

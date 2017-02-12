@@ -4,9 +4,11 @@
 
     app.controller('codenames.gameCtrl', ['$scope',
                                             'codenames.viewService', 'codenames.gameService',
+                                            'codenames.Game',
 
         function ($scope,
-                    viewService, gameService) {
+                    viewService, gameService,
+                    Game) {
 
             $scope.viewService = viewService;
 

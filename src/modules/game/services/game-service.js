@@ -3,10 +3,12 @@
     "use strict";
 
     app.factory('codenames.gameService', ['$rootScope',
-                                            'codenames.constants', 'codenames.games.dalService', 'codenames.viewService', 'codenames.errorParser',
+                                            'codenames.Constants', 'codenames.games.dalService', 'codenames.viewService', 'codenames.errorParser',
+                                            'codenames.Game',
 
         function ($rootScope,
-                    constants, dalService, viewService, errorParser) {
+                    constants, dalService, viewService, errorParser,
+                    Game) {
 
             return {
 
@@ -44,6 +46,8 @@
                 }
 
                 
+                game = new Game(game);
+
                 var rows = [];
                 var row = [];
                 

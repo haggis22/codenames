@@ -18,6 +18,7 @@ var BoardManager = require(__dirname + '/BoardManager');
 var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Player = require(__dirname + '/../../../js/games/Player');
+var Sanitizer = require(__dirname + '/Sanitizer');
 
 var COLLECTION_NAME = 'games';
 
@@ -165,7 +166,7 @@ class GameManager
 
     static sanitizeForClient(game) { 
 
-        Game.sanitizeForClient(game);
+        Sanitizer.sanitizeGame(game);
 
     }
 

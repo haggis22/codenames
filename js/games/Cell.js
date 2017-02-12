@@ -1,35 +1,46 @@
-﻿"use strict";
+﻿(function(isNode, isAngular) { 
 
-class Cell {
+    "use strict";
 
-    constructor(cell) {
+    // This wrapper function returns the contens of the module, with dependencies
+    var CellModule = function() { 
 
-        cell.revealed = false;
+        class Cell {
 
-        if (cell)
-        {
-            this.word = cell.word;
-            this.role = cell.role;
-            this.revealed = cell.revealed;
-        }
+            constructor(cell) {
 
-    }  // constructor
+                cell.revealed = false;
 
-    static sanitizeForClient(cell)
+                if (cell)
+                {
+                    this.word = cell.word;
+                    this.role = cell.role;
+                    this.revealed = cell.revealed;
+                }
+
+            }  // constructor
+
+        }  // end class declaration
+
+        Cell.ASSASSIN = 'assassin';
+        Cell.BYSTANDER_1 = 'bystander1';
+        Cell.BYSTANDER_2 = 'bystander2';
+
+        return Cell;
+
+    };  // CellModule
+
+    if (isAngular)
     {
-        if (cell && !cell.revealed)
-        {
-            // don't tell what it is if it hasn't been revealed
-            delete cell.role;
-        }
-
+        // AngularJS module definition
+        angular.module('codenames.app')
+            .factory('codenames.Cell', [ CellModule ]);
+    }
+    else if (isNode)
+    {
+        // NodeJS module definition
+        module.exports = CellModule();
     }
 
 
-}  // end class declaration
-
-Cell.ASSASSIN = 'assassin';
-Cell.BYSTANDER_1 = 'bystander1';
-Cell.BYSTANDER_2 = 'bystander2';
-
-module.exports = Cell;
+}) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');

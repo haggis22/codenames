@@ -3,7 +3,7 @@
     "use strict";
 
     app.factory('codenames.userService', ['$rootScope',
-                                            'codenames.constants', 'codenames.users.dalService', 'codenames.viewService', 'codenames.errorParser',
+                                            'codenames.Constants', 'codenames.users.dalService', 'codenames.viewService', 'codenames.errorParser',
 
         function ($rootScope,
                     constants, usersDALService, viewService, errorParser) {
