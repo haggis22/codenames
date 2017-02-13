@@ -9,7 +9,7 @@
 
             constructor(cell) {
 
-                cell.revealed = false;
+                this.revealed = false;
 
                 if (cell)
                 {
@@ -22,9 +22,12 @@
 
         }  // end class declaration
 
-        Cell.ASSASSIN = 'assassin';
-        Cell.BYSTANDER_1 = 'bystander1';
-        Cell.BYSTANDER_2 = 'bystander2';
+        Cell.roles =
+        {
+            ASSASSIN: 'assassin',
+            BYSTANDER_1: 'bystander1',
+            BYSTANDER_2: 'bystander2'
+        };
 
         return Cell;
 

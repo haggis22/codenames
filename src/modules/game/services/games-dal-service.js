@@ -17,9 +17,9 @@
                         create: { method: 'POST' }
                     }),
 
-                play: $resource('/api/play/', {},
+                command: $resource('/api/play/', {},
                     {
-                        move: { method: 'POST' }
+                        give: { method: 'POST' }
                     })
 
 

@@ -52,6 +52,7 @@
     <Content Include="js\Constants.js" />
     <Content Include="js\games\Board.js" />
     <Content Include="js\games\Cell.js" />
+    <Content Include="js\games\Command.js" />
     <Content Include="js\games\GameDesc.js" />
     <Content Include="js\games\Team.js" />
     <Content Include="js\games\Game.js" />

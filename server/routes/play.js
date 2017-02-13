@@ -11,15 +11,11 @@ var logger = log4js.getLogger('codenames');
 
 var constants = require(__dirname + '/../../js/Constants');
 
+var Command = require(__dirname + '/../../js/games/Command');
+
 var GameManager = require(__dirname + '/../managers/games/GameManager');
+var Sanitizer = require(__dirname + '/../managers/games/Sanitizer');
 
-
-
-function validateCommand(command)
-{
-    // we must check that cellID is not null specifically, since it could be 0, and that is falsey
-    return command && command.gameID && (command.cellID != null);
-}
 
 
 // post a move to the server. It will either be rejected, or 
@@ -32,41 +28,34 @@ router.post('/', function (req, res) {
     }
 
     // for a POST the parameters come in req.body
-    var command = req.body;
+    var command = new Command(req.body);
 
     console.log('Heard the command: ' + JSON.stringify(command));
 
-    if (!validateCommand(command))
-    {
-        return res.status(400).send('Invalid command');
-    }
-
-    GameManager.fetchGame(req.user, command.gameID)
+    GameManager.applyCommand(req.user, command)
 
         .then(function (result) {
 
             if (result.data)
             {
-                logger.info('Fetched game');
-                
-                var game = result.data;
-
-                game.board.cells[command.cellID].revealed = true;
-
+                // return the updated game
                 // clean the game before sending it back to the client
-                GameManager.sanitizeForClient(game);
+                Sanitizer.sanitizeGame(result.data);
 
-                // return the games
-                return res.send(game).end();
+                return res.send(result.data).end();
             }
 
-            return res.status(404).send(result.error);
+            // there was a validation error while processing the command
+            return res.status(400).send(result.error);
 
         })
         .catch(function(err) {
             logger.warn('Could not make move ' + JSON.stringify(command) + ': ' + err.stack);
             return res.status(500).send('Could not make move').end();
         });
+
+
+
 
 });
 

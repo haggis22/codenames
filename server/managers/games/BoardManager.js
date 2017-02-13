@@ -19,7 +19,7 @@ class BoardManager
 
     static generateBystander()
     {
-        return Math.random() < 0.5 ? Cell.BYSTANDER_1: Cell.BYSTANDER_2;
+        return Math.random() < 0.5 ? Cell.roles.BYSTANDER_1: Cell.roles.BYSTANDER_2;
 
     }  // generateBystander
 
@@ -96,7 +96,7 @@ class BoardManager
         }
         while (taken.hasOwnProperty(cellIndex));
 
-        board.cells[cellIndex].role = Cell.ASSASSIN;
+        board.cells[cellIndex].role = Cell.roles.ASSASSIN;
 
         // mark the word as assigned already
         taken[cellIndex] = true;

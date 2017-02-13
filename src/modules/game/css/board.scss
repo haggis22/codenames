@@ -42,3 +42,8 @@ table.board td.assassin {
 	background-color: #eeeeee;
 	background-image: url('/images/assassin.jpg');
 }
+
+table.board .secret
+{
+	cursor: pointer;
+}

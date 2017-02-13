@@ -5,38 +5,65 @@
     <div ng-show="viewService.game" class="game">
         
         <div class="game-id">Game ID: {{ viewService.game._id }}</div>
-        
-        <div class="turn">Turn: 
-            <span ng-class="getTurnClass()">{{ viewService.game.turn }}</span>
+
+        <div class="state">State: 
+            <span>{{ viewService.game.state }}</span>
         </div>
 
-        <div class="remaining">
-            <table border="0" cellpadding="5" cellspacing="0">
-                <tbody>
-                    <tr class="team-red">
-                        <td>Red:</td>
-                        <td class="count">{{ countRemaining('red') | number:0 }}</td>
-                    </tr>
-                    <tr class="team-blue">
-                        <td>Blue:</td>
-                        <td class="count">{{ countRemaining('blue') | number:0 }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="players">Players:
+            <span ng-repeat="player in viewService.game.players"><span ng-hide="$index == 0">, </span>{{ player.username }}</span>
         </div>
 
-        <div>{{ getRows(viewService.game.board) }}</div>
         
-        <table class="board">
+        <div ng-show="viewService.game.isSettingUp()">
+        
+            <button type="button" ng-click="startGame()">
+            </button>
+
+        </div><!-- viewService.game.isSettingUp() -->
+
+        <div ng-show="true || viewService.game.isActive()">
+
+            <div class="turn">Turn: 
+                <span ng-class="getTurnClass()">{{ viewService.game.turn }}</span>
+            </div>
+
+            <div class="remaining">
+                <table border="0" cellpadding="5" cellspacing="0">
+                    <tbody>
+                        <tr class="team-red">
+                            <td>Red:</td>
+                            <td class="count">{{ countRemaining('red') | number:0 }}</td>
+                        </tr>
+                        <tr class="team-blue">
+                            <td>Blue:</td>
+                            <td class="count">{{ countRemaining('blue') | number:0 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>{{ getRows(viewService.game.board) }}</div>
+        
+            <table class="board">
             
-            <tr ng-repeat="row in viewService.game.board.rows">
-                <td ng-repeat="cell in row track by $index"
-                    ng-click="selectCell(cell)"
-                    ng-class="cell.revealed ? cell.role : ''"
-                ><span ng-hide="cell.revealed">{{ cell.word }}</span></td>
-            </tr>
+                <tr ng-repeat="row in viewService.game.board.rows">
+                    <td ng-repeat="cell in row track by $index"
+                        ng-click="selectCell(cell)"
+                        ng-class="cell.revealed ? cell.role : ''"
+                    ><span ng-hide="cell.revealed" ng-class="{ 'secret': !cell.revealed }">{{ cell.word }}</span></td>
+                </tr>
 
-        </table><!-- board table -->
+            </table><!-- board table -->
+        
+
+        </div><!-- viewService.game.isActive() -->
+
+        <div ng-show="viewService.game.isComplete()">
+        
+        </div><!-- viewService.game.isComplete() -->
+
+        
 
     </div><!-- ng-show="viewService.game" -->
 

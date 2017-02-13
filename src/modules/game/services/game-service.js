@@ -4,17 +4,18 @@
 
     app.factory('codenames.gameService', ['$rootScope',
                                             'codenames.Constants', 'codenames.games.dalService', 'codenames.viewService', 'codenames.errorParser',
-                                            'codenames.Game',
+                                            'codenames.Game', 'codenames.Command',
 
         function ($rootScope,
                     constants, dalService, viewService, errorParser,
-                    Game) {
+                    Game, Command) {
 
             return {
 
                 pullGames: pullGames,
                 pullGame: pullGame,
                 create: create,
+                startGame: startGame,
                 selectCell: selectCell
 
             };
@@ -131,23 +132,49 @@
 
             function selectCell(cell) {
 
-                var command = { gameID: viewService.game._id, cellID: cell.cellIndex };
-
-                return dalService.play.move({}, command).$promise
-
-                    .then(function (result) {
+                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.SELECT, cellID: cell.cellIndex }))
+                    .then(function(game) {
                         
-                        viewService.game = convertGame(result);
+                        viewService.game = game;
 
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Game creation failure', error));
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not select cell', error));
+
+                    });
+
+
+            }
+
+            function sendCommand(command) {
+
+                return dalService.command.give({}, command).$promise
+
+                    .then(function (game) {
+                        
+                        return convertGame(game);
 
                     });
 
             }
 
+
+            function startGame() {
+
+                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.START }))
+                    .then(function(game) {
+                        
+                        viewService.game = game;
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not start game', error));
+
+                    });
+
+            }
 
 
         }  // outer function

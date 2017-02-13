@@ -12,6 +12,7 @@ var logger = log4js.getLogger('codenames');
 var constants = require(__dirname + '/../../js/Constants');
 
 var GameManager = require(__dirname + '/../managers/games/GameManager');
+var Sanitizer = require(__dirname + '/../managers/games/Sanitizer');
 
 
 // Returns a list of Game objects
@@ -69,7 +70,7 @@ router.get('/:gameID', function (req, res) {
                 var game = result.data;
 
                 // clean the game before sending it back to the client
-                GameManager.sanitizeForClient(game);
+                Sanitizer.sanitizeGame(game);
 
                 // return the game
                 return res.send(game).end();

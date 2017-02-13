@@ -19,7 +19,10 @@
 
             $scope.selectCell = function (cell) {
 
-                gameService.selectCell(cell);
+                if (!cell.revealed)
+                {
+                    gameService.selectCell(cell);
+                }
 
             };  // selectCell
 
@@ -59,7 +62,6 @@
                 return '';
 
             };  // getTurnClass
-
 
         }  // outer function
 

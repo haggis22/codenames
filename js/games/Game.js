@@ -29,6 +29,24 @@
                 this.players = this.players || [];
                 this.moves = this.moves || [];
 
+            }  // constructor
+
+            isSettingUp() {
+
+                return this.state == this.STATE_SETUP;
+
+            }
+
+            isActive() { 
+
+                return this.state == this.STATE_PLAY;
+
+            }
+
+            isComplete() { 
+
+                return this.state == this.STATE_COMPLETE;
+
             }
 
 

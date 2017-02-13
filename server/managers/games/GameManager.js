@@ -18,7 +18,6 @@ var BoardManager = require(__dirname + '/BoardManager');
 var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Player = require(__dirname + '/../../../js/games/Player');
-var Sanitizer = require(__dirname + '/Sanitizer');
 
 var COLLECTION_NAME = 'games';
 
@@ -106,7 +105,7 @@ class GameManager
                     return { error: 'Matched more than one game' };
                 }
 
-                return { data: gameArray.data[0] };
+                return { data: new Game(gameArray.data[0]) };
 
             });
         
@@ -164,12 +163,43 @@ class GameManager
 
     }
 
-    static sanitizeForClient(game) { 
 
-        Sanitizer.sanitizeGame(game);
+    static validateCommand(command)
+    {
+        // we must check that cellID is not null specifically, since it could be 0, and that is falsey
+        return command && command.gameID;
 
+        // we will need to check various
     }
 
+
+    static applyCommand(user, command) {
+
+        if (user == null)
+        {
+            return { error: 'No user in session' };
+        }
+
+        if (!this.validateCommand(command))
+        {
+            return { error: 'Invalid command' };
+        }
+
+        return this.fetchGame(user, command.gameID)
+            
+            .then(function(result) {
+
+                var game = result.data;
+                logger.info('Fetched game');
+
+                game.board.cells[command.cellID].revealed = true;
+
+                return { data: game };
+
+            });
+
+
+    }   // applyCommand
 
 
 }  // end class declaration
