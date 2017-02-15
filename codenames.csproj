@@ -45,6 +45,7 @@
     <None Include="src\directives\error-message\error-message.scss" />
     <None Include="src\modules\game\css\game.scss" />
     <None Include="src\modules\game\css\board.scss" />
+    <None Include="src\modules\lobby\lobby.scss" />
     <None Include="src\modules\main\style.scss" />
   </ItemGroup>
   <ItemGroup>
@@ -91,10 +92,14 @@
     <Content Include="src\images\originals\red-1.jpg" />
     <Content Include="src\images\red-1.jpg" />
     <Content Include="src\index.html" />
-    <Content Include="src\modules\game\index.html" />
     <Content Include="src\modules\game\game-controller.js" />
+    <Content Include="src\modules\game\index.html" />
+    <Content Include="src\modules\game\play\play-controller.js" />
+    <Content Include="src\modules\game\setup\index.html" />
     <Content Include="src\modules\game\services\game-service.js" />
     <Content Include="src\modules\game\services\games-dal-service.js" />
+    <Content Include="src\modules\game\setup\setup-controller.js" />
+    <Content Include="src\modules\game\play\index.html" />
     <Content Include="src\modules\lobby\index.html" />
     <Content Include="src\modules\lobby\lobby-controller.js" />
     <Content Include="src\modules\main\index.html" />
@@ -110,7 +115,9 @@
     <Content Include="src\services\view-service.js" />
     <Content Include="src\modules\users\services\users-dal-service.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="src\modules\game\complete\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

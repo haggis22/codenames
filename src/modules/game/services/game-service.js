@@ -2,11 +2,11 @@
 
     "use strict";
 
-    app.factory('codenames.gameService', ['$rootScope',
+    app.factory('codenames.gameService', ['$rootScope', '$q',
                                             'codenames.Constants', 'codenames.games.dalService', 'codenames.viewService', 'codenames.errorParser',
                                             'codenames.Game', 'codenames.Command',
 
-        function ($rootScope,
+        function ($rootScope, $q,
                     constants, dalService, viewService, errorParser,
                     Game, Command) {
 
@@ -85,6 +85,8 @@
 
             function pullGame(gameID)
             {
+                viewService.game = null;
+
                 if (!gameID)
                 {
                     return $q.when(null);
@@ -163,6 +165,7 @@
             function startGame() {
 
                 sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.START }))
+                    
                     .then(function(game) {
                         
                         viewService.game = game;

@@ -14,9 +14,13 @@
 
             gameService.pullGame(viewService.gameID);
 
-            $scope.$watch('viewService.game.state', function (newValue) {
+            $scope.$watch('viewService.game', function (game) {
 
-                switch (newValue) {
+                if (!game || !game.state) {
+                    return;
+                }
+
+                switch (game.state) {
 
                     case Game.STATES.SETUP:
                         return $state.go('main.game.setup');

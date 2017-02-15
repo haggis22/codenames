@@ -165,6 +165,28 @@ class GameManager
     }
 
 
+    static update(game) {
+
+        var deferred = q.defer();
+
+        var collection = db.get(COLLECTION_NAME);
+
+        collection.update({ _id: game._id }, game, function (err, doc) {
+
+            if (err) {
+                logger.error('Could not update game in the database ' + err);
+                return deferred.reject(err);
+            }
+
+            return deferred.resolve(new Game(doc));
+
+        });
+
+        return deferred.promise;
+
+    }
+
+
     static validateCommand(command)
     {
         // we must check that cellID is not null specifically, since it could be 0, and that is falsey
@@ -218,9 +240,17 @@ class GameManager
 
     static startGame(user, game) {
 
+        // TODO - verify current state, user is owner of the game
+
         game.state = Game.STATES.PLAY;
 
-        return { data: game };
+        return GameManager.update(game)
+
+            .then(function() { 
+
+                return GameManager.fetchGame(user, game._id);
+
+            });
 
     }   // startGame
 
