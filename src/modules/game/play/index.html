@@ -1,0 +1,35 @@
+﻿<div ng-controller="codenames.game.PlayCtrl">
+
+    <div class="turn">Turn: 
+        <span ng-class="getTurnClass()">{{ viewService.game.turn }}</span>
+    </div>
+
+    <div class="remaining">
+        <table border="0" cellpadding="5" cellspacing="0">
+            <tbody>
+                <tr class="team-red">
+                    <td>Red:</td>
+                    <td class="count">{{ countRemaining('red') | number:0 }}</td>
+                </tr>
+                <tr class="team-blue">
+                    <td>Blue:</td>
+                    <td class="count">{{ countRemaining('blue') | number:0 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>{{ getRows(viewService.game.board) }}</div>
+        
+    <table class="board">
+            
+        <tr ng-repeat="row in viewService.game.board.rows">
+            <td ng-repeat="cell in row track by $index"
+                ng-click="selectCell(cell)"
+                ng-class="cell.revealed ? cell.role : ''"
+            ><span ng-hide="cell.revealed" ng-class="{ 'secret': !cell.revealed }">{{ cell.word }}</span></td>
+        </tr>
+
+    </table><!-- board table -->
+        
+</div>

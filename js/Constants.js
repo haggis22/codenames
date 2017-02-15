@@ -17,6 +17,7 @@
         Constants.events = 
         {
             SESSION_CHANGE: 'session-change',
+            STATE_CHANGE: 'state-change',
             ERROR: 'raise-error'
         };
 

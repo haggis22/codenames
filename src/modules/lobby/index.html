@@ -1,4 +1,4 @@
-﻿<div ng-controller="codenames.lobbyCtrl">
+﻿<div ng-controller="codenames.lobbyCtrl" class="lobby">
 
     <h3>Welcome to the Lobby, {{ viewService.session.first }}</h3>
 
@@ -9,11 +9,11 @@
     <div class="loader" ng-show="viewService.pullingGames">Pulling games...</div>
 
     <div ng-show="viewService.games">
-        <table class="datagrid zebra" cellpadding="5" cellspacing="0" border="1">
+        <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
             <thead>
                 <tr>
                     <th>Game ID</th>
-                    <th># Players</th>
+                    <th class="num-players"># Players</th>
                     <th>State</th>
                     <th>Turn</th>
                     <th>Winner</th>
@@ -22,8 +22,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="game in viewService.games">
-                    <td class="text-link"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></td>
-                    <td>{{ game.players.length | number:0 }}</td>
+                    <td><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></td>
+                    <td class="num-players">{{ game.players.length | number:0 }}</td>
                     <td>{{ game.state }}</td>
                     <td>{{ game.turn }}</td>
                     <td>{{ game.winner }}</td>

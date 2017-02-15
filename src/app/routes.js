@@ -35,6 +35,14 @@
 
                         }
                     ]
+                })
+                .state('main.game.setup', {
+                    url: "/setup",
+                    templateUrl: "/modules/game/setup/index.html?v=" + (new Date()).getTime(),
+                })
+                .state('main.game.play', {
+                    url: "/play",
+                    templateUrl: "/modules/game/play/index.html?v=" + (new Date()).getTime(),
                 });
 
 

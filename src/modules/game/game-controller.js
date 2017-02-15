@@ -2,66 +2,35 @@
 
     "use strict";
 
-    app.controller('codenames.gameCtrl', ['$scope',
-                                            'codenames.viewService', 'codenames.gameService',
+    app.controller('codenames.gameCtrl', ['$scope', '$state',
+                                            'codenames.viewService', 'codenames.gameService', 'codenames.Constants',
                                             'codenames.Game',
 
-        function ($scope,
-                    viewService, gameService,
+        function ($scope, $state,
+                    viewService, gameService, constants,
                     Game) {
 
             $scope.viewService = viewService;
 
-            gameService.pullGame(viewService.gameID)
-                .then(function(game) {
+            gameService.pullGame(viewService.gameID);
 
-                });
+            $scope.$watch('viewService.game.state', function (newValue) {
 
-            $scope.selectCell = function (cell) {
+                switch (newValue) {
 
-                if (!cell.revealed)
-                {
-                    gameService.selectCell(cell);
-                }
+                    case Game.STATE_SETUP:
+                        return $state.go('main.game.setup');
 
-            };  // selectCell
+                    case Game.STATE_PLAY:
+                        return $state.go('main.game.play');
 
-            $scope.countRemaining = function (role) {
+                    case Game.STATE_COMPLETE:
+                        return $state.go('main.game.complete');
 
-                if (!viewService.game) {
-                    return 0;
-                }
+                }  // state switch
 
-                var num = 9;
+            });   // watch game.state
 
-                for (var cell of viewService.game.board.cells) {
-                    if (cell.role == role) {
-                        num--;
-                    }
-                }
-
-                return num;
-
-            };
-
-
-            $scope.getTurnClass = function() {
-
-                if (viewService.game)
-                {
-                    switch (viewService.game.turn)
-                    {
-                        case 'blue': 
-                            return 'team-blue';
-
-                        case 'red':
-                            return 'team-red';
-                    }
-                }
-
-                return '';
-
-            };  // getTurnClass
 
         }  // outer function
 
