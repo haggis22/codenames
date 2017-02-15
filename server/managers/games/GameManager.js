@@ -165,7 +165,7 @@ class GameManager
     }
 
 
-    static update(game) {
+    static update(user, game) {
 
         var deferred = q.defer();
 
@@ -178,7 +178,7 @@ class GameManager
                 return deferred.reject(err);
             }
 
-            return deferred.resolve(new Game(doc));
+            return deferred.resolve(GameManager.fetchGame(user, game._id));
 
         });
 
@@ -244,13 +244,7 @@ class GameManager
 
         game.state = Game.STATES.PLAY;
 
-        return GameManager.update(game)
-
-            .then(function() { 
-
-                return GameManager.fetchGame(user, game._id);
-
-            });
+        return GameManager.update(user, game);
 
     }   // startGame
 
@@ -266,7 +260,7 @@ class GameManager
         // TODO: verify it's your turn, yada yda
         game.board.cells[command.cellID].revealed = true;
 
-        return { data: game };
+        return GameManager.update(user, game);
 
     }   // selectCell
 
