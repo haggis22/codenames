@@ -18,6 +18,7 @@ var BoardManager = require(__dirname + '/BoardManager');
 var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Player = require(__dirname + '/../../../js/games/Player');
+var Command = require(__dirname + '/../../../js/games/Command');
 
 var COLLECTION_NAME = 'games';
 
@@ -149,10 +150,10 @@ class GameManager
 
         // set the first team's turn
         game.turn = game.board.first;
-        game.state = Game.STATE_SETUP;
+        game.state = Game.STATES.SETUP;
 
 
-        return this.insert(game)
+        return GameManager.insert(game)
 
             .then(function(newGame) { 
 
@@ -180,20 +181,33 @@ class GameManager
             return { error: 'No user in session' };
         }
 
-        if (!this.validateCommand(command))
+        if (!GameManager.validateCommand(command))
         {
             return { error: 'Invalid command' };
         }
 
-        return this.fetchGame(user, command.gameID)
+        return GameManager.fetchGame(user, command.gameID)
             
             .then(function(result) {
 
                 var game = result.data;
                 logger.info('Fetched game');
 
-                game.board.cells[command.cellID].revealed = true;
+                switch (command.action)
+                {
+                    case Command.actions.START:
+                        return GameManager.startGame(user, game);
 
+                    case Command.actions.WORD:
+                        return GameManager.sayWord(user, game, command);
+
+                    case Command.actions.SELECT:
+                        return GameManager.selectCell(user, game, command);
+                
+                }  // end switch
+
+
+                // we shouldn't get here, but....
                 return { data: game };
 
             });
@@ -201,6 +215,30 @@ class GameManager
 
     }   // applyCommand
 
+
+    static startGame(user, game) {
+
+        game.state = Game.STATES.PLAY;
+
+        return { data: game };
+
+    }   // startGame
+
+
+    static sayWord(user, game, command) { 
+
+        return { data: game };
+
+    }  // sayWord
+
+    static selectCell(user, game, command) {
+
+        // TODO: verify it's your turn, yada yda
+        game.board.cells[command.cellID].revealed = true;
+
+        return { data: game };
+
+    }   // selectCell
 
 }  // end class declaration
 

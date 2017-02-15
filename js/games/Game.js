@@ -33,28 +33,31 @@
 
             isSettingUp() {
 
-                return this.state == this.STATE_SETUP;
+                return this.state == this.STATES.SETUP;
 
             }
 
             isActive() { 
 
-                return this.state == this.STATE_PLAY;
+                return this.state == this.STATES.PLAY;
 
             }
 
             isComplete() { 
 
-                return this.state == this.STATE_COMPLETE;
+                return this.state == this.STATES.COMPLETE;
 
             }
 
 
         }  // end class declaration
 
-        Game.STATE_SETUP = 'setup';
-        Game.STATE_PLAY = 'play';
-        Game.STATE_COMPLETE = 'complete';
+        Game.STATES =
+        {
+            SETUP: 'setup',
+            PLAY: 'play',
+            COMPLETE: 'complete'
+        };
 
         return Game;
 

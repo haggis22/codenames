@@ -14,7 +14,7 @@
 
             $scope.startGame = function () {
 
-                viewService.game.state = Game.STATE_PLAY;
+                gameService.startGame();
 
             };
 

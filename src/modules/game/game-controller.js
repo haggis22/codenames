@@ -18,13 +18,13 @@
 
                 switch (newValue) {
 
-                    case Game.STATE_SETUP:
+                    case Game.STATES.SETUP:
                         return $state.go('main.game.setup');
 
-                    case Game.STATE_PLAY:
+                    case Game.STATES.PLAY:
                         return $state.go('main.game.play');
 
-                    case Game.STATE_COMPLETE:
+                    case Game.STATES.COMPLETE:
                         return $state.go('main.game.complete');
 
                 }  // state switch
