@@ -80,6 +80,7 @@
     <Content Include="src\directives\enter-action.js" />
     <Content Include="src\directives\focus-me.js" />
     <Content Include="src\directives\error-message\error-message.html" />
+    <Content Include="src\favicon.ico" />
     <Content Include="src\images\assassin.jpg" />
     <Content Include="src\images\blue-1.jpg" />
     <Content Include="src\images\bystander-1.jpg" />

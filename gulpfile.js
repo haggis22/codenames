@@ -39,7 +39,7 @@ gulp.task('client-html', ['clean'], function () {
 
 gulp.task('images', ['clean'], function () {
 
-    return gulp.src(['src/images/*.*'], { base: './src' })
+    return gulp.src(['src/favicon.ico', 'src/images/*.*'], { base: './src' })
         .pipe(gulp.dest('client'));
 
 });
