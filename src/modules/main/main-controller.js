@@ -11,14 +11,23 @@
             $scope.viewService = viewService;
 
 
+            function isInEntryway() {
+                return $state.is('main.login') || $state.is('main.register');
+            }
+
             $scope.$on(constants.events.SESSION_CHANGE, function (event, args) {
 
                 if (!viewService.session) {
-                    return $state.go('main.login');
+
+                    // leave them where they are if they are any of these pages, otherwise send them to the login page
+                    if (!isInEntryway()) {
+                        return $state.go('main.login');
+                    }
+
                 }
 
                 // they are on the login screen and have just logged in, then send them to the lobby
-                if ($state.is('main.login') && (viewService.session)) {
+                if (isInEntryway() && (viewService.session)) {
                     return $state.go('main.lobby');
                 }
 
@@ -27,12 +36,13 @@
 
             });
 
+/*            
             $scope.$on('raise-error', function (event, args) {
 
-                //            $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not drop " + item.getName(true), result.message ) });
-                console.error('Ooops: ' + args.error);
+                console.error('Ooops: ' + JSON.stringify(args.error));
 
             });
+*/
 
             // always check for a logged-in user first.
             // This will handle bookmarked pages nicely - will always try to re-log in, or shunt them to the login page

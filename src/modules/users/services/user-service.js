@@ -4,22 +4,63 @@
 
     app.factory('codenames.userService', ['$rootScope',
                                             'codenames.Constants', 'codenames.users.dalService', 'codenames.viewService', 'codenames.errorParser',
+                                            'codenames.User',
 
         function ($rootScope,
-                    constants, usersDALService, viewService, errorParser) {
+                    constants, dalService, viewService, errorParser,
+                    User) {
 
             return {
 
+                initializeUser: initializeUser,
+                register: register,
                 login: login,
                 logout: logout,
                 checkSession: checkSession
 
             };
 
+            function initializeUser() {
+
+                viewService.user = new User();
+
+            };
+
+
+            function validateRegistration()
+            {
+                return viewService.user != null;
+            
+            }  // validateRegistration
+
+
+            function register() {
+
+                if (!validateRegistration(viewService.user))
+                {
+                    return;
+                }
+
+                return dalService.register.save({}, viewService.user).$promise
+
+                    .then(function (result) {
+
+                        viewService.session = result;
+                        $rootScope.$broadcast(constants.events.SESSION_CHANGE);
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Registration failure', error));
+
+                    });
+
+            }  // register
+
 
             function login(email, password) {
 
-                return usersDALService.login.login({}, { email: email, password: password }).$promise
+                dalService.login.login({}, { email: email, password: password }).$promise
 
                     .then(function (result) {
 
@@ -40,7 +81,7 @@
 
             function logout() {
 
-                return usersDALService.logout.logout({}, {}).$promise
+                dalService.logout.logout({}, {}).$promise
 
                     .then(function () {
 
@@ -59,7 +100,7 @@
 
             function checkSession() {
 
-                return usersDALService.session.get().$promise
+                dalService.session.get().$promise
 
                     .then(function (session) {
 

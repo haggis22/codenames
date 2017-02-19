@@ -8,6 +8,8 @@
 
             return {
 
+                register: $resource('/api/users/register'),
+
                 login: $resource('/api/users/login', {},
                     {
                         login: { method: 'POST' }

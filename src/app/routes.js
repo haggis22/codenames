@@ -19,7 +19,10 @@
                     url: "/login",
                     templateUrl: "/modules/users/login/index.html?v=" + (new Date()).getTime()
                 })
-
+                .state('main.register', {
+                    url: "/register",
+                    templateUrl: "/modules/users/register/index.html?v=" + (new Date()).getTime()
+                })
                 .state('main.lobby', {
                     url: "/lobby",
                     templateUrl: "/modules/lobby/index.html?v=" + (new Date()).getTime()

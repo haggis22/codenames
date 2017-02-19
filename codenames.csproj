@@ -47,6 +47,7 @@
     <None Include="src\modules\game\css\board.scss" />
     <None Include="src\modules\lobby\lobby.scss" />
     <None Include="src\modules\main\style.scss" />
+    <None Include="src\modules\users\register\register.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
@@ -104,6 +105,8 @@
     <Content Include="src\modules\lobby\lobby-controller.js" />
     <Content Include="src\modules\main\index.html" />
     <Content Include="src\modules\main\main-controller.js" />
+    <Content Include="src\modules\users\register\index.html" />
+    <Content Include="src\modules\users\register\register-controller.js" />
     <Content Include="src\modules\users\login\index.html" />
     <Content Include="src\app\routes.js" />
     <Content Include="src\modules\users\login\login-controller.js" />

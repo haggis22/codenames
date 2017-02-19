@@ -1,0 +1,90 @@
+﻿<div ng-controller="codenames.users.registerCtrl">
+
+    <form name="registerForm">
+        
+        <table class="register" border="1" cellpadding="5" cellspacing="0">
+        
+            <tbody>
+            
+                <tr>
+                    <td class="label">Username:</td>
+                    <td class="field">
+                        <input type="text" 
+                            name="username"
+                            ng-model="viewService.user.username" 
+                            ng-class="{ 'field-error': viewService.user.submitted && registerForm.username.$invalid }"
+                            focus-me="true"
+                            required />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">Email Address:</td>
+                    <td class="field">
+                        <input type="email" 
+                            name="email"
+                            ng-model="viewService.user.email" 
+                            ng-class="{ 'field-error': viewService.user.submitted && registerForm.email.$invalid }"
+                            required />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">First Name:</td>
+                    <td class="field">
+                        <input type="text" 
+                            name="first"
+                            ng-model="viewService.user.first" 
+                            ng-class="{ 'field-error': viewService.user.submitted && registerForm.first.$invalid }"
+                            required />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">Last Name:</td>
+                    <td class="field">
+                        <input type="text" 
+                            name="last"
+                            ng-model="viewService.user.last" 
+                            ng-class="{ 'field-error': viewService.user.submitted && registerForm.last.$invalid }"
+                            required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input 
+                            type="password" 
+                            name="password"
+                            ng-model="viewService.user.password" 
+                            ng-class="{ 'field-error': viewService.user.submitted && registerForm.password.$invalid }"
+                            pattern=".{8,}"
+                            required 
+                            title="8 characters minimum" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Confirm Password:</td>
+                    <td><input 
+                            type="password" 
+                            name="confirmPassword"
+                            ng-model="viewService.user.confirmPassword" 
+                            ng-class="{ 'field-error': viewService.user.submitted && registerForm.confirmPassword.$invalid }"
+                            pattern=".{8,}"
+                            required />
+                    </td>
+                </tr>
+                <tr ng-show="viewService.user.password != viewService.user.confirmPassword">
+                    <td colspan="2" class="mismatched-passwords">Passwords do not match</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="buttons">
+                        <button type="button" ng-click="cancel()">Cancel</button>
+                        <button type="button" ng-click="register()">Register</button>
+                    </td>
+                </tr>
+            </tfoot>
+
+        </table>
+
+    </form>
+
+</div>

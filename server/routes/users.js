@@ -10,8 +10,46 @@ log4js.configure(config.logging.configFile);
 var logger = log4js.getLogger('codenames');
 
 var constants = require(__dirname + '/../../js/Constants');
+var User = require(__dirname + '/../../js/users/User');
 var UserManager = require(__dirname + '/../managers/users/UserManager');
 var SessionManager = require(__dirname + '/../managers/users/SessionManager');
+
+
+// Returns a Session object if the registration is successful
+router.post('/register', function (req, res) {
+
+    // for a POST the parameters come in req.body
+    // We are NOT going to run this through the User object, because that strips out some of the 
+    // necessary extra information like confirmPassword
+    var newUser = req.body;
+
+    if (logger.isDebugEnabled) { logger.debug('Registration attempt for ' + newUser.email); }
+
+    UserManager.register(newUser)
+
+        .then(function (result) {
+
+            if (result.data)
+            {
+                // put the session in the cookies
+                res.cookie(constants.cookies.SESSION, result.data.hash);
+
+                logger.info('session = ' + JSON.stringify(result.data));
+
+                // return the newly-created user session data
+                return res.send(result.data).end();
+            }
+
+            // the login failed because of the input, not because of a system error
+            return res.status(400).send(result.error);
+
+        })
+        .catch(function(err) {
+            logger.warn('Could not register user ' + user.username + ': ' + err.stack);
+            return res.status(500).send('System error during registration').end();
+        });
+
+});
 
 
 // Returns a Session object if the login is successful
