@@ -86,7 +86,13 @@ SessionManager.createSession = function (user) {
             var session = Session.fromUser(user);
             session.hash = uuid.v4();
 
-            return { data: SessionManager.insert(session) };
+            return SessionManager.insert(session)
+
+                .then(function (insertedSession) {
+
+                    return { data: insertedSession };
+
+                });
 
         });
 

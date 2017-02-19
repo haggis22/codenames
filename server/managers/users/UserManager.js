@@ -265,7 +265,10 @@ class UserManager
                 return deferred.reject(err);
             }
 
-            return deferred.resolve(new User(doc));
+            
+            var newUser = new User(doc);
+
+            return deferred.resolve(newUser);
 
         });
 
