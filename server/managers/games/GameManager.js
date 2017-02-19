@@ -9,7 +9,7 @@ var logger = log4js.getLogger('codenames');
 var mongo = require('mongodb');
 var monk = require('monk');
 
-var db = monk(config.db);
+var db = monk(config.db.codenames);
 
 var q = require('q');
 

@@ -9,7 +9,8 @@ var logger = log4js.getLogger('codenames');
 var mongo = require('mongodb');
 var monk = require('monk');
 
-var db = monk(config.db);
+var db = monk(config.db.users);
+var COLLECTION_NAME = 'sessions';
 
 var q = require('q');
 var uuid = require('uuid');
@@ -23,7 +24,7 @@ SessionManager.fetch = function (query) {
 
     var deferred = q.defer();
 
-    var collection = db.get('sessions');
+    var collection = db.get(COLLECTION_NAME);
 
     collection.find(query, {}, function (err, result) {
 
@@ -50,7 +51,7 @@ SessionManager.insert = function (session) {
 
     var deferred = q.defer();
 
-    var collection = db.get('sessions');
+    var collection = db.get(COLLECTION_NAME);
 
     collection.insert(session, function (err, doc) {
 
@@ -112,7 +113,7 @@ SessionManager.logout = function (session) {
 
     var deferred = q.defer();
 
-    var collection = db.get('sessions');
+    var collection = db.get(COLLECTION_NAME);
 
     collection.remove({ hash: session.hash }, function (err, doc) {
 

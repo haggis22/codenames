@@ -9,7 +9,8 @@ var logger = log4js.getLogger('codenames');
 var mongo = require('mongodb');
 var monk = require('monk');
 
-var db = monk(config.db);
+var db = monk(config.db.users);
+var COLLECTION_NAME = 'users';
 
 var q = require('q');
 
@@ -26,7 +27,7 @@ UserManager.fetch = function (query) {
 
     var deferred = q.defer();
 
-    var collection = db.get('users');
+    var collection = db.get(COLLECTION_NAME);
 
     collection.find(query, {}, function (err, result) {
 

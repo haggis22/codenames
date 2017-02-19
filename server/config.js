@@ -10,7 +10,12 @@ config.servers =
 ];
 
 
-config.db = "localhost:27017/codenames";
+config.db = 
+{
+    users: "localhost:27017/users",
+    codenames: "localhost:27017/codenames"
+};
+
 
 config.logging =
 {
