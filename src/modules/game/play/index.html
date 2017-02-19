@@ -25,9 +25,10 @@
             
         <tr ng-repeat="row in viewService.game.board.rows">
             <td ng-repeat="cell in row track by $index"
-                ng-click="selectCell(cell)"
                 ng-class="cell.revealed ? cell.role : ''"
-            ><span ng-hide="cell.revealed" ng-class="{ 'secret': !cell.revealed }">{{ cell.word }}</span></td>
+            ><span ng-hide="cell.revealed" 
+                    ng-click="selectCell(cell)"
+                    ng-class="{ 'secret': !cell.revealed }">{{ cell.word }}</span></td>
         </tr>
 
     </table><!-- board table -->
