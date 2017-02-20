@@ -15,6 +15,7 @@ var q = require('q');
 
 
 var BoardManager = require(__dirname + '/BoardManager');
+var GameInvitationManager = require(__dirname + '/GameInvitationManager');
 var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Player = require(__dirname + '/../../../js/games/Player');
@@ -200,12 +201,12 @@ class GameManager
 
         if (user == null)
         {
-            return { error: 'No user in session' };
+            return q.resolve({ error: 'No user in session' });
         }
 
         if (!GameManager.validateCommand(command))
         {
-            return { error: 'Invalid command' };
+            return q.resolve({ error: 'Invalid command' });
         }
 
         return GameManager.fetchGame(user, command.gameID)
@@ -217,6 +218,9 @@ class GameManager
 
                 switch (command.action)
                 {
+                    case Command.actions.INVITE:
+                        return GameManager.invite(user, game, command.username);
+
                     case Command.actions.START:
                         return GameManager.startGame(user, game);
 
@@ -236,6 +240,24 @@ class GameManager
 
 
     }   // applyCommand
+
+
+    static invite(user, game, username) {
+
+        return GameInvitationManager.invite(user, game, username)
+
+            .then(function(result) {
+
+                if (result.error)
+                {
+                    return result;
+                }
+
+                return GameManager.update(user, result.data);
+            
+            });
+
+    }   // invite
 
 
     static startGame(user, game) {

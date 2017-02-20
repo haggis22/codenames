@@ -15,6 +15,8 @@
                 pullGames: pullGames,
                 pullGame: pullGame,
                 create: create,
+                clearInvitation: clearInvitation,
+                inviteUser: inviteUser,
                 startGame: startGame,
                 selectCell: selectCell
 
@@ -162,6 +164,36 @@
             }
 
 
+            function clearInvitation() { 
+
+                viewService.invitation = {};
+
+            }
+
+
+            function inviteUser() {
+
+                if (!viewService.invitation || !viewService.invitation.username)
+                {
+                    return;
+                }
+
+                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.INVITE, username: viewService.invitation.username }))
+                    
+                    .then(function(game) {
+                        
+                        viewService.game = game;
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not invite user', error));
+
+                    });
+
+            }
+
+
             function startGame() {
 
                 sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.START }))
@@ -177,7 +209,7 @@
 
                     });
 
-            }
+            }  // startGame
 
 
         }  // outer function

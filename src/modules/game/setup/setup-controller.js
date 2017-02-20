@@ -18,6 +18,21 @@
 
             };
 
+
+            gameService.clearInvitation();
+
+            $scope.invite = function () {
+
+                viewService.invitation.submitted = true;
+
+                if ($scope.inviteForm.$invalid) {
+                    return;
+                }
+
+                gameService.inviteUser()
+
+            };   // invite
+
         }  // outer function
 
     ]);

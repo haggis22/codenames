@@ -6,6 +6,12 @@
 	background-color: pink;
 }
 
+div.game-play,
+div.game-setup
+{
+	margin-top: 10px;
+}
+
 div.remaining
 {
 	border: 1px solid #000000;
@@ -26,8 +32,6 @@ div.remaining
 
 	}
 
-
-
 }
 
 
@@ -45,3 +49,4 @@ table.board
 {
 	margin-top: 15px;
 }
+

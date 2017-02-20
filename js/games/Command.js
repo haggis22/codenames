@@ -13,6 +13,7 @@
                     this.gameID = command.gameID;
                     this.action = command.action;
                     this.cellID = command.cellID;
+                    this.username = command.username;
                 }
 
             }  // constructor
@@ -26,6 +27,7 @@
 
         Command.actions =
         {
+            INVITE: 'invite',
             START: 'start',
             WORD: 'word',
             SELECT: 'SELECT'

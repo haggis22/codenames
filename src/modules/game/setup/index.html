@@ -1,5 +1,42 @@
-﻿<div ng-controller="codenames.game.SetupCtrl">
+﻿<div ng-controller="codenames.game.SetupCtrl" class="game-setup">
 
+    <div class="invitations">
+        
+        <form name="inviteForm" novalidate>
+
+            <table class="invitations" cellpadding="5" cellspacing="0" border="1">
+            
+                <thead>
+                    <tr>
+                        <th colspan="2">Invite players</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Username:</td>
+                        <td><input type="text" 
+                                    class="username" 
+                                    ng-class="{ 'field-error': viewService.invitation.submitted && inviteForm.username.$invalid }"
+                                    name="username" 
+                                    ng-model="viewService.invitation.username"
+                                    required 
+                                    enter-action="invite()" /></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="buttons">
+                            <button type="button" ng-click="invite()">Invite</button>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </table><!-- invitations -->
+
+        </form><!-- inviteForm -->
+
+    </div><!-- invitations -->
+    
     <button type="button" ng-click="startGame()">Start the game!</button>
 
 </div>
