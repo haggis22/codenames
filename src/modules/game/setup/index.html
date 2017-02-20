@@ -1,6 +1,13 @@
 ﻿<div ng-controller="codenames.game.SetupCtrl" class="game-setup">
 
-    <div class="invitations">
+    <div class="invitations" ng-show="viewService.game.invitations">
+
+        <span>Invited to play:</span>
+        <span ng-repeat="invitee in viewService.game.invitations"><span ng-show="$index > 0">, </span>{{ invitee }}</span>
+
+    </div><!-- invitations -->
+
+    <div class="inviter">
         
         <form name="inviteForm" novalidate>
 

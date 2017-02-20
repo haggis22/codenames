@@ -17,6 +17,8 @@
                         this.players = game.players.map(function(player) { return new Player(player); });
                     }
 
+                    this.invitations = game.invitations;
+
                     this.board = new Board(game.board);
 
                     this.turn = game.turn;
@@ -28,6 +30,7 @@
 
                 this.players = this.players || [];
                 this.moves = this.moves || [];
+                this.invitations = this.invitations || [];
 
             }  // constructor
 
