@@ -137,7 +137,7 @@
 
             function selectCell(cell) {
 
-                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.SELECT, cellID: cell.cellIndex }))
+                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.SELECT, word: cell.word }))
                     .then(function(game) {
                         
                         viewService.game = game;

@@ -12,7 +12,7 @@
                 {
                     this.gameID = command.gameID;
                     this.action = command.action;
-                    this.cellID = command.cellID;
+                    this.word = command.word;
                     this.username = command.username;
                     this.team = command.team;
                     this.role = command.role;
@@ -33,7 +33,7 @@
             ACCEPT: 'accept',
             APPLY: 'apply',
             START: 'start',
-            WORD: 'word',
+            CLUE: 'clue',
             SELECT: 'SELECT'
         };
 

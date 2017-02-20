@@ -42,9 +42,9 @@
 
             $scope.getTurnClass = function() {
 
-                if (viewService.game)
+                if (viewService.game && viewService.game.turn)
                 {
-                    switch (viewService.game.turn)
+                    switch (viewService.game.turn.team)
                     {
                         case 'blue': 
                             return 'team-blue';

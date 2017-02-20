@@ -20,6 +20,7 @@ var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Player = require(__dirname + '/../../../js/games/Player');
 var Team = require(__dirname + '/../../../js/games/Team');
+var Turn = require(__dirname + '/../../../js/games/Turn');
 var Command = require(__dirname + '/../../../js/games/Command');
 
 var COLLECTION_NAME = 'games';
@@ -156,9 +157,8 @@ class GameManager
         game.board = BoardManager.generate();
 
         // set the first team's turn
-        game.turn = game.board.first;
+        game.turn = new Turn({ team: game.board.first, action: Turn.ACTIONS.CLUE });
         game.state = Game.STATES.SETUP;
-
 
         return GameManager.insert(game)
 
@@ -236,11 +236,11 @@ class GameManager
                     case Command.actions.START:
                         return GameManager.startGame(user, game);
 
-                    case Command.actions.WORD:
-                        return GameManager.sayWord(user, game, command);
+                    case Command.actions.CLUE:
+                        return GameManager.sayClue(user, game, command.word);
 
                     case Command.actions.SELECT:
-                        return GameManager.selectCell(user, game, command);
+                        return GameManager.selectWord(user, game, command.word);
                 
                 }  // end switch
 
@@ -357,16 +357,38 @@ class GameManager
     }   // startGame
 
 
-    static sayWord(user, game, command) { 
+    static sayClue(user, game, word) { 
+
+        // TODO: verify it's your turn, yada yda
 
         return q.resolve({ data: game });
 
-    }  // sayWord
+    }  // sayClue
 
-    static selectCell(user, game, command) {
+    static selectWord(user, game, word) {
+
+        if (word == null || word.trim().length == 0)
+        {
+            return q.resolve({ error: 'Chosen word cannot be blank' });
+        }
 
         // TODO: verify it's your turn, yada yda
-        game.board.cells[command.cellID].revealed = true;
+
+        var found = false;
+
+        for (var cell of game.board.cells)
+        {
+            if (cell.word == word && !cell.revealed)
+            {
+                found = true;
+                cell.revealed = true;
+            }
+        }
+
+        if (!found)
+        {
+            return q.resolve({ error: word.toUpperCase() + ' is not on the board' });
+        }
 
         return GameManager.update(user, game);
 

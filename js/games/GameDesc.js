@@ -2,7 +2,7 @@
 
     "use strict";
 
-    var GameDescModule = function(Player) {
+    var GameDescModule = function(Player, Turn) {
 
         class GameDesc {
 
@@ -19,7 +19,7 @@
 
                     this.created = game.created;
                     this.state = game.state;
-                    this.turn = game.turn;
+                    this.turn = new Turn(game.turn);
                     this.winner = game.winner;
 
                 }
@@ -37,12 +37,12 @@
     if (isAngular)
     {
         angular.module('codenames.app')
-            .factory('codenames.GameDesc', [ 'codenames.Player', GameDescModule ]);
+            .factory('codenames.GameDesc', [ 'codenames.Player', 'codenames.Turn', GameDescModule ]);
 
     }
     else if (isNode)
     {
-        module.exports = GameDescModule(require(__dirname + '/Player'));
+        module.exports = GameDescModule(require(__dirname + '/Player'), require(__dirname + '/Turn'));
     }
 
 }) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');

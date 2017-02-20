@@ -2,7 +2,7 @@
 
     "use strict";
 
-    var GameModule = function(Board, Player) {
+    var GameModule = function(Board, Player, Turn) {
 
         class Game {
 
@@ -23,7 +23,7 @@
 
                     this.board = new Board(game.board);
 
-                    this.turn = game.turn;
+                    this.turn = new Turn(game.turn);
                     this.state = game.state;
                     this.winner = game.winner;
                     this.moves = game.moves;
@@ -130,11 +130,11 @@
     if (isAngular)
     {
         angular.module('codenames.app')
-            .factory('codenames.Game', [ 'codenames.Board', 'codenames.Player', GameModule ]);
+            .factory('codenames.Game', [ 'codenames.Board', 'codenames.Player', 'codenames.Turn', GameModule ]);
     }
     else if (isNode)
     {
-        module.exports = GameModule(require(__dirname + '/Board'), require(__dirname + '/Player'));
+        module.exports = GameModule(require(__dirname + '/Board'), require(__dirname + '/Player'), require(__dirname + '/Turn'));
     }
 
 }) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');
