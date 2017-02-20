@@ -12,6 +12,8 @@
                 {
                     this._id = game._id;
             
+                    this.ownerID = game.ownerID;
+
                     if (game.players)
                     {
                         this.players = game.players.map(function(player) { return new Player(player); });

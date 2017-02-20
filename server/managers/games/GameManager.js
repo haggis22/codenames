@@ -144,10 +144,13 @@ class GameManager
         logger.info("Create game");
 
         var game = new Game();
+        
         game.created = new Date();
 
-        // this will create a new player, identified as the owner of the game
-        game.players.push(Player.fromUser(user, true));
+        game.ownerID = user._id;
+
+        // this will create a new player
+        game.players.push(Player.fromUser(user));
 
         game.board = BoardManager.generate();
 

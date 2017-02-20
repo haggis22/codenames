@@ -19,21 +19,9 @@ class GameInvitationManager
 
     static isTheOwner(game, user)
     {
-        debugger;
-
         if (game && user)
         {
-            for (var player of game.players)
-            {
-                // we have to convert the IDs to strings before comparing. Comparing
-                // objects checks their object reference, not their "value"
-                if (player._id.equals(user._id))
-                {
-                    return player.isOwner;
-                }
-
-            }  // for each player
-
+            return game.ownerID.equals(user._id);
         }
 
         return false;
