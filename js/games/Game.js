@@ -70,6 +70,24 @@
             
             }  // isOwner
 
+            isInvited(username) {
+
+                if (this.invitations)
+                {
+                    // game.invitations is an array of plain username strings
+                    for (var invitee of this.invitations)
+                    {
+                        if (invitee == username)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+
+            }  // isInvited
+
 
         }  // end class declaration
 

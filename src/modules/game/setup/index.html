@@ -2,7 +2,7 @@
 
     <div class="invitations" ng-show="viewService.game.invitations">
 
-        <span>Invited to play:</span>
+        <span>Open invitations:</span>
         <span ng-repeat="invitee in viewService.game.invitations"><span ng-show="$index > 0">, </span>{{ invitee }}</span>
 
     </div><!-- invitations -->
@@ -50,5 +50,10 @@
 
     </div><!-- owner-panels -->
 
+    <div class="invitee-panels" ng-show="viewService.game.isInvited(viewService.session.username)">
+        
+        <button type="button" ng-click="acceptInvitation()">Accept Invitation</button>
+
+    </div>
 
 </div>

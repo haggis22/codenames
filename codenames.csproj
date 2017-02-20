@@ -45,6 +45,7 @@
     <None Include="src\directives\error-message\error-message.scss" />
     <None Include="src\modules\game\css\game.scss" />
     <None Include="src\modules\game\css\board.scss" />
+    <None Include="src\modules\game\setup\setup.scss" />
     <None Include="src\modules\lobby\lobby.scss" />
     <None Include="src\modules\main\style.scss" />
     <None Include="src\modules\users\register\register.scss" />
