@@ -54,6 +54,22 @@
 
             }
 
+            isOwner(userID) {
+
+                if (typeof this.ownerID === 'string' && typeof userID === 'string')
+                {
+                    return this.ownerID === userID;
+                }
+
+                if (typeof userID === 'string')
+                {
+                    return this.ownerID.toString() === userID;
+                }
+
+                return this.ownerID.equals(userID);
+            
+            }  // isOwner
+
 
         }  // end class declaration
 

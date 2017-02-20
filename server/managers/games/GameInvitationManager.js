@@ -17,17 +17,6 @@ var UserManager = require(__dirname + '/../users/UserManager');
 class GameInvitationManager
 {
 
-    static isTheOwner(game, user)
-    {
-        if (game && user)
-        {
-            return game.ownerID.equals(user._id);
-        }
-
-        return false;
-
-    }
-
     static isAlreadyPlaying(game, username)
     {
         if (!game.players)
@@ -68,7 +57,7 @@ class GameInvitationManager
 
     static invite(user, game, username) {
 
-        if (!GameInvitationManager.isTheOwner(game, user))
+        if (!game.isOwner(user._id))
         {
             return q.resolve({ error: 'Only the game creator can invite other players' });
         }

@@ -267,7 +267,15 @@ class GameManager
 
     static startGame(user, game) {
 
-        // TODO - verify current state, user is owner of the game
+        if (!game.isSettingUp())
+        {
+            return { error: 'Game is not in setup phase' };
+        }
+
+        if (!game.isOwner(user._id))
+        {
+            return { error: 'Only the game owner can start it' };
+        }
 
         game.state = Game.STATES.PLAY;
 

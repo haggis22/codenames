@@ -8,7 +8,7 @@
         function ($scope, $rootScope, $state,
                     constants, userService, viewService, errorParser) {
 
-            $scope.email = 'dshell@gmail.com';
+            $scope.email = 'one@gmail.com';
             $scope.password = 'password';
 
 

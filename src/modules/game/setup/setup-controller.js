@@ -36,7 +36,7 @@
             $scope.isOwner = function () {
 
                 // these are strings, not ObjectIds
-                return viewService.game && viewService.session && viewService.game.ownerID == viewService.session.userID;
+                return viewService.game && viewService.session && viewService.game.isOwner(viewService.session.userID);
 
             };
 
