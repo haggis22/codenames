@@ -38,19 +38,19 @@
 
             isSettingUp() {
 
-                return this.state == this.STATES.SETUP;
+                return this.state == Game.STATES.SETUP;
 
             }
 
             isActive() { 
 
-                return this.state == this.STATES.PLAY;
+                return this.state == Game.STATES.PLAY;
 
             }
 
             isComplete() { 
 
-                return this.state == this.STATES.COMPLETE;
+                return this.state == Game.STATES.COMPLETE;
 
             }
 
