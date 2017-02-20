@@ -56,20 +56,24 @@ class GameManager
 
         var query = 
         { 
-            players: 
-            { 
-                $elemMatch: 
-                { 
-                    _id: user._id
-                }
-            }
+            $or:
+            [   
+                { players: { $elemMatch: { _id: user._id } } },
+                { invitations: { $in: [ user.username ] } }
+            ]
+
         };
 
-        return GameManager.fetch(query);
-            // turn the array of results to an array of GameDesc objects
-            // return deferred.resolve({ data: result.map(function(row) { return new GameDesc(row); }) });
+        return GameManager.fetch(query)
+            
+            .then(function(result) {
 
-    }   // fetch
+                // turn the array of results to an array of GameDesc objects
+                return { data: result.data.map(game => new GameDesc(game)) };
+
+            });
+
+    }   // fetchGamesForUser
 
     
     // returns a promise to a particuluar game
@@ -79,13 +83,11 @@ class GameManager
         { 
             _id: gameID,
 
-            players: 
-            { 
-                $elemMatch: 
-                { 
-                    _id: user._id
-                }
-            }
+            $or:
+            [   
+                { players: { $elemMatch: { _id: user._id } } },
+                { invitations: { $in: [ user.username ] } }
+            ]
         };
 
         return GameManager.fetch(query)
@@ -112,7 +114,7 @@ class GameManager
             });
         
 
-    }   // fetch
+    }   // fetchGame
 
 
     static insert(game) {
