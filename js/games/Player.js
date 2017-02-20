@@ -27,6 +27,23 @@
 
             }
 
+            isUser(userID) {
+
+                if (typeof this._id === 'string' && typeof userID === 'string')
+                {
+                    return this._id === userID;
+                }
+
+                if (typeof userID === 'string')
+                {
+                    return this._id.toString() === userID;
+                }
+
+                return this._id.equals(userID);
+            
+            }  // isUser
+
+
         }  // class declaration
 
         return Player;

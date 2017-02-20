@@ -18,6 +18,7 @@
                 clearInvitation: clearInvitation,
                 inviteUser: inviteUser,
                 acceptInvitation: acceptInvitation,
+                applyForPosition: applyForPosition,
                 startGame: startGame,
                 selectCell: selectCell
 
@@ -98,9 +99,9 @@
 
                 return dalService.game.get({ gameID: gameID }).$promise
 
-                    .then(function (result) {
+                    .then(function (game) {
 
-                        viewService.game = convertGame(result);
+                        viewService.game = convertGame(game);
 
                     })
                     .catch(function(error) { 
@@ -210,6 +211,24 @@
                     });
 
             }  // acceptInvitation
+
+            function applyForPosition(team, role) {
+
+                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.APPLY, team: team, role: role }))
+
+                    .then(function(game) { 
+
+                        viewService.game = game;
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not assume role', error));
+
+                    });
+
+
+            }  // applyForPosition
 
 
 

@@ -56,4 +56,54 @@
 
     </div>
 
+    <div class="roles">
+
+        <table class="role-table" cellpadding="5" cellspacing="0" border="1">
+        
+            <thead>
+                <tr>
+                    <th class="role">Role</th>
+                    <th class="red">RED</th>
+                    <th class="blue">BLUE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="spymaster">
+                    <td class="role">Spymaster</td>
+                    <td class="spymaster red">
+                        <div ng-hide="findSpymaster(Team.RED)"><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPYMASTER)">Choose</button></div>
+                        <div class="spymaster" ng-show="findSpymaster(Team.RED)">{{ findSpymaster(Team.RED).username }}</div>
+                        <div class="spymaster" ng-hide="findSpymaster(Team.RED)">CPU</div>
+                    </td>
+                    <td class="spymaster blue">
+                        <div ng-hide="findSpymaster(Team.BLUE)"><button type="button" ng-click="apply(Team.BLUE, Team.ROLES.SPYMASTER)">Choose</button></div>
+                        <div class="spymaster" ng-show="findSpymaster(Team.BLUE)">{{ findSpymaster(Team.BLUE).username }}</div>
+                        <div class="spymaster" ng-hide="findSpymaster(Team.BLUE)">CPU</div>
+                    </td>
+                </tr>
+                <tr class="team">
+                    <td class="role">Spies</td>
+                    <td class="spy red">
+                        <div><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPY)">Choose</button></div>
+                        <div ng-show="findSpies(Team.RED).length == 0">
+                            <div class="spy">CPU</div>
+                        </div>
+                        <div ng-show="findSpies(Team.RED).length > 0">
+                            <div class="spy" ng-repeat="spy in findSpies(Team.RED)">{{ spy.username }}</div>
+                        </div>
+                    </td>
+                    <td class="spy blue">
+                        <div><button type="button" ng-click="apply(Team.BLUE, Team.ROLES.SPY)">Choose</button></div>
+                        <div ng-show="findSpies(Team.BLUE).length > 0">
+                            <div class="spy" ng-repeat="spy in findSpies(Team.BLUE)">{{ spy.username }}</div>
+                        </div>
+                        <div ng-show="findSpies(Team.BLUE).length == 0">
+                            <div class="spy">CPU</div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table><!-- role-table -->
+    </div><!-- roles -->
+
 </div>

@@ -11,4 +11,39 @@
 		margin-top: 15px;
 	}
 
+	.role-table
+	{
+		td
+		{
+			vertical-align: top;
+		}
+
+		.role
+		{
+			width: 150px;
+			text-align: left;
+		}
+
+		td.spymaster,
+		td.spy
+		{
+			width: 150;
+			text-align: center;
+		}
+
+		.blue
+		{
+			background: blue;
+			color: #fff;
+		}
+
+		.red
+		{
+			background: red;
+			color: #fff;
+		}
+
+	}
+
 }
+

@@ -14,6 +14,8 @@
                     this.action = command.action;
                     this.cellID = command.cellID;
                     this.username = command.username;
+                    this.team = command.team;
+                    this.role = command.role;
                 }
 
             }  // constructor
@@ -29,12 +31,11 @@
         {
             INVITE: 'invite',
             ACCEPT: 'accept',
+            APPLY: 'apply',
             START: 'start',
             WORD: 'word',
             SELECT: 'SELECT'
         };
-
-
 
         return Command;
 

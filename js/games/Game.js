@@ -88,6 +88,25 @@
 
             }  // isInvited
 
+            isPlaying(username)
+            {
+                if (this.players)
+                {
+
+                    for (var player of this.players)
+                    {
+                        if (player.username == username)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+
+            }  // isPlaying
+
+
             addPlayer(player) { 
 
                 this.players.push(player);

@@ -15,8 +15,11 @@
         Team.RED = 'red';
         Team.BLUE = 'blue';
 
-        Team.ROLE_SPYMASTER = 'spymaster';
-        Team.ROLE_TEAM = 'team';
+        Team.ROLES =
+        {
+            SPYMASTER: 'spymaster',
+            SPY: 'spy'
+        };
 
         return Team;
 

@@ -19,6 +19,7 @@ var GameInvitationManager = require(__dirname + '/GameInvitationManager');
 var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Player = require(__dirname + '/../../../js/games/Player');
+var Team = require(__dirname + '/../../../js/games/Team');
 var Command = require(__dirname + '/../../../js/games/Command');
 
 var COLLECTION_NAME = 'games';
@@ -229,6 +230,9 @@ class GameManager
                     case Command.actions.ACCEPT:
                         return GameManager.accept(user, game);
 
+                    case Command.actions.APPLY:
+                        return GameManager.apply(user, game, command.team, command.role);
+
                     case Command.actions.START:
                         return GameManager.startGame(user, game);
 
@@ -288,16 +292,62 @@ class GameManager
     }   // accept
 
 
+    static apply(user, game, team, role) {
+
+        if (team != Team.RED && team != Team.BLUE)
+        {
+            return q.resolve({ error: 'Unknown team ' + team });
+        }
+
+        if (role != Team.ROLES.SPYMASTER && role != Team.ROLES.SPY)
+        {
+            return q.resolve({ error: 'Unknown role ' + role });
+        }
+
+        if (!game.isPlaying(user.username))
+        {
+            return q.resolve({ error: 'Player ' + user.username + ' is not in the game' });
+        }
+
+        // there can only be one spymaster, so make sure no-one else is already doing that
+        if (role == Team.ROLES.SPYMASTER)
+        {
+            for (var player of game.players)
+            {
+                if (player.team == team && player.role == role && !player.isUser(user._id))
+                {
+                    return q.resolve({ error: 'Player ' + player.username + ' is already the spymaster for that team' });
+                }
+            }
+
+        }
+
+        for (var player of game.players)
+        {
+            if (player.isUser(user._id))
+            {
+                // found the player, update his role
+                player.team = team;
+                player.role = role;
+            }
+        }
+
+        // save the updated game
+        return GameManager.update(user, game);
+            
+    }   // apply
+
+
     static startGame(user, game) {
 
         if (!game.isSettingUp())
         {
-            return { error: 'Game is not in setup phase' };
+            return q.resolve({ error: 'Game is not in setup phase' });
         }
 
         if (!game.isOwner(user._id))
         {
-            return { error: 'Only the game owner can start it' };
+            return q.resolve({ error: 'Only the game owner can start it' });
         }
 
         game.state = Game.STATES.PLAY;
@@ -309,7 +359,7 @@ class GameManager
 
     static sayWord(user, game, command) { 
 
-        return { data: game };
+        return q.resolve({ data: game });
 
     }  // sayWord
 

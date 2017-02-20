@@ -17,44 +17,6 @@ var UserManager = require(__dirname + '/../users/UserManager');
 class GameInvitationManager
 {
 
-    static isPlaying(game, username)
-    {
-        if (!game.players)
-        {
-            return false;
-        }
-
-        for (var player of game.players)
-        {
-            if (player.username == username)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    static isInvited(game, username)
-    {
-        
-        if (!game.invitations)
-        {
-            return false;
-        }
-
-        for (var invitee of game.invitations) 
-        {
-            if (invitee == username)
-            {
-                return true;
-            }
-        }
-
-        return false;
-
-    }
-
     static invite(user, game, username) {
 
         if (!game.isOwner(user._id))
@@ -73,7 +35,7 @@ class GameInvitationManager
         }
 
         // ...or already invited
-        if (GameInvitationManager.isInvited(game, username)) {
+        if (game.isInvited(username)) {
             return q.resolve({ error: username + ' is already invited to the game' });
         }
 
@@ -104,7 +66,7 @@ class GameInvitationManager
     static accept(user, game) {
 
         // Check to see whether the user has an invitation
-        if (!GameInvitationManager.isInvited(game, user.username)) {
+        if (!game.isInvited(user.username)) {
             return q.resolve({ error: ' You do not have an invitation to this game' });
         }
 
