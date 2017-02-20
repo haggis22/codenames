@@ -17,6 +17,29 @@ var UserManager = require(__dirname + '/../users/UserManager');
 class GameInvitationManager
 {
 
+    static isTheOwner(game, user)
+    {
+        debugger;
+
+        if (game && user)
+        {
+            for (var player of game.players)
+            {
+                // we have to convert the IDs to strings before comparing. Comparing
+                // objects checks their object reference, not their "value"
+                if (player._id.equals(user._id))
+                {
+                    return player.isOwner;
+                }
+
+            }  // for each player
+
+        }
+
+        return false;
+
+    }
+
     static isAlreadyPlaying(game, username)
     {
         if (!game.players)
@@ -56,6 +79,11 @@ class GameInvitationManager
     }
 
     static invite(user, game, username) {
+
+        if (!GameInvitationManager.isTheOwner(game, user))
+        {
+            return q.resolve({ error: 'Only the game creator can invite other players' });
+        }
 
         if (user.username == username)
         {

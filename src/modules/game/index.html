@@ -2,6 +2,10 @@
 
     <ajax-message ng-show="viewService.pullingGame" message="Loading game..."></ajax-message>
 
+    <div>
+        <a ui-sref="main.lobby">Return to the lobby</a>
+    </div>
+
     <div ng-show="viewService.game" class="game">
         
         <div class="game-id">Game ID: {{ viewService.game._id }}</div>
