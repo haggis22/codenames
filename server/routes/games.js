@@ -29,7 +29,7 @@ router.get('/', function (req, res) {
 
             if (result.data)
             {
-                logger.info('Fetched games!');
+                logger.info('Fetched games! (length ' + result.data.length + ')');
 
                 // return the games
                 return res.send(result.data).end();
@@ -65,7 +65,7 @@ router.get('/:gameID', function (req, res) {
 
             if (result.data)
             {
-                logger.info('Fetched games');
+                logger.info('Fetched game');
 
                 var game = result.data;
 
