@@ -24,7 +24,7 @@
                 var player = new Player();
                 player._id = user._id;
                 player.username = user.username;
-
+                player.isOwner = isOwner;
                 return player;
 
             }
