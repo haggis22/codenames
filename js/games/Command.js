@@ -28,6 +28,7 @@
         Command.actions =
         {
             INVITE: 'invite',
+            ACCEPT: 'accept',
             START: 'start',
             WORD: 'word',
             SELECT: 'SELECT'

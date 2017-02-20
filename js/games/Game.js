@@ -88,6 +88,12 @@
 
             }  // isInvited
 
+            addPlayer(player) { 
+
+                this.players.push(player);
+
+            }
+
 
         }  // end class declaration
 

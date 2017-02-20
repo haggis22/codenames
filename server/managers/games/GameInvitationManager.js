@@ -17,7 +17,7 @@ var UserManager = require(__dirname + '/../users/UserManager');
 class GameInvitationManager
 {
 
-    static isAlreadyPlaying(game, username)
+    static isPlaying(game, username)
     {
         if (!game.players)
         {
@@ -35,7 +35,7 @@ class GameInvitationManager
         return false;
     }
 
-    static isAlreadyInvited(game, username)
+    static isInvited(game, username)
     {
         
         if (!game.invitations)
@@ -68,17 +68,20 @@ class GameInvitationManager
         }
 
         // look for the invitee already being in the game
-        if (GameInvitationManager.isAlreadyPlaying(game, username)) {
+        if (GameInvitationManager.isPlaying(game, username)) {
             return q.resolve({ error: username + ' is already in the game' });
         }
 
         // ...or already invited
-        if (GameInvitationManager.isAlreadyInvited(game, username)) {
+        if (GameInvitationManager.isInvited(game, username)) {
             return q.resolve({ error: username + ' is already invited to the game' });
         }
 
-        // TODO - verify current state, user is owner of the game
-        
+        if (!game.isSettingUp())
+        {
+            return q.resolve({ error: 'The game has already started' });
+        }
+
         return UserManager.fetchByUsername(username)
 
             .then(function(invitee) {
@@ -96,6 +99,28 @@ class GameInvitationManager
             });
 
     }   // invite
+
+
+    static accept(user, game) {
+
+        // Check to see whether the user has an invitation
+        if (!GameInvitationManager.isInvited(game, user.username)) {
+            return q.resolve({ error: ' You do not have an invitation to this game' });
+        }
+
+        if (!game.isSettingUp())
+        {
+            return q.resolve({ error: 'The game has already started' });
+        }
+
+        // remove this user from the invitations
+        game.invitations = game.invitations.filter(i => i != user.username);
+
+        game.addPlayer(Player.fromUser(user));
+
+        return q.resolve({ data: game });
+
+    }   // accept
 
 
 }  // end class declaration

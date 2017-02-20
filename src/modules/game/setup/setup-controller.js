@@ -40,6 +40,13 @@
 
             };
 
+            $scope.acceptInvitation = function () {
+
+                gameService.acceptInvitation();
+
+            };   // acceptInvitation
+
+
         }  // outer function
 
     ]);

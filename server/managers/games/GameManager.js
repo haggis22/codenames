@@ -150,7 +150,7 @@ class GameManager
         game.ownerID = user._id;
 
         // this will create a new player
-        game.players.push(Player.fromUser(user));
+        game.addPlayer(Player.fromUser(user));
 
         game.board = BoardManager.generate();
 
@@ -226,6 +226,9 @@ class GameManager
                     case Command.actions.INVITE:
                         return GameManager.invite(user, game, command.username);
 
+                    case Command.actions.ACCEPT:
+                        return GameManager.accept(user, game);
+
                     case Command.actions.START:
                         return GameManager.startGame(user, game);
 
@@ -258,11 +261,31 @@ class GameManager
                     return result;
                 }
 
+                // save the updated game
                 return GameManager.update(user, result.data);
             
             });
 
     }   // invite
+
+
+    static accept(user, game) {
+
+        return GameInvitationManager.accept(user, game)
+
+            .then(function(result) {
+
+                if (result.error)
+                {
+                    return result;
+                }
+
+                // save the updated game
+                return GameManager.update(user, result.data);
+            
+            });
+
+    }   // accept
 
 
     static startGame(user, game) {

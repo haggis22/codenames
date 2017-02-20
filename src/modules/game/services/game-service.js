@@ -17,6 +17,7 @@
                 create: create,
                 clearInvitation: clearInvitation,
                 inviteUser: inviteUser,
+                acceptInvitation: acceptInvitation,
                 startGame: startGame,
                 selectCell: selectCell
 
@@ -190,7 +191,26 @@
 
                     });
 
-            }
+            }  // inviteUser
+
+
+            function acceptInvitation() {
+
+                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.ACCEPT }))
+                    
+                    .then(function(game) {
+                        
+                        viewService.game = game;
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not accept invitation', error));
+
+                    });
+
+            }  // acceptInvitation
+
 
 
             function startGame() {

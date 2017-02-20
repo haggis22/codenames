@@ -1,6 +1,6 @@
 ﻿<div ng-controller="codenames.game.SetupCtrl" class="game-setup">
 
-    <div class="invitations" ng-show="viewService.game.invitations">
+    <div class="invitations" ng-show="viewService.game.invitations.length > 0">
 
         <span>Open invitations:</span>
         <span ng-repeat="invitee in viewService.game.invitations"><span ng-show="$index > 0">, </span>{{ invitee }}</span>
