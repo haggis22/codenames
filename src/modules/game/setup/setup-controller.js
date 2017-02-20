@@ -33,6 +33,13 @@
 
             };   // invite
 
+            $scope.isOwner = function () {
+
+                // these are strings, not ObjectIds
+                return viewService.game && viewService.session && viewService.game.ownerID == viewService.session.userID;
+
+            };
+
         }  // outer function
 
     ]);

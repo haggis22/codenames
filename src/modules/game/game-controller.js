@@ -20,18 +20,20 @@
                     return;
                 }
 
-                switch (game.state) {
+                if (game.isSettingUp())
+                {
+                    return $state.go('main.game.setup');
+                }
 
-                    case Game.STATES.SETUP:
-                        return $state.go('main.game.setup');
+                if (game.isActive())
+                {
+                    return $state.go('main.game.play');
+                }
 
-                    case Game.STATES.PLAY:
-                        return $state.go('main.game.play');
-
-                    case Game.STATES.COMPLETE:
-                        return $state.go('main.game.complete');
-
-                }  // state switch
+                if (game.isComplete())
+                {
+                    return $state.go('main.game.complete');
+                }  
 
             });   // watch game.state
 

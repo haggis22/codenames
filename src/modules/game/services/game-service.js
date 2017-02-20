@@ -48,7 +48,6 @@
                     return game;
                 }
 
-                
                 game = new Game(game);
 
                 var rows = [];

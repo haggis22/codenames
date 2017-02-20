@@ -7,43 +7,48 @@
 
     </div><!-- invitations -->
 
-    <div class="inviter">
+    <div class="owner-panels" ng-show="isOwner()">
+
+        <div class="inviter">
         
-        <form name="inviteForm" novalidate>
+            <form name="inviteForm" novalidate>
 
-            <table class="invitations" cellpadding="5" cellspacing="0" border="1">
+                <table class="invitations" cellpadding="5" cellspacing="0" border="1">
             
-                <thead>
-                    <tr>
-                        <th colspan="2">Invite players</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Username:</td>
-                        <td><input type="text" 
-                                    class="username" 
-                                    ng-class="{ 'field-error': viewService.invitation.submitted && inviteForm.username.$invalid }"
-                                    name="username" 
-                                    ng-model="viewService.invitation.username"
-                                    required 
-                                    enter-action="invite()" /></td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2" class="buttons">
-                            <button type="button" ng-click="invite()">Invite</button>
-                        </td>
-                    </tr>
-                </tfoot>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Invite players</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Username:</td>
+                            <td><input type="text" 
+                                        class="username" 
+                                        ng-class="{ 'field-error': viewService.invitation.submitted && inviteForm.username.$invalid }"
+                                        name="username" 
+                                        ng-model="viewService.invitation.username"
+                                        required 
+                                        enter-action="invite()" /></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="buttons">
+                                <button type="button" ng-click="invite()">Invite</button>
+                            </td>
+                        </tr>
+                    </tfoot>
 
-            </table><!-- invitations -->
+                </table><!-- invitations -->
 
-        </form><!-- inviteForm -->
+            </form><!-- inviteForm -->
 
-    </div><!-- invitations -->
+        </div><!-- invitations -->
     
-    <button type="button" ng-click="startGame()">Start the game!</button>
+        <button type="button" ng-click="startGame()">Start the game!</button>
+
+    </div><!-- owner-panels -->
+
 
 </div>

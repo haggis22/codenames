@@ -10,10 +10,6 @@
         
         <div class="game-id">Game ID: {{ viewService.game._id }}</div>
 
-        <div class="state">State: 
-            <span>{{ viewService.game.state }}</span>
-        </div>
-
         <div class="players">Players:
             <span ng-repeat="player in viewService.game.players"><span ng-hide="$index == 0">, </span>{{ player.username }}</span>
         </div>
