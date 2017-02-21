@@ -367,12 +367,15 @@ class GameManager
 
     static selectWord(user, game, word) {
 
+        if (!game.isMyTurn(user._id), Turn.ACTIONS.GUESS)
+        {
+            return q.resolve({ error: 'It is not your turn' });
+        }
+
         if (word == null || word.trim().length == 0)
         {
             return q.resolve({ error: 'Chosen word cannot be blank' });
         }
-
-        // TODO: verify it's your turn, yada yda
 
         var found = false;
 

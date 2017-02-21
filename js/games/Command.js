@@ -13,6 +13,7 @@
                     this.gameID = command.gameID;
                     this.action = command.action;
                     this.word = command.word;
+                    this.numMatches = command.numMatches;
                     this.username = command.username;
                     this.team = command.team;
                     this.role = command.role;

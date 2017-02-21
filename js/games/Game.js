@@ -2,7 +2,7 @@
 
     "use strict";
 
-    var GameModule = function(Board, Player, Turn) {
+    var GameModule = function(Board, Player, Turn, Team) {
 
         class Game {
 
@@ -113,6 +113,77 @@
 
             }
 
+            findPlayer(userID) { 
+
+                for (var player of this.players)
+                {
+                    if (player.isUser(userID))
+                    {
+                        return player;
+                    }
+                }
+
+                return null;
+
+            }
+
+            isMyTurn(userID, action) {
+
+                if (!this.isActive())
+                {
+                    // game must be in progress
+                    return false;
+                }
+
+                var player = this.findPlayer(userID);
+
+                if (!player)
+                {
+                    return false;
+                }
+
+                if (this.turn.team != player.team)
+                {
+                    // not even your team's turn
+                    return false;
+                }
+
+                if (this.turn.action == action && action == Turn.ACTIONS.CLUE)
+                {
+                    return player.role == Team.ROLES.SPYMASTER;
+                }
+
+                if (this.turn.action == action && action == Turn.ACTIONS.GUESS)
+                {
+                    return player.role == Team.ROLES.SPY;
+                }
+
+                // otherwise, it's not your turn
+                return false;
+
+            }   // isMyTurn
+
+
+            findSpymaster(team) {
+
+                for (var player of this.players) {
+
+                    if (player.team == team && player.role == Team.ROLES.SPYMASTER)
+                    {
+                        return player;
+                    }
+                }
+
+                return null;
+
+            }
+
+            findSpies(team) {
+
+                return this.players.filter(p => p.team == team && p.role == Team.ROLES.SPY);
+
+            }
+
 
         }  // end class declaration
 
@@ -130,11 +201,11 @@
     if (isAngular)
     {
         angular.module('codenames.app')
-            .factory('codenames.Game', [ 'codenames.Board', 'codenames.Player', 'codenames.Turn', GameModule ]);
+            .factory('codenames.Game', [ 'codenames.Board', 'codenames.Player', 'codenames.Turn', 'codenames.Team', GameModule ]);
     }
     else if (isNode)
     {
-        module.exports = GameModule(require(__dirname + '/Board'), require(__dirname + '/Player'), require(__dirname + '/Turn'));
+        module.exports = GameModule(require(__dirname + '/Board'), require(__dirname + '/Player'), require(__dirname + '/Turn'), require(__dirname + '/Team'));
     }
 
 }) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');

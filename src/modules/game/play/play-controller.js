@@ -4,15 +4,22 @@
 
     app.controller('codenames.game.PlayCtrl', ['$scope',
                                             'codenames.viewService', 'codenames.gameService',
-                                            'codenames.Game',
+                                            'codenames.Game', 'codenames.Team', 'codenames.Turn',
 
         function ($scope,
                     viewService, gameService,
-                    Game) {
+                    Game, Team, Turn) {
 
             $scope.viewService = viewService;
+            $scope.Team = Team;
+            $scope.Turn = Turn;
 
             $scope.selectCell = function (cell) {
+
+                if (!gameService.isMyTurnToAct(Turn.ACTIONS.GUESS))
+                {
+                    return;
+                }
 
                 if (!cell.revealed)
                 {

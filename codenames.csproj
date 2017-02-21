@@ -45,6 +45,7 @@
     <None Include="src\directives\error-message\error-message.scss" />
     <None Include="src\modules\game\css\game.scss" />
     <None Include="src\modules\game\css\board.scss" />
+    <None Include="src\modules\game\play\play.scss" />
     <None Include="src\modules\game\setup\setup.scss" />
     <None Include="src\modules\lobby\lobby.scss" />
     <None Include="src\modules\main\style.scss" />
@@ -56,6 +57,7 @@
     <Content Include="js\games\Board.js" />
     <Content Include="js\games\Cell.js" />
     <Content Include="js\games\Command.js" />
+    <Content Include="js\games\Turn.js" />
     <Content Include="js\games\GameDesc.js" />
     <Content Include="js\games\Team.js" />
     <Content Include="js\games\Game.js" />

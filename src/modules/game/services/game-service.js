@@ -20,6 +20,7 @@
                 acceptInvitation: acceptInvitation,
                 applyForPosition: applyForPosition,
                 startGame: startGame,
+                isMyTurnToAct: isMyTurnToAct,
                 selectCell: selectCell
 
             };
@@ -248,6 +249,18 @@
                     });
 
             }  // startGame
+
+            
+            function isMyTurnToAct(action) {
+
+                if (!viewService.session || !viewService.game)
+                {
+                    return false;
+                }
+                
+                return viewService.game.isMyTurn(viewService.session.userID, action);
+
+            }
 
 
         }  // outer function

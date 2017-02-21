@@ -4,20 +4,56 @@
         <span class="turn-value" ng-class="getTurnClass()">{{ viewService.game.turn.action }}</span>
     </div>
 
-    <div class="remaining">
-        <table border="0" cellpadding="5" cellspacing="0">
-            <tbody>
-                <tr class="team-red">
-                    <td>Red:</td>
-                    <td class="count">{{ countRemaining('red') | number:0 }}</td>
+    <div class="teams">
+        <table class="role-table" cellpadding="5" cellspacing="0" border="1">
+        
+            <thead>
+                <tr>
+                    <th class="role"></th>
+                    <th class="red">RED</th>
+                    <th class="blue">BLUE</th>
                 </tr>
-                <tr class="team-blue">
-                    <td>Blue:</td>
-                    <td class="count">{{ countRemaining('blue') | number:0 }}</td>
+            </thead>
+            <tbody>
+                <tr class="spymaster">
+                    <td class="role">Spymaster</td>
+                    <td class="spymaster red">
+                        <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.RED)">{{ viewService.game.findSpymaster(Team.RED).username }}</div>
+                        <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.RED)">CPU</div>
+                    </td>
+                    <td class="spymaster blue">
+                        <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.BLUE)">{{ viewService.game.findSpymaster(Team.BLUE).username }}</div>
+                        <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.BLUE)">CPU</div>
+                    </td>
+                </tr>
+                <tr class="team">
+                    <td class="role">Spies</td>
+                    <td class="spy red">
+                        <div ng-show="viewService.game.findSpies(Team.RED).length == 0">
+                            <div class="spy">CPU</div>
+                        </div>
+                        <div ng-show="viewService.game.findSpies(Team.RED).length > 0">
+                            <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.RED)">{{ spy.username }}</div>
+                        </div>
+                    </td>
+                    <td class="spy blue">
+                        <div ng-show="viewService.game.findSpies(Team.BLUE).length > 0">
+                            <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.BLUE)">{{ spy.username }}</div>
+                        </div>
+                        <div ng-show="viewService.game.findSpies(Team.BLUE).length == 0">
+                            <div class="spy">CPU</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="remaining">
+                    <td>Remaining</td>
+                    <td class="count">{{ countRemaining(Team.RED) | number:0 }}</td>
+                    <td class="count">{{ countRemaining(Team.BLUE) | number:0 }}</td>
                 </tr>
             </tbody>
-        </table>
-    </div>
+        </table><!-- role-table -->
+    </div><!-- teams -->
+
 
     <div>{{ getRows(viewService.game.board) }}</div>
         
@@ -28,7 +64,7 @@
                 ng-class="cell.revealed ? cell.role : ''"
             ><span ng-hide="cell.revealed" 
                     ng-click="selectCell(cell)"
-                    ng-class="{ 'secret': !cell.revealed }">{{ cell.word }}</span></td>
+                    ng-class="{ 'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Turn.ACTIONS.GUESS) }">{{ cell.word }}</span></td>
         </tr>
 
     </table><!-- board table -->
