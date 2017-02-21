@@ -55,8 +55,18 @@
     </div><!-- teams -->
 
 
-    <div>{{ getRows(viewService.game.board) }}</div>
-        
+    <div class="clues" ng-show="isSpymaster()">
+
+        <form name="clueForm" novalidate>
+            <input type="text" ng-model="viewService.word" class="word" />
+            <button type="button" 
+                    ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Turn.ACTIONS.CLUE)" 
+                    ng-click="giveClue()">Give Clue</button>
+        </form><!-- clueForm -->
+
+    </div><!-- ng-show="isSpymaster()" -->
+
+       
     <table class="board">
             
         <tr ng-repeat="row in viewService.game.board.rows">

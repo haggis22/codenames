@@ -65,6 +65,19 @@
 
             };  // getTurnClass
 
+            $scope.isSpymaster = function() {
+
+                if (viewService.game && viewService.session)
+                {
+                    var player = viewService.game.findPlayer(viewService.session.userID);
+                    return player && player.role == Team.ROLES.SPYMASTER;
+                }
+
+                return false;
+            
+            };  // isSpymaster
+
+
         }  // outer function
 
     ]);
