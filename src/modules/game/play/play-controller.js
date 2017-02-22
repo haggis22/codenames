@@ -41,7 +41,7 @@
                 var num = 9;
 
                 for (var cell of viewService.game.board.cells) {
-                    if (cell.role == role) {
+                    if (cell.role == role && cell.revealed) {
                         num--;
                     }
                 }
