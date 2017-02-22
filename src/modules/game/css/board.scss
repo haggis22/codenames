@@ -4,47 +4,60 @@
 	background-color: $backgroundColor;
 }
 
-table.board 
+table.board td
 {
-	td
-	{
-		text-align: center;
-		background-color: #ffffff;
-		color: #000000;
-		font-weight: bold;
-		font-size: 18px;
-		width: 200px;
-		height: 125px;
-	}
+	text-align: center;
+	background-color: #ffffff;
+	color: #000000;
+	font-weight: bold;
+	font-size: 18px;
+	width: 200px;
+	height: 125px;
 
-	td.red.revealed
+	&.red
 	{
 		background-color: #ff6666;
-		background-image: url('/images/red-1.jpg');
+		&.revealed
+		{
+			background-image: url('/images/red-1.jpg');
+		}
 	}
 
-	td.blue.revealed
+	&.blue
 	{
 		background-color: #6666ff;
-		background-image: url('/images/blue-1.jpg');
+		&.revealed
+		{
+			background-image: url('/images/blue-1.jpg');
+		}
 	}
 
-	td.bystander1.revealed
+	&.bystander1,
+	&.bystander2
 	{
 		background-color: #eeeeee;
+	}
+
+	&.bystander1.revealed
+	{
 		background-image: url('/images/bystander-1.jpg');
 	}
 
-	td.bystander2.revealed
+	&.bystander2.revealed
 	{
-		background-color: #eeeeee;
 		background-image: url('/images/bystander-2.jpg');
 	}
 
-	td.assassin.revealed
+	&.assassin
 	{
-		background-color: #eeeeee;
-		background-image: url('/images/assassin.jpg');
+		background-color: #000000;
+		color: #ffffff;
+
+		&.revealed
+		{
+			background-image: url('/images/assassin.jpg');
+		}
+
 	}
 
 
