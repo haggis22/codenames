@@ -4,44 +4,52 @@
 	background-color: $backgroundColor;
 }
 
-table.board td
+table.board 
 {
-	text-align: center;
-	background-color: #ffffff;
-	color: #000000;
-	font-weight: bold;
-	font-size: 18px;
-	width: 200px;
-	height: 125px;
+	td
+	{
+		text-align: center;
+		background-color: #ffffff;
+		color: #000000;
+		font-weight: bold;
+		font-size: 18px;
+		width: 200px;
+		height: 125px;
+	}
+
+	td.red.revealed
+	{
+		background-color: #ff6666;
+		background-image: url('/images/red-1.jpg');
+	}
+
+	td.blue.revealed
+	{
+		background-color: #6666ff;
+		background-image: url('/images/blue-1.jpg');
+	}
+
+	td.bystander1.revealed
+	{
+		background-color: #eeeeee;
+		background-image: url('/images/bystander-1.jpg');
+	}
+
+	td.bystander2.revealed
+	{
+		background-color: #eeeeee;
+		background-image: url('/images/bystander-2.jpg');
+	}
+
+	td.assassin.revealed
+	{
+		background-color: #eeeeee;
+		background-image: url('/images/assassin.jpg');
+	}
+
 
 }
 
-table.board td.red
-{
-	background-color: #ff6666;
-	background-image: url('/images/red-1.jpg');
-
-}
-
-table.board td.blue {
-	background-color: #6666ff;
-	background-image: url('/images/blue-1.jpg');
-}
-
-table.board td.bystander1 {
-	background-color: #eeeeee;
-	background-image: url('/images/bystander-1.jpg');
-}
-
-table.board td.bystander2 {
-	background-color: #eeeeee;
-	background-image: url('/images/bystander-2.jpg');
-}
-
-table.board td.assassin {
-	background-color: #eeeeee;
-	background-image: url('/images/assassin.jpg');
-}
 
 table.board .secret
 {

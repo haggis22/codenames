@@ -20,7 +20,9 @@ var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Player = require(__dirname + '/../../../js/games/Player');
 var Team = require(__dirname + '/../../../js/games/Team');
+var Action = require(__dirname + '/../../../js/games/Action');
 var Turn = require(__dirname + '/../../../js/games/Turn');
+var Move = require(__dirname + '/../../../js/games/Move');
 var Command = require(__dirname + '/../../../js/games/Command');
 
 var COLLECTION_NAME = 'games';
@@ -157,7 +159,7 @@ class GameManager
         game.board = BoardManager.generate();
 
         // set the first team's turn
-        game.turn = new Turn({ team: game.board.first, action: Turn.ACTIONS.CLUE });
+        game.turn = new Turn({ team: game.board.first, action: Action.CLUE });
         game.state = Game.STATES.SETUP;
 
         return GameManager.insert(game)
@@ -237,7 +239,7 @@ class GameManager
                         return GameManager.startGame(user, game);
 
                     case Command.actions.CLUE:
-                        return GameManager.sayClue(user, game, command.word);
+                        return GameManager.giveClue(user, game, command.word, command.numMatches);
 
                     case Command.actions.SELECT:
                         return GameManager.selectWord(user, game, command.word);
@@ -357,17 +359,39 @@ class GameManager
     }   // startGame
 
 
-    static sayClue(user, game, word) { 
+    static giveClue(user, game, word, numMatches) { 
 
-        // TODO: verify it's your turn, yada yda
+        if (!game.isMyTurn(user._id, Action.CLUE))
+        {
+            return q.resolve({ error: 'It is not your turn' });
+        }
 
-        return q.resolve({ data: game });
+        if (word == null || word.trim().length == 0)
+        {
+            return q.resolve({ error: 'Clue cannot be blank' });
+        }
 
-    }  // sayClue
+        var numWords = parseInt(numMatches);
+        if (isNaN(numWords) || numWords < 1 || numWords > 9)
+        {
+            return q.resolve({ error: 'Number of matching words must be a numeric value between 1 and 9' });
+        }
 
+        game.moves.push(new Move({ team: game.turn.team, playerID: user._id, action: Action.CLUE, word: word, numMatches: numMatches }));
+
+        // switch from clues to guessing
+        game.turn.action = Action.GUESS;
+        game.turn.numGuesses = numMatches;
+        // TODO: give them an extra guess if they previously missed
+
+        return GameManager.update(user, game);
+
+    }  // giveClue
+
+    
     static selectWord(user, game, word) {
 
-        if (!game.isMyTurn(user._id), Turn.ACTIONS.GUESS)
+        if (!game.isMyTurn(user._id, Action.GUESS))
         {
             return q.resolve({ error: 'It is not your turn' });
         }

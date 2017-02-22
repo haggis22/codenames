@@ -4,19 +4,23 @@
 
     app.controller('codenames.game.PlayCtrl', ['$scope',
                                             'codenames.viewService', 'codenames.gameService',
-                                            'codenames.Game', 'codenames.Team', 'codenames.Turn',
+                                            'codenames.Game', 'codenames.Team', 'codenames.Action',
 
         function ($scope,
                     viewService, gameService,
-                    Game, Team, Turn) {
+                    Game, Team, Action) {
 
             $scope.viewService = viewService;
             $scope.Team = Team;
-            $scope.Turn = Turn;
+            $scope.Action = Action;
+
+            // clear the clue the first time through this controller
+            gameService.clearClue();
+
 
             $scope.selectCell = function (cell) {
 
-                if (!gameService.isMyTurnToAct(Turn.ACTIONS.GUESS))
+                if (!gameService.isMyTurnToAct(Action.GUESS))
                 {
                     return;
                 }
@@ -76,6 +80,27 @@
                 return false;
             
             };  // isSpymaster
+
+
+
+
+            $scope.giveClue = function() {
+
+                if (!gameService.isMyTurnToAct(Action.CLUE))
+                {
+                    return;
+                }
+
+                viewService.clue.submitted = true;
+
+                if ($scope.clueForm.$invalid)
+                {
+                    return;
+                }
+
+                gameService.giveClue();
+
+            };   // giveClue
 
 
         }  // outer function

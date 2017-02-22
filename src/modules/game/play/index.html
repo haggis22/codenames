@@ -58,10 +58,28 @@
     <div class="clues" ng-show="isSpymaster()">
 
         <form name="clueForm" novalidate>
-            <input type="text" ng-model="viewService.word" class="word" />
+
+            <input type="text" 
+                    name="clue"
+                    placeholder="clue"
+                    ng-model="viewService.clue.word" 
+                    class="clue" 
+                    ng-class="{ 'field-error': viewService.clue.submitted && clueForm.clue.$invalid }"
+                    required />
+
+            <input type="text"
+                    name="numMatches"
+                    placeholder="# words"
+                    ng-model="viewService.clue.numMatches"
+                    class="numMatches"
+                    ng-class="{ 'field-error': viewService.clue.submitted && clueForm.numMatches.$invalid }"
+                    pattern="[1-9]"
+                    required />
+
             <button type="button" 
-                    ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Turn.ACTIONS.CLUE)" 
+                    ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Action.CLUE)" 
                     ng-click="giveClue()">Give Clue</button>
+
         </form><!-- clueForm -->
 
     </div><!-- ng-show="isSpymaster()" -->
@@ -71,10 +89,10 @@
             
         <tr ng-repeat="row in viewService.game.board.rows">
             <td ng-repeat="cell in row track by $index"
-                ng-class="cell.revealed ? cell.role : ''"
+                ng-class="[ { 'revealed': cell.revealed }, cell.role ]"
             ><span ng-hide="cell.revealed" 
                     ng-click="selectCell(cell)"
-                    ng-class="{ 'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Turn.ACTIONS.GUESS) }">{{ cell.word }}</span></td>
+                    ng-class="{ 'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Action.GUESS) }">{{ cell.word }}</span></td>
         </tr>
 
     </table><!-- board table -->

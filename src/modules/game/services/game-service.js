@@ -21,7 +21,9 @@
                 applyForPosition: applyForPosition,
                 startGame: startGame,
                 isMyTurnToAct: isMyTurnToAct,
-                selectCell: selectCell
+                selectCell: selectCell,
+                clearClue: clearClue,
+                giveClue: giveClue
 
             };
 
@@ -259,6 +261,34 @@
                 }
                 
                 return viewService.game.isMyTurn(viewService.session.userID, action);
+
+            }
+
+            function clearClue() {
+
+                viewService.clue = {};
+
+            }
+
+            
+            function giveClue() {
+
+                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.CLUE, word: viewService.clue.word, numMatches: viewService.clue.numMatches }))
+
+                    .then(function(game) {
+                        
+                        viewService.game = game;
+                        
+                        // clear the clue for next time
+                        clearClue();
+
+                    })
+                    .catch(function(error) { 
+
+                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not give clue', error));
+
+                    });
+
 
             }
 

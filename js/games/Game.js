@@ -2,7 +2,7 @@
 
     "use strict";
 
-    var GameModule = function(Board, Player, Turn, Team) {
+    var GameModule = function(Board, Player, Action, Turn, Move, Team) {
 
         class Game {
 
@@ -16,7 +16,7 @@
 
                     if (game.players)
                     {
-                        this.players = game.players.map(function(player) { return new Player(player); });
+                        this.players = game.players.map(p => new Player(p));
                     }
 
                     this.invitations = game.invitations;
@@ -26,7 +26,12 @@
                     this.turn = new Turn(game.turn);
                     this.state = game.state;
                     this.winner = game.winner;
-                    this.moves = game.moves;
+                    
+                    if (game.moves)
+                    {
+                        this.moves = game.moves.map(m => new Move(m));
+                    }
+
                     this.created = game.created;
                 }
 
@@ -148,12 +153,12 @@
                     return false;
                 }
 
-                if (this.turn.action == action && action == Turn.ACTIONS.CLUE)
+                if (this.turn.action == action && action == Action.CLUE)
                 {
                     return player.role == Team.ROLES.SPYMASTER;
                 }
 
-                if (this.turn.action == action && action == Turn.ACTIONS.GUESS)
+                if (this.turn.action == action && action == Action.GUESS)
                 {
                     return player.role == Team.ROLES.SPY;
                 }
@@ -201,11 +206,16 @@
     if (isAngular)
     {
         angular.module('codenames.app')
-            .factory('codenames.Game', [ 'codenames.Board', 'codenames.Player', 'codenames.Turn', 'codenames.Team', GameModule ]);
+            .factory('codenames.Game', [ 'codenames.Board', 'codenames.Player', 'codenames.Action', 'codenames.Turn', 'codenames.Move', 'codenames.Team', GameModule ]);
     }
     else if (isNode)
     {
-        module.exports = GameModule(require(__dirname + '/Board'), require(__dirname + '/Player'), require(__dirname + '/Turn'), require(__dirname + '/Team'));
+        module.exports = GameModule(require(__dirname + '/Board'), 
+                                    require(__dirname + '/Player'), 
+                                    require(__dirname + '/Action'),
+                                    require(__dirname + '/Turn'), 
+                                    require(__dirname + '/Move'), 
+                                    require(__dirname + '/Team'));
     }
 
 }) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined');

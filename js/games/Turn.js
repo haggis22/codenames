@@ -12,6 +12,7 @@
                 {
                     this.team = turn.team;
                     this.action = turn.action;
+                    this.numGuesses = turn.numGuesses;
                 }
 
             }
