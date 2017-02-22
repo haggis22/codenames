@@ -69,8 +69,11 @@ router.get('/:gameID', function (req, res) {
 
                 var game = result.data;
 
-                // clean the game before sending it back to the client
-                Sanitizer.sanitizeGame(game);
+                // for non-Spymasters, clean the game before sending it back to the client
+                if (!game.isSpymaster(req.user._id))
+                {
+                    Sanitizer.sanitizeGame(game);
+                }
 
                 // return the game
                 return res.send(game).end();
