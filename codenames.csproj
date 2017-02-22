@@ -57,6 +57,8 @@
     <Content Include="js\games\Board.js" />
     <Content Include="js\games\Cell.js" />
     <Content Include="js\games\Command.js" />
+    <Content Include="js\games\Action.js" />
+    <Content Include="js\games\Move.js" />
     <Content Include="js\games\Turn.js" />
     <Content Include="js\games\GameDesc.js" />
     <Content Include="js\games\Team.js" />
