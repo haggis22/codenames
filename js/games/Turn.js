@@ -18,13 +18,6 @@
 
         }  // end class declaration
 
-
-        Turn.ACTIONS =
-        {
-            CLUE: 'clue',
-            GUESS: 'guess'
-        };
-
         return Turn;
 
     };   // TurnModule
