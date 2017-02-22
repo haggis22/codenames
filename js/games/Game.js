@@ -166,7 +166,7 @@
                     return player.role == Team.ROLES.SPYMASTER;
                 }
 
-                if (this.turn.action == action && action == Action.GUESS)
+                if (this.turn.action == action && action == Action.GUESS && this.turn.numGuesses > 0)
                 {
                     return player.role == Team.ROLES.SPY;
                 }

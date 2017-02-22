@@ -17,6 +17,22 @@
             // clear the clue the first time through this controller
             gameService.clearClue();
 
+            $scope.getTurnDescription = function() {
+
+                switch (viewService.game.turn.action)
+                {
+                    case Action.CLUE:
+                        return "give clue";
+
+                    case Action.GUESS:
+                        return "guess " + viewService.game.turn.numGuesses;
+
+                }
+
+                return "Unknown turn action";
+
+            };
+
 
             $scope.selectCell = function (cell) {
 

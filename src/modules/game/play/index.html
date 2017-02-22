@@ -1,7 +1,9 @@
 ﻿<div ng-controller="codenames.game.PlayCtrl" class="game-play">
 
     <div class="turn">Turn: 
-        <span class="turn-value" ng-class="getTurnClass()">{{ viewService.game.turn.action }}</span>
+        <span class="turn-value" ng-class="getTurnClass()">
+            {{ getTurnDescription() }}
+        </span>
     </div>
 
     <div class="teams">

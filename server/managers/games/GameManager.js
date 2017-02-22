@@ -417,6 +417,25 @@ class GameManager
             return q.resolve({ error: word.toUpperCase() + ' is not on the board' });
         }
 
+        game.turn.numGuesses--;
+
+        if (game.turn.numGuesses < 1)
+        {
+            // switch teams & from guessing to clues
+            game.turn.action = Action.CLUE;
+            delete game.turn.numGuesses;
+
+            // switch teams
+            if (game.turn.team == Team.RED)
+            {
+                game.turn.team = Team.BLUE;
+            }
+            else
+            {
+                game.turn.team = Team.RED;
+            }
+        }
+
         return GameManager.update(user, game);
 
     }   // selectCell
