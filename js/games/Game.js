@@ -132,6 +132,14 @@
 
             }
 
+
+            isSpymaster(userID) {
+
+                var player = this.findPlayer(userID);
+                return player && player.role == Team.ROLES.SPYMASTER;
+
+            }
+
             isMyTurn(userID, action) {
 
                 if (!this.isActive())
