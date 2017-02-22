@@ -18,6 +18,7 @@ var BoardManager = require(__dirname + '/BoardManager');
 var GameInvitationManager = require(__dirname + '/GameInvitationManager');
 var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
+var Cell = require(__dirname + '/../../../js/games/Cell');
 var Player = require(__dirname + '/../../../js/games/Player');
 var Team = require(__dirname + '/../../../js/games/Team');
 var Action = require(__dirname + '/../../../js/games/Action');
@@ -401,39 +402,69 @@ class GameManager
             return q.resolve({ error: 'Chosen word cannot be blank' });
         }
 
-        var found = false;
+        var selectedCell = null;
 
         for (var cell of game.board.cells)
         {
             if (cell.word == word && !cell.revealed)
             {
-                found = true;
-                cell.revealed = true;
+                selectedCell = cell;
             }
         }
 
-        if (!found)
+        if (!selectedCell)
         {
             return q.resolve({ error: word.toUpperCase() + ' is not on the board' });
         }
 
-        game.turn.numGuesses--;
+        selectedCell.revealed = true;
+        
+        var result = null;
+        var winner = null;
+        var switchTeams = false;
 
-        if (game.turn.numGuesses < 1)
+        switch (selectedCell.role)
+        {
+            case game.turn.team:
+                // you found one of your own!
+                result = 'Success';
+                game.turn.numGuesses--;
+                switchTeams = game.turn.numGuesses < 1;
+                break;
+
+            case Cell.roles.BYSTANDER_1:
+            case Cell.roles.BYSTANDER_2:
+                // hit a bystander
+                result = 'Hit a bystander';
+                switchTeams = true;
+                break;
+
+            case Cell.roles.ASSASSIN:
+                // found the assassin
+                result = 'Found the assassin';
+                winner = Team.findOpponent(game.turn.team);
+                break;
+
+            case Team.findOpponent(game.turn.team):
+                // found one of your opponent's!
+                result = 'Found the enemy';
+                switchTeams = true;
+                break;
+
+            default:
+                result = 'Unknown result';
+                break;
+
+        }   // switch cell role
+
+        game.moves.push(new Move({ team: game.turn.team, playerID: user._id, action: Action.GUESS, word: word, result: result }));
+
+        if (switchTeams)
         {
             // switch teams & from guessing to clues
             game.turn.action = Action.CLUE;
             delete game.turn.numGuesses;
-
-            // switch teams
-            if (game.turn.team == Team.RED)
-            {
-                game.turn.team = Team.BLUE;
-            }
-            else
-            {
-                game.turn.team = Team.RED;
-            }
+            game.turn.team = Team.findOpponent(game.turn.team);
         }
 
         return GameManager.update(user, game);

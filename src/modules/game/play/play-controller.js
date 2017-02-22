@@ -19,17 +19,23 @@
 
             $scope.getTurnDescription = function() {
 
-                switch (viewService.game.turn.action)
+                if (viewService.game && viewService.game.turn)
                 {
-                    case Action.CLUE:
-                        return "give clue";
 
-                    case Action.GUESS:
-                        return "guess " + viewService.game.turn.numGuesses;
+                    switch (viewService.game.turn.action)
+                    {
+                        case Action.CLUE:
+                            return "give clue";
+
+                        case Action.GUESS:
+                            return "guess " + viewService.game.turn.numGuesses;
+
+                    }
 
                 }
 
-                return "Unknown turn action";
+                return "";
+
 
             };
 
@@ -89,7 +95,7 @@
 
                 if (viewService.game && viewService.session)
                 {
-                    return game.isSpymaster(viewService.session.userID);
+                    return viewService.game.isSpymaster(viewService.session.userID);
                 }
 
                 return false;

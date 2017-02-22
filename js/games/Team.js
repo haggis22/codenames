@@ -10,6 +10,16 @@
 
             }
 
+            static findOpponent(team)
+            {
+                if (team == Team.RED)
+                {
+                    return Team.BLUE;
+                }
+
+                return Team.RED;
+            }
+
         }  // end class declaration
 
         Team.RED = 'red';
