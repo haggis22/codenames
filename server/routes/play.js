@@ -36,13 +36,18 @@ router.post('/', function (req, res) {
 
         .then(function (result) {
 
-            if (result.data)
+            var game = result.data;
+
+            if (game)
             {
                 // return the updated game
-                // clean the game before sending it back to the client
-                Sanitizer.sanitizeGame(result.data);
+                // for non-Spymasters, clean the game before sending it back to the client
+                if (!game.isSpymaster(req.user._id))
+                {
+                    Sanitizer.sanitizeGame(game);
+                }
 
-                return res.send(result.data).end();
+                return res.send(game).end();
             }
 
             // there was a validation error while processing the command
