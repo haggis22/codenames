@@ -3,11 +3,13 @@
     "use strict";
 
     app.factory('codenames.gameService', ['$rootScope', '$q',
-                                            'codenames.Constants', 'codenames.games.dalService', 'codenames.viewService', 'codenames.errorParser',
+                                            'h22.errorService',
+                                            'codenames.Constants', 'codenames.games.dalService', 'codenames.viewService', 
                                             'codenames.Game', 'codenames.Command',
 
         function ($rootScope, $q,
-                    constants, dalService, viewService, errorParser,
+                    errorService,
+                    constants, dalService, viewService,
                     Game, Command) {
 
             return {
@@ -39,7 +41,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not fetch games', error));
+                        errorService.addError('Could not fetch games', error);
 
                     });
 
@@ -109,7 +111,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not fetch game', error));
+                        errorService.addError('Could not fetch game', error);
 
                     })
                     .finally(function() { 
@@ -131,7 +133,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Game creation failure', error));
+                        errorService.addError('Game creation failure', error);
 
                     });
 
@@ -148,7 +150,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not select cell', error));
+                        errorService.addError('Could not select cell', error);
 
                     });
 
@@ -191,7 +193,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not invite user', error));
+                        errorService.addError('Could not invite user', error);
 
                     });
 
@@ -209,7 +211,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not accept invitation', error));
+                        errorService.addError('Could not accept invitation', error);
 
                     });
 
@@ -226,7 +228,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not assume role', error));
+                        errorService.addError('Could not assume role', error);
 
                     });
 
@@ -246,7 +248,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not start game', error));
+                        errorService.addError('Could not start game', error);
 
                     });
 
@@ -285,7 +287,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Could not give clue', error));
+                        errorService.addError('Could not give clue', error);
 
                     });
 

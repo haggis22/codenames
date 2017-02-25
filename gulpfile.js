@@ -3,6 +3,9 @@ var del = require('del');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 
+
+/* Codenames tasks */
+
 gulp.task('clean', function () {
 
     return del(['./client']);
@@ -44,6 +47,15 @@ gulp.task('images', ['clean'], function () {
 
 });
 
+// copy all third-party libraries
+gulp.task('libs', ['clean'], function () {
+
+    // copies ALL files (will include .js, .css, etc)
+    return gulp.src(['lib/**/*'], { base: './lib' })
+        .pipe(gulp.dest('client/lib'));
+
+});
 
 
-gulp.task('default', ['client-js', 'client-html', 'css', 'images' ]);
+
+gulp.task('default', ['client-js', 'client-html', 'css', 'images', 'libs' ]);

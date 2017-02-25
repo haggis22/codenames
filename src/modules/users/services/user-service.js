@@ -3,11 +3,13 @@
     "use strict";
 
     app.factory('codenames.userService', ['$rootScope',
-                                            'codenames.Constants', 'codenames.users.dalService', 'codenames.viewService', 'codenames.errorParser',
+                                            'h22.errorService',
+                                            'codenames.Constants', 'codenames.users.dalService', 'codenames.viewService',
                                             'codenames.User',
 
         function ($rootScope,
-                    constants, dalService, viewService, errorParser,
+                    errorService,
+                    constants, dalService, viewService,
                     User) {
 
             return {
@@ -51,7 +53,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Registration failure', error));
+                        errorService.addError('Registration failure', error);
 
                     });
 
@@ -70,7 +72,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Login failure', error));
+                        errorService.addError('Login failure', error);
 
                     });
 
@@ -91,7 +93,7 @@
                     })
                     .catch(function(error) { 
 
-                        $rootScope.$broadcast(constants.events.ERROR, errorParser.parse('Log out failure', error));
+                        errorService.addError('Log out failure', error);
 
                     });
 

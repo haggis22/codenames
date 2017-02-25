@@ -37,12 +37,7 @@
     <None Include=".gitignore" />
     <None Include="package.json" />
     <None Include="server\log4js_config.json" />
-    <None Include="src\css\forms.scss" />
-    <None Include="src\css\tables.scss" />
-    <None Include="src\css\popups.scss" />
     <None Include="src\css\style.scss" />
-    <None Include="src\directives\ajax-message\ajax-message.scss" />
-    <None Include="src\directives\error-message\error-message.scss" />
     <None Include="src\modules\game\css\game.scss" />
     <None Include="src\modules\game\css\board.scss" />
     <None Include="src\modules\game\play\play.scss" />
@@ -66,6 +61,8 @@
     <Content Include="js\games\Player.js" />
     <Content Include="js\users\Session.js" />
     <Content Include="js\users\User.js" />
+    <Content Include="lib\haggis22\haggis22.css" />
+    <Content Include="lib\haggis22\haggis22.js" />
     <Content Include="server\crypto\cryptographer.js" />
     <Content Include="server\managers\games\BoardManager.js" />
     <Content Include="server\managers\games\GameInvitationManager.js" />
@@ -79,13 +76,6 @@
     <Content Include="server\routes\users.js" />
     <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
-    <Content Include="src\directives\ajax-message\ajax-message.html" />
-    <Content Include="src\directives\ajax-message\ajax-message.js" />
-    <Content Include="src\directives\escape-action.js" />
-    <Content Include="src\directives\error-message\error-message.js" />
-    <Content Include="src\directives\enter-action.js" />
-    <Content Include="src\directives\focus-me.js" />
-    <Content Include="src\directives\error-message\error-message.html" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\images\assassin.jpg" />
     <Content Include="src\images\blue-1.jpg" />
@@ -120,7 +110,6 @@
     <Content Include="server\config.js" />
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
-    <Content Include="src\services\error-parser.js" />
     <Content Include="src\modules\users\services\user-service.js" />
     <Content Include="src\services\view-service.js" />
     <Content Include="src\modules\users\services\users-dal-service.js" />

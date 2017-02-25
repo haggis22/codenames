@@ -1,0 +1,104 @@
+/* styles related to the loading message */
+.angular-loading-div-outer {
+  background-color: #39577b;
+  padding: 2px;
+  margin: 10px 0px 10px 0px;
+  display: inline-block;
+  border-radius: 8px; }
+
+.angular-loading-div-inner {
+  background-color: #ffffff;
+  padding: 5px 15px 5px 5px;
+  vertical-align: middle;
+  border-radius: 6px; }
+
+.angular-loading-message {
+  font-size: 10px;
+  font-weight: bold;
+  color: #39577b; }
+
+.input {
+  border-radius: 3px;
+  border: 4px solid #ddd;
+  color: #555;
+  font-size: 17px;
+  padding: 10px 20px;
+  display: inline-block;
+  outline: 0; }
+
+.field-error {
+  border: 4px solid #e74c3c; }
+
+.error {
+  color: #f00;
+  font-weight: bold; }
+
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  margin-left: -200px;
+  background-color: #ffeeee;
+  border: solid 3px #ff0000;
+  z-index: 5; }
+
+.popup-close {
+  font-size: 10pt;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-weight: normal;
+  cursor: pointer; }
+
+.popup-close:hover {
+  font-weight: bold; }
+
+.result {
+  font-weight: bold; }
+
+.breaker {
+  clear: both; }
+
+.text-link {
+  display: inline-block; }
+
+.text-link:hover {
+  text-decoration: underline;
+  cursor: pointer; }
+
+.loader {
+  font-style: italic;
+  border: 1px solid #000;
+  border-radius: 6px;
+  padding: 5px; }
+
+table.datagrid {
+  font-size: 12px; }
+
+table tfoot td.buttons {
+  text-align: center; }
+
+table.zebra tbody tr:nth-child(odd) {
+  background-color: #eeeeee; }
+
+table.zebra tbody tr:nth-child(even) {
+  background-color: #ffffff; }
+
+.error-popup {
+  width: 500px;
+  margin-left: -250px;
+  background-color: #ffeeee;
+  border: solid 3px #ff0000;
+  padding: 7px 7px 10px 7px;
+  z-index: 5; }
+
+.error-details {
+  font-weight: bold;
+  margin: 7px;
+  padding: 10px 15px 10px 15px;
+  border: solid 1px #000000;
+  background-color: #eeeeee; }
+
+.error-details div {
+  margin: 3px 0px; }

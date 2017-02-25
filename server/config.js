@@ -5,7 +5,7 @@ var config = {};
 config.servers =
 [
     { secure: false, port: 5701, ip: 'localhost' },
-    { secure: false, port: 5701, ip: '192.168.10.173' },
+//    { secure: false, port: 5701, ip: '192.168.10.189' },
 //{ secure: false, port: 9619, ip: 'z-10929' }
 //{ secure: true, port: 443, ip: 'z-10929', keyFile: './sslcerts/cert.key.pem', certFile: './sslcerts/cert.crt.pem' }
 ];

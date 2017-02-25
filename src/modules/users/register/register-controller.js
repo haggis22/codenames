@@ -3,10 +3,10 @@
     "use strict";
 
     app.controller('codenames.users.registerCtrl', ['$scope', '$rootScope', '$state',
-                                                    'codenames.Constants', 'codenames.userService', 'codenames.viewService', 'codenames.errorParser',
+                                                    'codenames.Constants', 'codenames.userService', 'codenames.viewService',
 
         function ($scope, $rootScope, $state,
-                    constants, userService, viewService, errorParser) {
+                    constants, userService, viewService) {
 
             $scope.viewService = viewService;
 

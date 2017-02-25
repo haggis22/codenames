@@ -3,10 +3,10 @@
     "use strict";
 
     app.controller('codenames.users.loginCtrl', ['$scope', '$rootScope', '$state',
-                                                    'codenames.Constants', 'codenames.userService', 'codenames.viewService', 'codenames.errorParser',
+                                                    'codenames.Constants', 'codenames.userService', 'codenames.viewService',
 
         function ($scope, $rootScope, $state,
-                    constants, userService, viewService, errorParser) {
+                    constants, userService, viewService) {
 
             $scope.email = 'one@gmail.com';
             $scope.password = 'password';

@@ -12,8 +12,8 @@
                             name="username"
                             ng-model="email" 
                             ng-class="{ 'field-error': loginSubmitted && loginForm.username.$invalid }"
-                            focus-me="true"
-                            enter-action="login()"
+                            h22-focus-me="true"
+                            h22-enter-action="login()"
                             required />
                     </td>
                 </tr>
@@ -23,7 +23,7 @@
                             name="password"
                             ng-model="password" 
                             ng-class="{ 'field-error': loginSubmitted && loginForm.password.$invalid }"
-                            enter-action="login()"
+                            h22-enter-action="login()"
                             required />
                     </td>
                 </tr>

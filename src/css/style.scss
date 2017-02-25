@@ -8,32 +8,3 @@ body
 	font-family: $font-family;
 }
 
-.result
-{
-	font-weight: bold;
-}
-
-.breaker
-{
-	clear: both;
-}
-
-.text-link
-{
-	display: inline-block;
-}
-
-.text-link:hover
-{
-	text-decoration: underline;
-	cursor: pointer;
-}
-
-.loader
-{
-	font-style: italic;
-	border: 1px solid #000;
-	border-radius: 6px;
-	padding: 5px;
-}
-
