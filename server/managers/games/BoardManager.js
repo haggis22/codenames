@@ -88,6 +88,14 @@ class BoardManager
         // mark the word as assigned 
         taken[cellIndex] = true;
 
+        var remaining = {};
+        remaining[Team.RED] = Board.NUM_AGENTS;
+        remaining[Team.BLUE] = Board.NUM_AGENTS;
+        // the team going first has an extra one remaining
+        remaining[board.first]++;
+
+        board.remaining = remaining;
+
             
         // mark the assassin
         do

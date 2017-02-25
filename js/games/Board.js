@@ -16,6 +16,8 @@
                     }
 
                     this.first = board.first;
+                    this.remaining = board.remaining;
+
                 }
 
                 this.cells = this.cells || [];

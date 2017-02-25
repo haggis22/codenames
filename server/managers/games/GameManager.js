@@ -161,6 +161,7 @@ class GameManager
 
         // set the first team's turn
         game.turn = new Turn({ team: game.board.first, action: Action.CLUE });
+
         game.state = Game.STATES.SETUP;
 
         return GameManager.insert(game)
