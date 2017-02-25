@@ -15,17 +15,34 @@
 
             $scope.createGame = function () {
 
-
                 gameService.create()
 
                     .then(function () {
 
-                        console.debug('created game');
                         gameService.pullGames();
 
                     });
 
             };   // createGame
+
+
+            $scope.getInvitedGames = function () {
+
+                if (viewService.games && viewService.session)
+                {
+                    return viewService.games.filter(g => g.isInvited(viewService.session.username));
+                }
+
+            };  // getInvitedGames
+
+            $scope.getActiveGames = function () {
+
+                if (viewService.games && viewService.session)
+                {
+                    return viewService.games.filter(g => g.isPlaying(viewService.session.username));
+                }
+
+            };  // getInvitedGames
 
 
         }  // outer function

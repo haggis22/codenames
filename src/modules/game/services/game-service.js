@@ -36,7 +36,8 @@
 
                     .then(function (result) {
 
-                        viewService.games = result;
+                        // map the game objects that come back to Game objects
+                        viewService.games = result.map(g => new Game(g));
 
                     })
                     .catch(function(error) { 

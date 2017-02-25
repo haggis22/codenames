@@ -74,7 +74,8 @@ class GameManager
             .then(function(result) {
 
                 // turn the array of results to an array of GameDesc objects
-                return { data: result.data.map(game => new GameDesc(game)) };
+                // return { data: result.data.map(game => new GameDesc(game)) };
+                return { data: result.data };
 
             });
 
