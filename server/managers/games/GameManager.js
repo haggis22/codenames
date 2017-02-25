@@ -158,11 +158,6 @@ class GameManager
         // this will create a new player
         game.addPlayer(Player.fromUser(user));
 
-        game.board = BoardManager.generate();
-
-        // set the first team's turn
-        game.turn = new Turn({ team: game.board.first, action: Action.CLUE });
-
         game.state = Game.STATES.SETUP;
 
         return GameManager.insert(game)
@@ -356,6 +351,12 @@ class GameManager
         }
 
         game.state = Game.STATES.PLAY;
+
+        // now create the game board...
+        game.board = BoardManager.generate();
+
+        // ...and set the first team's turn
+        game.turn = new Turn({ team: game.board.first, action: Action.CLUE });
 
         return GameManager.update(user, game);
 
