@@ -30,7 +30,7 @@ class GameInvitationManager
         }
 
         // look for the invitee already being in the game
-        if (GameInvitationManager.isPlaying(game, username)) {
+        if (game.isPlaying(username)) {
             return q.resolve({ error: username + ' is already in the game' });
         }
 
