@@ -11,6 +11,7 @@
 
         Action.CLUE = 'clue';
         Action.GUESS = 'guess';
+        Action.PASS = 'pass';
 
         return Action;
 

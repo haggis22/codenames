@@ -130,7 +130,9 @@ class GameManager
                     return { error: 'Matched more than one game' };
                 }
 
-                return { data: new Game(gameArray.data[0]) };
+                var result = { data: new Game(gameArray.data[0]) };
+
+                return GameManager.checkForCPUAction(result);
 
             });
         
@@ -249,20 +251,18 @@ class GameManager
                         return GameManager.apply(user, game, command.team, command.role);
 
                     case Command.actions.START:
-                        return GameManager.startGame(user, game)
-
-                            .then(GameManager.checkForCPUAction);
+                        return GameManager.startGame(user, game);
 
                     case Command.actions.CLUE:
-                        return GameManager.giveClue(user, game, command.word, command.numMatches)
-
-                            .then(GameManager.checkForCPUAction);
+                        return GameManager.giveClue(user, game, command.word, command.numMatches);
 
                     case Command.actions.SELECT:
-                        return GameManager.selectWord(user, game, command.word)
-                
-                            .then(GameManager.checkForCPUAction);
+                        return GameManager.selectWord(user, game, command.word);
 
+                    case Command.actions.PASS:
+                        return GameManager.passTurn(user, game);
+
+                
                 }  // end switch
 
 
@@ -379,7 +379,10 @@ class GameManager
         // ...and set the first team's turn
         game.turn = new Turn({ team: game.board.first, action: Action.CLUE });
 
-        return GameManager.update(user, game);
+        return GameManager.update(user, game)
+
+            .then(GameManager.checkForCPUAction);
+            
 
     }   // startGame
 
@@ -410,14 +413,17 @@ class GameManager
         // you always get one more guess than the number of matches stated
         game.turn.numGuesses = numMatches + 1;
 
-        return GameManager.update(user, game);
+        return GameManager.update(user, game)
+
+            .then(GameManager.checkForCPUAction);
+
 
     }  // giveClue
 
     
     static selectWord(user, game, word) {
 
-        if (!game.isMyTurn(user._id, Action.GUESS))
+        if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.GUESS))
         {
             return q.resolve({ error: 'It is not your turn' });
         }
@@ -507,9 +513,33 @@ class GameManager
             game.turn.team = Team.findOpponent(game.turn.team);
         }
 
-        return GameManager.update(user, game);
+        return GameManager.update(user, game)
+
+            .then(GameManager.checkForCPUAction);
+
 
     }   // selectCell
+
+
+    static passTurn(user, game) {
+
+        if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.GUESS))
+        {
+            return q.resolve({ error: 'It is not your turn' });
+        }
+
+        game.moves.push(new Move({ team: game.turn.team, playerID: user._id, action: Action.PASS }));
+
+        // switch teams & from guessing to clues
+        game.turn.action = Action.CLUE;
+        delete game.turn.numGuesses;
+        game.turn.team = Team.findOpponent(game.turn.team);
+
+        return GameManager.update(user, game)
+
+            .then(GameManager.checkForCPUAction);
+
+    }   // passTurn
 
 
     static isCPUTurn(game) {
@@ -533,6 +563,27 @@ class GameManager
 
     }
 
+    static checkMapForWord(map, word) {
+
+        if (!map || !word)
+        {
+            return false;
+        }
+
+        for (var clue in map)
+        {
+            if (map.hasOwnProperty(clue) && clue.toUpperCase().indexOf(word.toUpperCase()) > -1)
+            {
+                return true;
+            }
+
+        }   // for each clue in the words so far
+
+        return false;
+
+    }   // checkMapForWord
+ 
+
     static checkForCPUAction(result) {
 
         if (!GameManager.isCPUTurn(result.data)) {
@@ -542,25 +593,53 @@ class GameManager
         }
         
         var game = result.data;
+        var availableCells = null;
+        var selectionIndex = null;
 
         if (game.isTimeToClue())
         {
             // find one of the computer's words and use that
-            var hiddenCells = game.board.cells.filter(cell => !cell.revealed && cell.role == game.turn.team);
+            availableCells = game.board.cells.filter(cell => !cell.revealed && cell.role == game.turn.team);
 
-            if (hiddenCells.length)
+            if (availableCells.length)
             {
                 // for now, give one of the words at random
-                var hiddenIndex = Math.floor(Math.random() * hiddenCells.length);
+                var selectionIndex = Math.floor(Math.random() * availableCells.length);
 
-                console.log('there are ' + hiddenCells.length + ' cells left - giving clue for ' + hiddenIndex);
-
-                return GameManager.giveClue(userCPU, game, hiddenCells[hiddenIndex].word, 1);
+                return GameManager.giveClue(userCPU, game, availableCells[selectionIndex].word, 1);
             }
 
         }
         else if (game.isTimeToGuess())
         {
+
+            var givenClues = {};
+
+            // track all the clues that the CPU's team has been given
+            for (var move of game.moves)
+            {
+                if (move.action == Action.CLUE && move.team == game.turn.team)
+                {
+                    givenClues[move.word.toUpperCase()] = true;
+                }
+
+            }
+
+            // find one of the computer's words and use that
+            var availableCells = game.board.cells.filter(cell => !cell.revealed && GameManager.checkMapForWord(givenClues, cell.word));
+             
+            if (availableCells.length)
+            {
+                // for now, give one of the words at random
+                selectionIndex = Math.floor(Math.random() * availableCells.length);
+
+                return GameManager.selectWord(userCPU, game, availableCells[selectionIndex].word);
+            
+            }
+            else
+            {
+                return GameManager.passTurn(userCPU, game);
+            }
 
         }
 

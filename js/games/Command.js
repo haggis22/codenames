@@ -31,7 +31,8 @@
             APPLY: 'apply',         // apply for a role in the game (Spymaster or spy, and picking a team)
             START: 'start',         // start the game
             CLUE: 'clue',           // try to give a clue
-            SELECT: 'SELECT'        // select a word, based on a clue
+            SELECT: 'select',       // select a word, based on a clue
+            PASS: 'pass'            // pass your turn
         };
 
         return Command;

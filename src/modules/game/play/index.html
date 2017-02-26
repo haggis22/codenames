@@ -127,6 +127,14 @@
 
                         </div>
 
+                        <div ng-show="move.action == Action.PASS" ng-class="getTurnClass(move.team)">
+                    
+                            <span class="username" ng-show="move.playerID">{{ viewService.game.findPlayer(move.playerID).username }}</span>
+                            <span class="username" ng-hide="move.playerID">CPU</span>
+                            passed 
+
+                        </div>
+
 
                     </li><!-- move in moves -->
 
