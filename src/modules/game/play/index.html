@@ -4,11 +4,16 @@
 
         <div class="game-state">
 
-            <div class="turn">Turn: 
+            <div ng-show="viewService.game.isPlaying()" class="turn">Turn: 
                 <span class="turn-value" ng-class="getTurnClass(viewService.game.turn.team)">
                     {{ getTurnDescription() }}
                 </span>
-            </div>
+            </div><!-- if playing, show turn -->
+
+            <div ng-show="viewService.game.isComplete()" class="winner">Winner: 
+                <span class="winner-value" ng-class="getTurnClass(viewService.game.winner)">{{ viewService.game.winner }}</span>
+                </span>
+            </div><!-- if complete, show winner -->
 
             <div class="teams">
                 <table class="role-table" cellpadding="5" cellspacing="0" border="1">
@@ -60,7 +65,7 @@
                 </table><!-- role-table -->
             </div><!-- teams -->
 
-            <div class="clues" ng-show="isSpymaster()">
+            <div class="clues" ng-show="viewService.game.isPlaying() && isSpymaster()">
 
                 <form name="clueForm" novalidate>
 

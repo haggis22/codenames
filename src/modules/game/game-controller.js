@@ -25,15 +25,10 @@
                     return $state.go('main.game.setup');
                 }
 
-                if (game.isActive())
+                if (game.isActive() || game.isComplete())
                 {
                     return $state.go('main.game.play');
                 }
-
-                if (game.isComplete())
-                {
-                    return $state.go('main.game.complete');
-                }  
 
             });   // watch game.state
 

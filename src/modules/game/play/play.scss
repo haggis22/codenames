@@ -17,6 +17,16 @@
 				font-weight: bold;
 			}
 
+			.winner
+			{
+				font-size: 1.5em;
+				font-weight: bold;
+
+				.winner-value
+				{
+					text-transform: uppercase;
+				}
+			}
 
 			.clues
 			{
@@ -44,7 +54,13 @@
 
 			}
 
-		}
+			div.div-show-words
+			{
+				margin-top: 10px;
+			}
+
+
+		}  /* .game-state */
 
 		.game-moves
 		{

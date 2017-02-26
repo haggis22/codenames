@@ -386,6 +386,10 @@ class GameManager
 
     }   // startGame
 
+    static endGame(user, game) {
+
+    }
+
 
     static giveClue(user, game, word, numMatches) { 
 
@@ -455,10 +459,11 @@ class GameManager
 
         var switchTeams = false;
 
-        var nextTurn = null;
-
         var myTeam = game.turn.team;
         var otherTeam = Team.findOpponent(myTeam);
+
+        var assassinated = false;
+
 
         switch (selectedCell.role)
         {
@@ -469,7 +474,10 @@ class GameManager
 
                 game.board.remaining[myTeam]--;
                 
-                // TODO: check for a win
+                if (game.board.remaining[myTeam] == 0)
+                {
+                    winner = myTeam;
+                }
 
                 game.turn.numGuesses--;
                 switchTeams = game.turn.numGuesses < 1;
@@ -485,7 +493,7 @@ class GameManager
             case Cell.roles.ASSASSIN:
                 // found the assassin
                 result = 'Found the assassin';
-                winner = Team.findOpponent(game.turn.team);
+                winner = otherTeam;
                 break;
 
             case otherTeam:
@@ -493,6 +501,11 @@ class GameManager
                 result = 'Found the enemy';
                
                 game.board.remaining[otherTeam]--;
+
+                if (game.board.remaining[otherTeam] == 0)
+                {
+                    winner = otherTeam;
+                }
 
                 switchTeams = true;
                 break;
@@ -505,7 +518,14 @@ class GameManager
 
         game.moves.push(new Move({ team: game.turn.team, playerID: user._id, action: Action.GUESS, word: word, result: result }));
 
-        if (switchTeams)
+        // check for end of game situations
+        if (winner)
+        {
+            game.winner = winner;
+            delete game.turn;
+            game.state = Game.STATES.COMPLETE;
+        }
+        else if (switchTeams)
         {
             // switch teams & from guessing to clues
             game.turn.action = Action.CLUE;

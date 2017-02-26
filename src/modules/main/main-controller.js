@@ -10,7 +10,6 @@
 
             $scope.viewService = viewService;
 
-
             function isInEntryway() {
                 return $state.is('main.login') || $state.is('main.register');
             }
@@ -35,14 +34,6 @@
                 return;
 
             });
-
-/*            
-            $scope.$on('raise-error', function (event, args) {
-
-                console.error('Ooops: ' + JSON.stringify(args.error));
-
-            });
-*/
 
             // always check for a logged-in user first.
             // This will handle bookmarked pages nicely - will always try to re-log in, or shunt them to the login page
