@@ -70,6 +70,23 @@
 				.guess
 				{
 					text-transform: uppercase;
+					font-weight: bold;
+				}
+
+				.move
+				{
+					.username
+					{
+						font-weight: bold;
+					}
+				}
+
+				.move
+				{
+					.result-description
+					{
+						font-style: italic;
+					}
 				}
 
 				.move + .move

@@ -101,16 +101,23 @@
 
                         <div ng-show="move.action == Action.CLUE" ng-class="getTurnClass(move.team)">
                     
-                            <span ng-show="move.playerID">{{ move.playerID }}</span>
-                            <span ng-hide="move.playerID">CPU</span>
-                            gave clue <span class="clue">{{ move.word }}</span> with {{ move.numMatches | number:0 }} matches
+                            <span class="username" ng-show="move.playerID">{{ viewService.game.findPlayer(move.playerID).username }}</span>
+                            <span class="username" ng-hide="move.playerID">CPU</span>
+                            gave clue <span class="clue">{{ move.word }}</span> with {{ move.numMatches | number:0 }} match<span ng-show="move.numMatches > 1">es</span>
 
                         </div>
 
                         <div ng-show="move.action == Action.GUESS" ng-class="getTurnClass(move.team)">
                     
-                            <div class="guess-action">{{ move.playerID }} guessed <span class="guess">{{ move.word }}</div>
-                            <div class="guess-result">Result: {{ move.result }}</div>
+                            <div class="guess-action">
+                                <span class="username" ng-show="move.playerID">{{ viewService.game.findPlayer(move.playerID).username }}</span>
+                                <span class="username" ng-hide="move.playerID">CPU</span>
+                                guessed <span class="guess">{{ move.word }}
+                            </div><!-- guess-action -->
+                            <div class="guess-result">
+                                Result: 
+                                <span class="result-description">{{ move.result }}</span>
+                            </div><!-- guess-result -->
 
                         </div>
 
