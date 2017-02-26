@@ -603,10 +603,31 @@ class GameManager
 
             if (availableCells.length)
             {
-                // for now, give one of the words at random
-                var selectionIndex = Math.floor(Math.random() * availableCells.length);
+                var word = null;
 
-                return GameManager.giveClue(userCPU, game, availableCells[selectionIndex].word, 1);
+                // 50-50 chance of giving more than one clue
+                if (availableCells.length > 1 && Math.random() < 0.5)
+                {
+                    var firstIndex = Math.floor(Math.random() * availableCells.length);
+                    var secondIndex = firstIndex;
+
+                    while (secondIndex == firstIndex)
+                    {
+                        secondIndex = Math.floor(Math.random() * availableCells.length);
+                    }
+
+                    word = availableCells[firstIndex].word + availableCells[secondIndex].word;
+
+                }
+                else
+                {
+                    // for now, give one of the words at random
+                    selectionIndex = Math.floor(Math.random() * availableCells.length);
+
+                    word = availableCells[selectionIndex].word;
+                }
+
+                return GameManager.giveClue(userCPU, game, word, 1);
             }
 
         }
