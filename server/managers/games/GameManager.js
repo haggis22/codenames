@@ -33,7 +33,7 @@ class CPU
 {
     constructor()
     {
-        this._id = "CPU";
+//        this._id = "CPU";
     }
 
 }
