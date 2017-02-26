@@ -56,13 +56,17 @@
 
             $scope.findSpymaster = function (team) {
 
-                return viewService.game.findSpymaster(team);
+                if (viewService.game) {
+                    return viewService.game.findSpymaster(team);
+                }
 
             };
 
             $scope.findSpies = function (team) {
 
-                return viewService.game.findSpies(team);
+                if (viewService.game) {
+                    return viewService.game.findSpies(team);
+                }
 
             };
 
