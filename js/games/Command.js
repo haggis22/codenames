@@ -21,21 +21,17 @@
 
             }  // constructor
 
-            isValid() {
-
-            }
-
 
         }  // end class declaration
 
         Command.actions =
         {
-            INVITE: 'invite',
-            ACCEPT: 'accept',
-            APPLY: 'apply',
-            START: 'start',
-            CLUE: 'clue',
-            SELECT: 'SELECT'
+            INVITE: 'invite',       // invite another play to join the game
+            ACCEPT: 'accept',       // accept an invitation to join a game
+            APPLY: 'apply',         // apply for a role in the game (Spymaster or spy, and picking a team)
+            START: 'start',         // start the game
+            CLUE: 'clue',           // try to give a clue
+            SELECT: 'SELECT'        // select a word, based on a clue
         };
 
         return Command;
