@@ -451,12 +451,17 @@ class GameManager
 
         var nextTurn = null;
 
+        var myTeam = game.turn.team;
+        var otherTeam = Team.findOpponent(myTeam);
+
         switch (selectedCell.role)
         {
-            case game.turn.team:
+            case myTeam:
 
                 // you found one of your own!
                 result = 'Success';
+
+                game.board.remaining[myTeam]--;
                 
                 // TODO: check for a win
 
@@ -477,9 +482,12 @@ class GameManager
                 winner = Team.findOpponent(game.turn.team);
                 break;
 
-            case Team.findOpponent(game.turn.team):
+            case otherTeam:
                 // found one of your opponent's!
                 result = 'Found the enemy';
+               
+                game.board.remaining[otherTeam]--;
+
                 switchTeams = true;
                 break;
 
@@ -542,8 +550,12 @@ class GameManager
 
             if (hiddenCells.length)
             {
-                // for now, just give them the first word
-                return GameManager.giveClue(userCPU, game, hiddenCells[0].word, 1);
+                // for now, give one of the words at random
+                var hiddenIndex = Math.floor(Math.random() * hiddenCells.length);
+
+                console.log('there are ' + hiddenCells.length + ' cells left - giving clue for ' + hiddenIndex);
+
+                return GameManager.giveClue(userCPU, game, hiddenCells[hiddenIndex].word, 1);
             }
 
         }
