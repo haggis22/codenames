@@ -373,6 +373,9 @@ class GameManager
 
         game.state = Game.STATES.PLAY;
 
+        // rescind any invitations once the game has started
+        game.invitations = [];
+
         // now create the game board...
         game.board = BoardManager.generate();
 
