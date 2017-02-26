@@ -55,16 +55,16 @@
             };  // selectCell
 
 
-            $scope.getTurnClass = function() {
+            $scope.getTurnClass = function(team) {
 
-                if (viewService.game && viewService.game.turn)
+                if (team)
                 {
-                    switch (viewService.game.turn.team)
+                    switch (team)
                     {
-                        case 'blue': 
+                        case Team.BLUE: 
                             return 'team-blue';
 
-                        case 'red':
+                        case Team.RED:
                             return 'team-red';
                     }
                 }

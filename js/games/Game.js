@@ -140,6 +140,29 @@
 
             }
 
+            isTimeToClue() {
+
+                if (!this.isActive())
+                {
+                    return false;
+                }
+
+                return this.turn && this.turn.action === Action.CLUE;
+
+            }
+
+            isTimeToGuess() {
+
+                if (!this.isActive())
+                {
+                    return false;
+                }
+
+                return this.turn && this.turn.action === Action.GUESS && this.turn.numGuesses > 0;
+
+            }
+
+
             isMyTurn(userID, action) {
 
                 if (!this.isActive())
@@ -152,6 +175,7 @@
 
                 if (!player)
                 {
+                    // userID is not one of the players
                     return false;
                 }
 
@@ -161,12 +185,12 @@
                     return false;
                 }
 
-                if (this.turn.action == action && action == Action.CLUE)
+                if (action == Action.CLUE && this.isTimeToClue())
                 {
                     return player.role == Team.ROLES.SPYMASTER;
                 }
 
-                if (this.turn.action == action && action == Action.GUESS && this.turn.numGuesses > 0)
+                if (action == Action.GUESS && this.isTimeToGuess())
                 {
                     return player.role == Team.ROLES.SPY;
                 }

@@ -1,102 +1,145 @@
 ﻿<div ng-controller="codenames.game.PlayCtrl" class="game-play">
 
-    <div class="turn">Turn: 
-        <span class="turn-value" ng-class="getTurnClass()">
-            {{ getTurnDescription() }}
-        </span>
-    </div>
+    <div class="div-status">
 
-    <div class="teams">
-        <table class="role-table" cellpadding="5" cellspacing="0" border="1">
+        <div class="game-state">
+
+            <div class="turn">Turn: 
+                <span class="turn-value" ng-class="getTurnClass(viewService.game.turn.team)">
+                    {{ getTurnDescription() }}
+                </span>
+            </div>
+
+            <div class="teams">
+                <table class="role-table" cellpadding="5" cellspacing="0" border="1">
         
-            <thead>
-                <tr>
-                    <th class="role"></th>
-                    <th class="red">RED</th>
-                    <th class="blue">BLUE</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="spymaster">
-                    <td class="role">Spymaster</td>
-                    <td class="spymaster red">
-                        <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.RED)">{{ viewService.game.findSpymaster(Team.RED).username }}</div>
-                        <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.RED)">CPU</div>
-                    </td>
-                    <td class="spymaster blue">
-                        <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.BLUE)">{{ viewService.game.findSpymaster(Team.BLUE).username }}</div>
-                        <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.BLUE)">CPU</div>
-                    </td>
-                </tr>
-                <tr class="team">
-                    <td class="role">Spies</td>
-                    <td class="spy red">
-                        <div ng-show="viewService.game.findSpies(Team.RED).length == 0">
-                            <div class="spy">CPU</div>
+                    <thead>
+                        <tr>
+                            <th class="role"></th>
+                            <th class="red">RED</th>
+                            <th class="blue">BLUE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="spymaster">
+                            <td class="role">Spymaster</td>
+                            <td class="spymaster red">
+                                <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.RED)">{{ viewService.game.findSpymaster(Team.RED).username }}</div>
+                                <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.RED)">CPU</div>
+                            </td>
+                            <td class="spymaster blue">
+                                <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.BLUE)">{{ viewService.game.findSpymaster(Team.BLUE).username }}</div>
+                                <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.BLUE)">CPU</div>
+                            </td>
+                        </tr>
+                        <tr class="team">
+                            <td class="role">Spies</td>
+                            <td class="spy red">
+                                <div ng-show="viewService.game.findSpies(Team.RED).length == 0">
+                                    <div class="spy">CPU</div>
+                                </div>
+                                <div ng-show="viewService.game.findSpies(Team.RED).length > 0">
+                                    <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.RED)">{{ spy.username }}</div>
+                                </div>
+                            </td>
+                            <td class="spy blue">
+                                <div ng-show="viewService.game.findSpies(Team.BLUE).length > 0">
+                                    <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.BLUE)">{{ spy.username }}</div>
+                                </div>
+                                <div ng-show="viewService.game.findSpies(Team.BLUE).length == 0">
+                                    <div class="spy">CPU</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="remaining">
+                            <td>Remaining</td>
+                            <td class="count">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</td>
+                            <td class="count">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</td>
+                        </tr>
+                    </tbody>
+                </table><!-- role-table -->
+            </div><!-- teams -->
+
+            <div class="clues" ng-show="isSpymaster()">
+
+                <form name="clueForm" novalidate>
+
+                    <input type="text" 
+                            name="clue"
+                            placeholder="clue"
+                            ng-model="viewService.clue.word" 
+                            class="clue" 
+                            ng-class="{ 'field-error': viewService.clue.submitted && clueForm.clue.$invalid }"
+                            required />
+
+                    <input type="text"
+                            name="numMatches"
+                            placeholder="# words"
+                            ng-model="viewService.clue.numMatches"
+                            class="numMatches"
+                            ng-class="{ 'field-error': viewService.clue.submitted && clueForm.numMatches.$invalid }"
+                            pattern="[1-9]"
+                            required />
+
+                    <button type="button" 
+                            ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Action.CLUE)" 
+                            ng-click="giveClue()">Give Clue</button>
+
+                </form><!-- clueForm -->
+
+            </div><!-- ng-show="isSpymaster()" -->
+
+        </div><!-- game-state -->
+        <div class="game-moves">
+    
+            <div class="moves" ng-show="viewService.game.moves">
+
+                <ul>
+
+                    <li class="move" ng-repeat="move in viewService.game.moves">
+
+
+                        <div ng-show="move.action == Action.CLUE" ng-class="getTurnClass(move.team)">
+                    
+                            <span ng-show="move.playerID">{{ move.playerID }}</span>
+                            <span ng-hide="move.playerID">CPU</span>
+                            gave clue <span class="clue">{{ move.word }}</span> with {{ move.numMatches | number:0 }} matches
+
                         </div>
-                        <div ng-show="viewService.game.findSpies(Team.RED).length > 0">
-                            <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.RED)">{{ spy.username }}</div>
+
+                        <div ng-show="move.action == Action.GUESS" ng-class="getTurnClass(move.team)">
+                    
+                            <div class="guess-action">{{ move.playerID }} guessed <span class="guess">{{ move.word }}</div>
+                            <div class="guess-result">Result: {{ move.result }}</div>
+
                         </div>
-                    </td>
-                    <td class="spy blue">
-                        <div ng-show="viewService.game.findSpies(Team.BLUE).length > 0">
-                            <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.BLUE)">{{ spy.username }}</div>
-                        </div>
-                        <div ng-show="viewService.game.findSpies(Team.BLUE).length == 0">
-                            <div class="spy">CPU</div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="remaining">
-                    <td>Remaining</td>
-                    <td class="count">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</td>
-                    <td class="count">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</td>
-                </tr>
-            </tbody>
-        </table><!-- role-table -->
-    </div><!-- teams -->
 
 
-    <div class="clues" ng-show="isSpymaster()">
+                    </li><!-- move in moves -->
 
-        <form name="clueForm" novalidate>
+                </ul>
 
-            <input type="text" 
-                    name="clue"
-                    placeholder="clue"
-                    ng-model="viewService.clue.word" 
-                    class="clue" 
-                    ng-class="{ 'field-error': viewService.clue.submitted && clueForm.clue.$invalid }"
-                    required />
+            </div><!-- moves -->
 
-            <input type="text"
-                    name="numMatches"
-                    placeholder="# words"
-                    ng-model="viewService.clue.numMatches"
-                    class="numMatches"
-                    ng-class="{ 'field-error': viewService.clue.submitted && clueForm.numMatches.$invalid }"
-                    pattern="[1-9]"
-                    required />
+        </div><!-- game-moves -->
 
-            <button type="button" 
-                    ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Action.CLUE)" 
-                    ng-click="giveClue()">Give Clue</button>
+    </div><!-- div-status -->
 
-        </form><!-- clueForm -->
-
-    </div><!-- ng-show="isSpymaster()" -->
-
+    <div class="div-board">
        
-    <table class="board">
+        <table class="board">
             
-        <tr ng-repeat="row in viewService.game.board.rows">
-            <td ng-repeat="cell in row track by $index"
-                ng-class="[ { 'revealed': cell.revealed }, cell.role ]"
-            ><span ng-hide="cell.revealed" 
-                    ng-click="selectCell(cell)"
-                    ng-class="{ 'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Action.GUESS) }">{{ cell.word }}</span></td>
-        </tr>
+            <tr ng-repeat="row in viewService.game.board.rows">
+                <td ng-repeat="cell in row track by $index"
+                    ng-class="[ { 'revealed': cell.revealed }, cell.role ]"
+                ><span ng-hide="cell.revealed" 
+                        ng-click="selectCell(cell)"
+                        ng-class="{ 'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Action.GUESS) }">{{ cell.word }}</span></td>
+            </tr>
 
-    </table><!-- board table -->
+        </table><!-- board table -->
+
+    </div><!-- div-board -->
+
         
 </div>

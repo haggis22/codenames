@@ -29,6 +29,18 @@ var Command = require(__dirname + '/../../../js/games/Command');
 var COLLECTION_NAME = 'games';
 
 
+class CPU
+{
+    constructor()
+    {
+        this._id = "CPU";
+    }
+
+}
+
+var userCPU = new CPU();
+
+
 class GameManager
 {
 
@@ -88,12 +100,15 @@ class GameManager
         var query = 
         { 
             _id: gameID,
+        };
 
-            $or:
-            [   
-                { players: { $elemMatch: { _id: user._id } } },
-                { invitations: { $in: [ user.username ] } }
-            ]
+        if (!(user instanceof CPU))
+        {
+            query['$or'] = 
+                [   
+                    { players: { $elemMatch: { _id: user._id } } },
+                    { invitations: { $in: [ user.username ] } }
+                ];
         };
 
         return GameManager.fetch(query)
@@ -236,17 +251,17 @@ class GameManager
                     case Command.actions.START:
                         return GameManager.startGame(user, game)
 
-                            .then(GameManager.checkCPUTurn);
+                            .then(GameManager.checkForCPUAction);
 
                     case Command.actions.CLUE:
                         return GameManager.giveClue(user, game, command.word, command.numMatches)
 
-                            .then(GameManager.checkCPUTurn);
+                            .then(GameManager.checkForCPUAction);
 
                     case Command.actions.SELECT:
                         return GameManager.selectWord(user, game, command.word)
                 
-                            .then(GameManager.checkCPUTurn);
+                            .then(GameManager.checkForCPUAction);
 
                 }  // end switch
 
@@ -371,7 +386,7 @@ class GameManager
 
     static giveClue(user, game, word, numMatches) { 
 
-        if (!game.isMyTurn(user._id, Action.CLUE))
+        if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.CLUE))
         {
             return q.resolve({ error: 'It is not your turn' });
         }
@@ -391,8 +406,9 @@ class GameManager
 
         // switch from clues to guessing
         game.turn.action = Action.GUESS;
-        game.turn.numGuesses = numMatches;
-        // TODO: give them an extra guess if they previously missed
+        
+        // you always get one more guess than the number of matches stated
+        game.turn.numGuesses = numMatches + 1;
 
         return GameManager.update(user, game);
 
@@ -488,17 +504,60 @@ class GameManager
     }   // selectCell
 
 
-    static checkCPUTurn(result) {
+    static isCPUTurn(game) {
 
-        if (result.error) {
+        if (!game)
+        {
+            return false;
+        }
+
+        if (game.isTimeToClue())
+        {
+            // find the Spymaster of the current team. If there is no player, then it's the computer's turn
+            return !game.findSpymaster(game.turn.team);
+
+        }
+        else if (game.isTimeToGuess())
+        {
+            return game.findSpies(game.turn.team).length === 0;
+        }
+
+
+    }
+
+    static checkForCPUAction(result) {
+
+        if (!GameManager.isCPUTurn(result.data)) {
 
             return result;
         
         }
         
+        var game = result.data;
+
+        if (game.isTimeToClue())
+        {
+            // find one of the computer's words and use that
+            var hiddenCells = game.board.cells.filter(cell => !cell.revealed && cell.role == game.turn.team);
+
+            if (hiddenCells.length)
+            {
+                // for now, just give them the first word
+                return GameManager.giveClue(userCPU, game, hiddenCells[0].word, 1);
+            }
+
+        }
+        else if (game.isTimeToGuess())
+        {
+
+        }
+
+        // the game is not active, so it's definitely not the CPU's turn
         return result;
 
-    }  // checkCPUTurn
+
+
+    }  // checkForCPUAction
 
 
 }  // end class declaration
