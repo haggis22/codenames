@@ -10,9 +10,8 @@
                 </span>
             </div><!-- if playing, show turn -->
 
-            <div ng-show="viewService.game.isComplete()" class="winner">Winner: 
-                <span class="winner-value" ng-class="getTurnClass(viewService.game.winner)">{{ viewService.game.winner }}</span>
-                </span>
+            <div ng-show="viewService.game.isComplete()" class="winner">
+                <span class="winner-value" ng-class="getTurnClass(viewService.game.winner)">{{ viewService.game.winner }} WINS!</span>
             </div><!-- if complete, show winner -->
 
             <div class="teams">
@@ -58,8 +57,8 @@
                         </tr>
                         <tr class="remaining">
                             <td>Remaining</td>
-                            <td class="count">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</td>
-                            <td class="count">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</td>
+                            <td class="count red">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</td>
+                            <td class="count blue">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</td>
                         </tr>
                     </tbody>
                 </table><!-- role-table -->

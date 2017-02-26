@@ -8,7 +8,7 @@
 
     <div ng-show="viewService.games">
 
-        <div class="invitations">
+        <div class="invitations" ng-show="getInvitedGame().length > 0">
 
             <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
                 <div class="header">Invitations</div>
@@ -17,9 +17,6 @@
                     <tr>
                         <th>Game ID</th>
                         <th class="num-players"># Players</th>
-                        <th>State</th>
-                        <th>Turn</th>
-                        <th>Winner</th>
                         <th>Created</th>
                     </tr>
                 </thead>
@@ -27,9 +24,6 @@
                     <tr ng-repeat="game in getInvitedGames()">
                         <td><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></td>
                         <td class="num-players">{{ game.players.length | number:0 }}</td>
-                        <td>{{ game.state }}</td>
-                        <td>{{ game.turn }}</td>
-                        <td>{{ game.winner }}</td>
                         <td>{{ game.created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
                     </tr>
                 </tbody>
@@ -37,7 +31,7 @@
 
         </div><!-- invitations -->
 
-        <div class="active-games">
+        <div class="active-games" ng-show="getActiveGames().length > 0">
             <div class="header">Active games</div>
 
             <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
@@ -47,7 +41,6 @@
                         <th class="num-players"># Players</th>
                         <th>State</th>
                         <th>Turn</th>
-                        <th>Winner</th>
                         <th>Created</th>
                     </tr>
                 </thead>
@@ -57,7 +50,34 @@
                         <td class="num-players">{{ game.players.length | number:0 }}</td>
                         <td>{{ game.state }}</td>
                         <td>{{ game.turn }}</td>
-                        <td>{{ game.winner }}</td>
+                        <td>{{ game.created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div><!-- active-games -->
+
+        <div class="complete-games" ng-show="getCompleteGames().length > 0">
+            <div class="header">Finished games</div>
+
+            <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
+                <thead>
+                    <tr>
+                        <th>Game ID</th>
+                        <th class="num-players"># Players</th>
+                        <th>State</th>
+                        <th>Turn</th>
+                        <th>Winner</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="game in getCompleteGames()">
+                        <td><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></td>
+                        <td class="num-players">{{ game.players.length | number:0 }}</td>
+                        <td>{{ game.state }}</td>
+                        <td>{{ game.turn }}</td>
+                        <td class="winner" ng-class="game.winner">{{ game.winner }}</td>
                         <td>{{ game.created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
                     </tr>
                 </tbody>

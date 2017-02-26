@@ -17,13 +17,11 @@
             // clear the clue the first time through this controller
             gameService.clearClue();
 
-            $scope.getTurnDescription = function() {
+            $scope.getTurnDescription = function () {
 
-                if (viewService.game && viewService.game.turn)
-                {
+                if (viewService.game && viewService.game.turn) {
 
-                    switch (viewService.game.turn.action)
-                    {
+                    switch (viewService.game.turn.action) {
                         case Action.CLUE:
                             return "give clue";
 
@@ -42,60 +40,44 @@
 
             $scope.selectCell = function (cell) {
 
-                if (!gameService.isMyTurnToAct(Action.GUESS))
-                {
+                if (!gameService.isMyTurnToAct(Action.GUESS)) {
                     return;
                 }
 
-                if (!cell.revealed)
-                {
+                if (!cell.revealed) {
                     gameService.selectCell(cell);
                 }
 
             };  // selectCell
 
 
-            $scope.getTurnClass = function(team) {
+            $scope.getTurnClass = function (team) {
 
-                if (team)
-                {
-                    switch (team)
-                    {
-                        case Team.BLUE: 
-                            return 'team-blue';
-
-                        case Team.RED:
-                            return 'team-red';
-                    }
-                }
-
-                return '';
+                return team ? team : '';
 
             };  // getTurnClass
 
-            $scope.isSpymaster = function() {
 
-                if (viewService.game && viewService.session)
-                {
+            $scope.isSpymaster = function () {
+
+                if (viewService.game && viewService.session) {
                     return viewService.game.isSpymaster(viewService.session.userID);
                 }
 
                 return false;
-            
+
             };  // isSpymaster
 
 
-            $scope.giveClue = function() {
+            $scope.giveClue = function () {
 
-                if (!gameService.isMyTurnToAct(Action.CLUE))
-                {
+                if (!gameService.isMyTurnToAct(Action.CLUE)) {
                     return;
                 }
 
                 viewService.clue.submitted = true;
 
-                if ($scope.clueForm.$invalid)
-                {
+                if ($scope.clueForm.$invalid) {
                     return;
                 }
 

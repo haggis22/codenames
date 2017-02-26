@@ -33,17 +33,6 @@
 
 	}
 
-
-	.team-blue
-	{
-		color: blue;
-	}
-
-	.team-red
-	{
-		color: red;
-	}
-
 	table.board
 	{
 		margin-top: 15px;
@@ -58,7 +47,8 @@
 	}
 
 	.invitations,
-	.active-games
+	.active-games,
+	.complete-games
 	{
 		margin-top: 15px;
 
@@ -73,6 +63,21 @@
 			margin-top: 10px;
 		}
 
+	}
+
+	.winner
+	{
+		text-transform: uppercase;
+
+		&.red
+		{
+			background: $red-background-color;
+		}
+
+		&.blue
+		{
+			background: $blue-background-color;
+		}
 	}
 
 	

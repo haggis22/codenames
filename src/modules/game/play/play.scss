@@ -11,6 +11,19 @@
 		{
 			float: left;
 
+			.turn 
+			{
+				.red
+				{
+					color: $red-color;
+				}
+
+				.blue
+				{
+					color: $blue-color;
+				}
+			}
+			
 			.turn-value
 			{
 				text-transform: uppercase;
@@ -27,6 +40,39 @@
 					text-transform: uppercase;
 				}
 			}
+
+			.teams
+			{
+				.role-table
+				{
+					background: #fff;
+
+					.role
+					{
+						font-weight: bold;
+						color: #000;
+					}
+
+					.red
+					{
+						background: $red-background-color;
+						color: #fff;
+					}
+
+					.blue
+					{
+						background: $blue-background-color;
+						color: #fff;
+					}
+
+					tr td:not(:first-child)
+					{
+						text-align: center;
+					}
+				
+				}   /* role-table */
+			
+			}  /* .teams */
 
 			.clues
 			{

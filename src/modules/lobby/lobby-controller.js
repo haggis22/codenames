@@ -30,7 +30,7 @@
 
                 if (viewService.games && viewService.session)
                 {
-                    return viewService.games.filter(g => g.isInvited(viewService.session.username));
+                    return viewService.games.filter(g => g.isSettingUp() && g.isInvited(viewService.session.username));
                 }
 
             };  // getInvitedGames
@@ -39,10 +39,19 @@
 
                 if (viewService.games && viewService.session)
                 {
-                    return viewService.games.filter(g => g.isPlaying(viewService.session.username));
+                    return viewService.games.filter(g => g.isActive() && g.isPlaying(viewService.session.username));
                 }
 
-            };  // getInvitedGames
+            };  // getActiveGames
+
+            $scope.getCompleteGames = function () {
+
+                if (viewService.games && viewService.session)
+                {
+                    return viewService.games.filter(g => g.isComplete() && g.isPlaying(viewService.session.username));
+                }
+
+            };  // getCompleteGames
 
 
         }  // outer function
