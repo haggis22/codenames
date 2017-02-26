@@ -89,6 +89,12 @@
 
             </div><!-- ng-show="isSpymaster()" -->
 
+            <div class="div-show-words">
+
+                <label><input type="checkbox" ng-model="viewService.showWords" value="true" />Show words</label>
+
+            </div>
+
         </div><!-- game-state -->
         <div class="game-moves">
     
@@ -139,9 +145,12 @@
             <tr ng-repeat="row in viewService.game.board.rows">
                 <td ng-repeat="cell in row track by $index"
                     ng-class="[ { 'revealed': cell.revealed }, cell.role ]"
-                ><span ng-hide="cell.revealed" 
+                ><span ng-hide="!viewService.showWords && cell.revealed" 
                         ng-click="selectCell(cell)"
-                        ng-class="{ 'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Action.GUESS) }">{{ cell.word }}</span></td>
+                        ng-class="{ 
+                                        'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Action.GUESS),
+                                        'show-word': cell.revealed && viewService.showWords
+                                    }">{{ cell.word }}</span></td>
             </tr>
 
         </table><!-- board table -->
