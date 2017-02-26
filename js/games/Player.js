@@ -39,7 +39,13 @@
                     return this._id.toString() === userID;
                 }
 
-                return this._id.equals(userID);
+                // if the id supports the equals method then use that
+                if (this._id.equals)
+                {
+                    return this._id.equals(userID);
+                }
+
+                return this._id == userID;
             
             }  // isUser
 
