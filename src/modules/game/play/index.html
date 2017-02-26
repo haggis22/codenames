@@ -49,8 +49,8 @@
                 </tr>
                 <tr class="remaining">
                     <td>Remaining</td>
-                    <td class="count">{{ countRemaining(Team.RED) | number:0 }}</td>
-                    <td class="count">{{ countRemaining(Team.BLUE) | number:0 }}</td>
+                    <td class="count">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</td>
+                    <td class="count">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</td>
                 </tr>
             </tbody>
         </table><!-- role-table -->

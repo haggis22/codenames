@@ -54,24 +54,6 @@
 
             };  // selectCell
 
-            $scope.countRemaining = function (role) {
-
-                if (!viewService.game) {
-                    return 0;
-                }
-
-                var num = 9;
-
-                for (var cell of viewService.game.board.cells) {
-                    if (cell.role == role && cell.revealed) {
-                        num--;
-                    }
-                }
-
-                return num;
-
-            };
-
 
             $scope.getTurnClass = function() {
 
@@ -101,8 +83,6 @@
                 return false;
             
             };  // isSpymaster
-
-
 
 
             $scope.giveClue = function() {
