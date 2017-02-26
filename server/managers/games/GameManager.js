@@ -234,14 +234,20 @@ class GameManager
                         return GameManager.apply(user, game, command.team, command.role);
 
                     case Command.actions.START:
-                        return GameManager.startGame(user, game);
+                        return GameManager.startGame(user, game)
+
+                            .then(GameManager.checkCPUTurn);
 
                     case Command.actions.CLUE:
-                        return GameManager.giveClue(user, game, command.word, command.numMatches);
+                        return GameManager.giveClue(user, game, command.word, command.numMatches)
+
+                            .then(GameManager.checkCPUTurn);
 
                     case Command.actions.SELECT:
-                        return GameManager.selectWord(user, game, command.word);
+                        return GameManager.selectWord(user, game, command.word)
                 
+                            .then(GameManager.checkCPUTurn);
+
                 }  // end switch
 
 
@@ -424,13 +430,20 @@ class GameManager
         
         var result = null;
         var winner = null;
+
         var switchTeams = false;
+
+        var nextTurn = null;
 
         switch (selectedCell.role)
         {
             case game.turn.team:
+
                 // you found one of your own!
                 result = 'Success';
+                
+                // TODO: check for a win
+
                 game.turn.numGuesses--;
                 switchTeams = game.turn.numGuesses < 1;
                 break;
@@ -473,6 +486,20 @@ class GameManager
         return GameManager.update(user, game);
 
     }   // selectCell
+
+
+    static checkCPUTurn(result) {
+
+        if (result.error) {
+
+            return result;
+        
+        }
+        
+        return result;
+
+    }  // checkCPUTurn
+
 
 }  // end class declaration
 
