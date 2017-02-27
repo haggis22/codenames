@@ -25,7 +25,8 @@
                 isMyTurnToAct: isMyTurnToAct,
                 selectCell: selectCell,
                 clearClue: clearClue,
-                giveClue: giveClue
+                giveClue: giveClue,
+                passTurn: passTurn
 
             };
 
@@ -289,6 +290,25 @@
                     .catch(function(error) { 
 
                         errorService.addError('Could not give clue', error);
+
+                    });
+
+
+            }
+
+
+            function passTurn() {
+
+                sendCommand(new Command({ gameID: viewService.game._id, action: Command.actions.PASS }))
+
+                    .then(function(game) {
+                        
+                        viewService.game = game;
+
+                    })
+                    .catch(function(error) { 
+
+                        errorService.addError('Could not pass turn', error);
 
                     });
 

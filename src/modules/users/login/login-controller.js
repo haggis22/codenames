@@ -8,8 +8,8 @@
         function ($scope, $rootScope, $state,
                     constants, userService, viewService) {
 
-            $scope.email = 'one@gmail.com';
-            $scope.password = 'password';
+            // $scope.email = 'one@gmail.com';
+            // $scope.password = 'password';
 
 
             $scope.login = function() {

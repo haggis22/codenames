@@ -67,6 +67,17 @@
 
             };  // isSpymaster
 
+            $scope.isSpy = function () {
+
+                if (viewService.game && viewService.session) {
+                    return viewService.game.isSpy(viewService.session.userID);
+                }
+
+                return false;
+
+            };  // isSpy
+
+
 
             $scope.giveClue = function () {
 
@@ -83,6 +94,17 @@
                 gameService.giveClue();
 
             };   // giveClue
+
+
+            $scope.passTurn = function () {
+
+                if (!gameService.isMyTurnToAct(Action.GUESS)) {
+                    return;
+                }
+
+                gameService.passTurn();
+
+            };   // passTurn
 
 
         }  // outer function
