@@ -4,7 +4,7 @@
 
         <div class="game-state">
 
-            <div ng-show="viewService.game.isPlaying()" class="turn">Turn: 
+            <div ng-show="viewService.game.isActive()" class="turn">Turn: 
                 <span class="turn-value" ng-class="getTurnClass(viewService.game.turn.team)">
                     {{ getTurnDescription() }}
                 </span>
@@ -64,7 +64,7 @@
                 </table><!-- role-table -->
             </div><!-- teams -->
 
-            <div class="clues" ng-show="viewService.game.isPlaying() && isSpymaster()">
+            <div class="clues" ng-show="viewService.game.isActive() && isSpymaster()">
 
                 <form name="clueForm" novalidate>
 
@@ -92,6 +92,14 @@
                 </form><!-- clueForm -->
 
             </div><!-- ng-show="isSpymaster()" -->
+
+            <div class="pass" ng-show="viewService.game.isActive() && isSpy()">
+
+                <button type="button" 
+                        ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Action.GUESS)" 
+                        ng-click="passTurn()">Pass Turn</button>
+
+            </div><!-- ng-show="isSpy()" -->
 
             <div class="div-show-words">
 
