@@ -38,6 +38,17 @@
 				.winner-value
 				{
 					text-transform: uppercase;
+
+					&.blue
+					{
+						color: $blue-color;
+					}
+
+					&.red
+					{
+						color: $red-color;
+					}
+
 				}
 			}
 
@@ -73,6 +84,11 @@
 				}   /* role-table */
 			
 			}  /* .teams */
+
+			.pass
+			{
+				margin-top: 15px;
+			}
 
 			.clues
 			{
@@ -122,6 +138,16 @@
 				padding: 10px;
 				font-color: #000;
 				font-size: 14px;
+
+				.blue
+				{
+					color: $blue-color;
+				}
+
+				.red
+				{
+					color: $red-color;
+				}
 
 				.guess-result
 				{

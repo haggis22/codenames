@@ -114,8 +114,11 @@
 
                 <ul>
 
-                    <li class="move" ng-repeat="move in viewService.game.moves">
+                    <li class="move" ng-show="viewService.game.winner">
+                        <div class="result-description" ng-class="getTurnClass(viewService.game.winner)">{{ viewService.game.winner.toUpperCase() }} team wins!</div>
+                    </li>
 
+                    <li class="move" ng-repeat="move in viewService.game.moves | orderBy:'-' ">
 
                         <div ng-show="move.action == Action.CLUE" ng-class="getTurnClass(move.team)">
                     
