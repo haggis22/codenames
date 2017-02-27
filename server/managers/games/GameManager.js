@@ -618,6 +618,7 @@ class GameManager
         var game = result.data;
         var availableCells = null;
         var selectionIndex = null;
+        var numMatches = 0;
 
         if (game.isTimeToClue())
         {
@@ -628,8 +629,8 @@ class GameManager
             {
                 var word = null;
 
-                // 50-50 chance of giving more than one clue
-                if (availableCells.length > 1 && Math.random() < 0.5)
+                // 30% chance of giving more than one clue
+                if (availableCells.length > 1 && Math.random() < 0.3)
                 {
                     var firstIndex = Math.floor(Math.random() * availableCells.length);
                     var secondIndex = firstIndex;
@@ -640,6 +641,7 @@ class GameManager
                     }
 
                     word = availableCells[firstIndex].word + availableCells[secondIndex].word;
+                    numMatches = 2;
 
                 }
                 else
@@ -648,9 +650,10 @@ class GameManager
                     selectionIndex = Math.floor(Math.random() * availableCells.length);
 
                     word = availableCells[selectionIndex].word;
+                    numMatches = 1;
                 }
 
-                return GameManager.giveClue(userCPU, game, word, 1);
+                return GameManager.giveClue(userCPU, game, word, numMatches);
             }
 
         }
