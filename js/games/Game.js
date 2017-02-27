@@ -140,6 +140,13 @@
 
             }
 
+            isSpy(userID) {
+
+                var player = this.findPlayer(userID);
+                return player && player.role == Team.ROLES.SPY;
+
+            }
+
             isTimeToClue() {
 
                 if (!this.isActive())
