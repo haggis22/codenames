@@ -114,9 +114,7 @@
     <Content Include="src\services\view-service.js" />
     <Content Include="src\modules\users\services\users-dal-service.js" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\modules\game\complete\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
