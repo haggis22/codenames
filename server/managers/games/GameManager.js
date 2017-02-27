@@ -418,7 +418,7 @@ class GameManager
         game.turn.action = Action.GUESS;
         
         // you always get one more guess than the number of matches stated
-        game.turn.numGuesses = numMatches + 1;
+        game.turn.numGuesses = parseInt(numMatches, 10) + 1;
 
         return GameManager.update(user, game)
 
