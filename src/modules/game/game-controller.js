@@ -2,17 +2,45 @@
 
     "use strict";
 
-    app.controller('codenames.gameCtrl', ['$scope', '$state',
+    app.controller('codenames.gameCtrl', ['$scope', '$state', '$timeout',
                                             'codenames.viewService', 'codenames.gameService', 'codenames.Constants',
                                             'codenames.Game',
 
-        function ($scope, $state,
+        function ($scope, $state, $timeout,
                     viewService, gameService, constants,
                     Game) {
 
             $scope.viewService = viewService;
 
-            gameService.pullGame(viewService.gameID);
+            var gameTimerPromise = null;
+
+            function pullGame()
+            {
+                
+                gameService.pullGame(viewService.gameID)
+
+                    .then(function(value) {
+                        console.log('In the then of pullGame()');
+
+                    })
+                    .finally(function(value) { 
+
+                        // this will cancel any timer that might be running. Won't throw an error if the promise is null
+                        $timeout.cancel(gameTimerPromise);
+                        
+                        gameTimerPromise = $timeout(pullGame, 2000);
+
+                        console.log('In the finally');
+                    });
+
+            }
+
+            // pull the first time, then it will start re-loading itself
+            pullGame();
+
+            $scope.$on("$destroy", function(event) {
+                $timeout.cancel(gameTimerPromise);
+            });
 
             $scope.$watch('viewService.game', function (game) {
 

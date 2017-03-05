@@ -95,10 +95,11 @@
 
             function pullGame(gameID)
             {
-                viewService.game = null;
 
                 if (!gameID)
                 {
+                    debugger;
+                    viewService.game = null;
                     return $q.when(null);
                 }
 
