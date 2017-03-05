@@ -163,7 +163,21 @@
 
     <div class="div-board">
        
-        <table class="board">
+        <div>
+            Scale: <select ng-model="viewService.options.zoom">
+                        <option value="0.25">25%</option>
+                        <option value="0.5">50%</option>
+                        <option value="0.6">60%</option>
+                        <option value="0.7">70%</option>
+                        <option value="0.8">80%</option>
+                        <option value="0.9">90%</option>
+                        <option value="1">100%</option>
+                        <option value="1.5">150%</option>
+                        <option value="2">200%</option>
+                    </select>
+        </div>
+
+        <table class="board" ng-style="{ zoom: viewService.options.zoom }">
             
             <tr ng-repeat="row in viewService.game.board.rows">
                 <td ng-repeat="cell in row track by $index"
