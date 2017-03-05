@@ -190,7 +190,9 @@
                     
                     .then(function(game) {
                         
+                        clearInvitation();
                         viewService.game = game;
+
 
                     })
                     .catch(function(error) { 
