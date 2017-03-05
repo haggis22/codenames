@@ -26,7 +26,7 @@ gulp.task('css', ['clean'], function () {
 gulp.task('client-js', ['clean'], function () {
 
     // combines all the Angular code from /src along with the dual Angular/Node code from /js
-    return gulp.src([ 'src/**/*.js', 'js/**/*.js' ])
+    return gulp.src([ 'src/app/app.js', 'src/app/routes.js', 'js/**/*.js', 'src/services/**/*.js', 'src/modules/**/*.js' ])
         .pipe(concat('app.js'))
         .pipe(gulp.dest('client/js'));
 
