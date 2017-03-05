@@ -526,7 +526,11 @@ class GameManager
         {
             game.winner = winner;
             delete game.turn;
+
+            // turn all the cards over
+            GameManager.flipCards(game);
             game.state = Game.STATES.COMPLETE;
+
         }
         else if (switchTeams)
         {
@@ -606,6 +610,18 @@ class GameManager
 
     }   // checkMapForWord
  
+    static flipCards(game) { 
+
+        if (game)
+        {
+            for (var cell of game.board.cells)
+            {
+                cell.revealed = true;
+            }
+
+        }
+
+    };
 
     static checkForCPUAction(result) {
 
