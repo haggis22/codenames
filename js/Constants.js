@@ -9,6 +9,8 @@
 
         }  // end class declaration
 
+        Constants.STORAGE_KEY = 'codenames.options';
+
         Constants.cookies = 
         {
             SESSION: 'session'

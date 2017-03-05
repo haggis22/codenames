@@ -14,6 +14,14 @@
                 return $state.is('main.login') || $state.is('main.register');
             }
 
+            // the TRUE 3rd parameter means to watch it deeply. If any of the options change, then persist the changes
+            $scope.$watch('viewService.options', function () {
+
+                viewService.saveOptions();
+
+            }, true);
+
+
             $scope.$on(constants.events.SESSION_CHANGE, function (event, args) {
 
                 if (!viewService.session) {
