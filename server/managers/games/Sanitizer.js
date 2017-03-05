@@ -38,7 +38,8 @@ class Sanitizer
 
     static sanitizeGame(game) {
 
-        if (game)
+        // we don't need to sanitize games once they have ended
+        if (game && game.isActive())
         {
             this.sanitizeBoard(game.board);
         }
