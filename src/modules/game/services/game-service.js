@@ -98,7 +98,6 @@
 
                 if (!gameID)
                 {
-                    debugger;
                     viewService.game = null;
                     return $q.when(null);
                 }
