@@ -76,6 +76,7 @@
     <Content Include="server\routes\users.js" />
     <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
+    <Content Include="src\test.html" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\images\assassin.jpg" />
     <Content Include="src\images\blue-1.jpg" />
