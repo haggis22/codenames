@@ -51,6 +51,7 @@ function lookupLink(wordArray, maxResults) {
 
 }
 
+
 function combinations(array) {
 	
 	var fn = function(active, rest, a) { 
@@ -74,6 +75,19 @@ function combinations(array) {
 	return fn([], array, []);
 }
 
+function calculateMaxMatches() {
+
+    var rnd = Math.random();
+
+    if (rnd < 0.5)
+    {
+        return 1;
+    }
+
+    return 10;
+
+}
+
 
 class ClueManager
 {
@@ -81,6 +95,11 @@ class ClueManager
     static giveClue(words) {
 
 	    var combos = combinations(words);
+
+        var maxMatches = calculateMaxMatches();
+
+        // get rid of any combinations that have more words than maxMatches
+        combos = combos.filter(combo => combo.length <= maxMatches);
 
 	    var promiseArray = [];
 	
