@@ -418,6 +418,12 @@ class GameManager
 
         // switch from clues to guessing
         game.turn.action = Action.GUESS;
+
+        if (game.isThinking())
+        {
+            // switch from thinking to playing
+            game.state = Game.STATES.PLAY;
+        }
         
         // you always get one more guess than the number of matches stated
         game.turn.numGuesses = parseInt(numMatches, 10) + 1;
@@ -542,6 +548,12 @@ class GameManager
             game.turn.team = Team.findOpponent(game.turn.team);
         }
 
+        if (game.isThinking())
+        {
+            // switch from thinking to playing
+            game.state = Game.STATES.PLAY;
+        }
+
         return GameManager.update(user, game)
 
             .then(GameManager.checkForCPUAction);
@@ -571,9 +583,14 @@ class GameManager
     }   // passTurn
 
 
-    static isCPUTurn(game) {
+    static needsCPUAction(game) {
 
         if (!game)
+        {
+            return false;
+        }
+
+        if (game.isThinking())
         {
             return false;
         }
@@ -625,9 +642,119 @@ class GameManager
 
     };
 
+    static computerGiveClue(game)
+    {
+        // put it into thinking mode so another thread can't kick off a clue generation
+        game.state = Game.STATES.THINKING;
+
+        return GameManager.update(userCPU, game)
+
+            .then(function(result) {
+
+                if (!result.data)
+                {
+                    // we somehow didn't get a game object back from the update, so dump out
+                    return result;
+                }
+
+                let thinkGame = result.data;
+
+                // find one of the computer's words and use that
+                let availableWords = game.board.cells.filter(cell => !cell.revealed && cell.role == game.turn.team).map(c => c.word);
+
+                if (availableWords.length)
+                {
+
+                    return ClueManager.thinkOfClue(availableWords)
+                    
+                        .then(function(bestMatch) {
+
+                            if (bestMatch.clue)
+                            {
+                                return GameManager.giveClue(userCPU, game, bestMatch.clue, bestMatch.words.length);
+                            }
+                            else
+                            {
+                                let selectedIndex = Math.floor(Math.random() * availableWords.length);
+
+                                return GameManager.giveClue(userCPU, game, availableWords[selectedIndex], 1);
+                            }
+
+                        });
+
+                }   // if they have any words
+
+            });
+
+    }
+
+    static computerGuess(game) {
+
+        // the computer never makes an extra guess, so when it's down to 1 guess left, it's time to pass
+        if (game.turn.numGuesses === 1)
+        {
+            return GameManager.passTurn(userCPU, game);
+        }
+
+        game.state = Game.STATES.THINKING;
+
+        return GameManager.update(userCPU, game)
+
+            .then(function(result) {
+
+                if (!result.data)
+                {
+                    // we somehow didn't get a game object back from the update, so dump out
+                    return result;
+                }
+
+                // find the most recent clue for the CPU's team
+                var ourClues = game.moves.filter(m => m.action == Action.CLUE && m.team == game.turn.team);
+
+                var lastClue = ourClues[ourClues.length - 1];
+
+                // look at all the unrevealed words and find the best match
+                // Convert the cells to an array of words
+                let availableWords = game.board.cells.filter(cell => !cell.revealed).map(c => c.word);
+
+                if (availableWords.length)
+                {
+                    return ClueManager.guessWord(availableWords, lastClue.word)
+                        .then(function(bestGuess) {
+
+                            if (bestGuess != null)
+                            {
+                                return GameManager.selectWord(userCPU, game, bestGuess);
+                            }
+                            else
+                            {
+                                // otherwise, give one of the words at random
+                                let selectionIndex = Math.floor(Math.random() * availableWords.length);
+                                return GameManager.selectWord(userCPU, game, availableWords[selectionIndex]);
+                            }
+
+                        })
+
+                }
+                else
+                {
+                    return GameManager.passTurn(userCPU, game);
+                }
+
+            });     // THINKING update.then
+
+
+    }
+
     static checkForCPUAction(result) {
 
-        if (!GameManager.isCPUTurn(result.data)) {
+        // if we don't have a game, then there's nothing to do
+        if (!result.data)
+        {
+            return result;
+        }
+
+        if (!GameManager.needsCPUAction(result.data)) {
 
             return result;
         
@@ -637,82 +764,15 @@ class GameManager
 
         if (game.isTimeToClue())
         {
-            // find one of the computer's words and use that
-            let availableWords = game.board.cells.filter(cell => !cell.revealed && cell.role == game.turn.team).map(c => c.word);
-
-            if (availableWords.length)
-            {
-
-                return ClueManager.giveClue(availableWords)
-                    
-                    .then(function(bestMatch) {
-
-                        if (bestMatch.clue)
-                        {
-                            return GameManager.giveClue(userCPU, game, bestMatch.clue, bestMatch.words.length);
-                        }
-                        else
-                        {
-                            debugger;
-
-                            let selectedIndex = Math.floor(Math.random() * availableWords.length);
-
-                            return GameManager.giveClue(userCPU, game, availableWords[selectedIndex], 1);
-                        }
-
-                    });
-
-            }
-
+            return GameManager.computerGiveClue(game);
         }
         else if (game.isTimeToGuess())
         {
-
-            // the computer never makes an extra guess, so when it's down to 1 guess left, it's time to pass
-            if (game.turn.numGuesses === 1)
-            {
-                return GameManager.passTurn(userCPU, game);
-            }
-
-            // find the most recent clue for the CPU's team
-            var ourClues = game.moves.filter(m => m.action == Action.CLUE && m.team == game.turn.team);
-
-            var lastClue = ourClues[ourClues.length - 1];
-
-            // look at all the unrevealed words and find the best match
-            // Convert the cells to an array of words
-            let availableWords = game.board.cells.filter(cell => !cell.revealed).map(c => c.word);
-
-            if (availableWords.length)
-            {
-                return ClueManager.guessWord(availableWords, lastClue.word)
-                    .then(function(bestGuess) {
-
-                        if (bestGuess != null)
-                        {
-                            return GameManager.selectWord(userCPU, game, bestGuess);
-                        }
-                        else
-                        {
-                            // otherwise, give one of the words at random
-                            let selectionIndex = Math.floor(Math.random() * availableWords.length);
-                            return GameManager.selectWord(userCPU, game, availableWords[selectionIndex]);
-                        }
-
-                    })
-
-            }
-            else
-            {
-                return GameManager.passTurn(userCPU, game);
-            }
-
+            return GameManager.computerGuess(game);
         }
 
         // the game is not active, so it's definitely not the CPU's turn
         return result;
-
-
 
     }  // checkForCPUAction
 

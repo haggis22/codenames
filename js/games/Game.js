@@ -49,8 +49,13 @@
 
             isActive() { 
 
-                return this.state == Game.STATES.PLAY;
+                return this.state == Game.STATES.PLAY || this.state == Game.STATES.THINKING;
 
+            }
+
+            isThinking() {
+
+                return this.state == Game.STATES.THINKING;
             }
 
             isComplete() { 
@@ -235,6 +240,7 @@
         {
             SETUP: 'setup',
             PLAY: 'play',
+            THINKING: 'thinking',
             COMPLETE: 'complete'
         };
 

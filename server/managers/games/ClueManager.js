@@ -92,7 +92,7 @@ function calculateMaxMatches() {
 class ClueManager
 {
 
-    static giveClue(words) {
+    static thinkOfClue(words) {
 
 	    var combos = combinations(words);
 
