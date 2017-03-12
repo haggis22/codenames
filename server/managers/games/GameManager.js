@@ -696,7 +696,7 @@ class GameManager
                         {
                             // otherwise, give one of the words at random
                             let selectionIndex = Math.floor(Math.random() * availableWords.length);
-                            return GameManager.selectWord(userCPU, game, availableCells[selectionIndex].word);
+                            return GameManager.selectWord(userCPU, game, availableWords[selectionIndex]);
                         }
 
                     })
