@@ -130,7 +130,7 @@
 
                     .then(function (result) {
 
-                        viewService.game = result;
+                        viewService.game = convertGame(result);
 
                     })
                     .catch(function(error) { 
