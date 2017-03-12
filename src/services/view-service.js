@@ -22,7 +22,8 @@
 
                     options =
                     {   
-                        zoom: 1.0
+                        zoom: 1.0,
+                        showWords: false
                     };
 
                 }  // options were not already saved
