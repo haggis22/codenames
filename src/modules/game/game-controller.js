@@ -24,7 +24,7 @@
                         // this will cancel any timer that might be running. Won't throw an error if the promise is null
                         $timeout.cancel(gameTimerPromise);
                         
-                        gameTimerPromise = $timeout(pullGame, 2000);
+                        gameTimerPromise = $timeout(pullGame, constants.timers.POLL_INTERVAL);
 
                     });
 

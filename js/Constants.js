@@ -23,6 +23,11 @@
             ERROR: 'raise-error'
         };
 
+        Constants.timers = 
+        {
+            POLL_INTERVAL: 2000
+        };
+
         return Constants;
 
     };

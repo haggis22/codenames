@@ -193,6 +193,8 @@ class GameManager
 
     static update(user, game) {
 
+        debugger;
+
         var deferred = q.defer();
 
         var collection = db.get(COLLECTION_NAME);
@@ -386,7 +388,9 @@ class GameManager
 
         return GameManager.update(user, game)
 
-            .then(GameManager.checkForCPUAction);
+            .then(function(result) {
+                return GameManager.checkForCPUAction(result, true);
+            });
             
 
     }   // startGame
@@ -645,11 +649,15 @@ class GameManager
     static computerGiveClue(game)
     {
         // put it into thinking mode so another thread can't kick off a clue generation
+        debugger;
+
         game.state = Game.STATES.THINKING;
 
         return GameManager.update(userCPU, game)
 
             .then(function(result) {
+
+                debugger;
 
                 if (!result.data)
                 {
@@ -660,7 +668,7 @@ class GameManager
                 let thinkGame = result.data;
 
                 // find one of the computer's words and use that
-                let availableWords = game.board.cells.filter(cell => !cell.revealed && cell.role == game.turn.team).map(c => c.word);
+                let availableWords = thinkGame.board.cells.filter(cell => !cell.revealed && cell.role == thinkGame.turn.team).map(c => c.word);
 
                 if (availableWords.length)
                 {
@@ -671,13 +679,13 @@ class GameManager
 
                             if (bestMatch.clue)
                             {
-                                return GameManager.giveClue(userCPU, game, bestMatch.clue, bestMatch.words.length);
+                                return GameManager.giveClue(userCPU, thinkGame, bestMatch.clue, bestMatch.words.length);
                             }
                             else
                             {
                                 let selectedIndex = Math.floor(Math.random() * availableWords.length);
 
-                                return GameManager.giveClue(userCPU, game, availableWords[selectedIndex], 1);
+                                return GameManager.giveClue(userCPU, thinkGame, availableWords[selectedIndex], 1);
                             }
 
                         });
@@ -708,14 +716,16 @@ class GameManager
                     return result;
                 }
 
+                let thinkGame = result.data;
+
                 // find the most recent clue for the CPU's team
-                var ourClues = game.moves.filter(m => m.action == Action.CLUE && m.team == game.turn.team);
+                var ourClues = thinkGame.moves.filter(m => m.action == Action.CLUE && m.team == thinkGame.turn.team);
 
                 var lastClue = ourClues[ourClues.length - 1];
 
                 // look at all the unrevealed words and find the best match
                 // Convert the cells to an array of words
-                let availableWords = game.board.cells.filter(cell => !cell.revealed).map(c => c.word);
+                let availableWords = thinkGame.board.cells.filter(cell => !cell.revealed).map(c => c.word);
 
                 if (availableWords.length)
                 {
@@ -724,13 +734,13 @@ class GameManager
 
                             if (bestGuess != null)
                             {
-                                return GameManager.selectWord(userCPU, game, bestGuess);
+                                return GameManager.selectWord(userCPU, thinkGame, bestGuess);
                             }
                             else
                             {
                                 // otherwise, give one of the words at random
                                 let selectionIndex = Math.floor(Math.random() * availableWords.length);
-                                return GameManager.selectWord(userCPU, game, availableWords[selectionIndex]);
+                                return GameManager.selectWord(userCPU, thinkGame, availableWords[selectionIndex]);
                             }
 
                         })
@@ -738,7 +748,7 @@ class GameManager
                 }
                 else
                 {
-                    return GameManager.passTurn(userCPU, game);
+                    return GameManager.passTurn(userCPU, thinkGame);
                 }
 
             });     // THINKING update.then
@@ -746,7 +756,12 @@ class GameManager
 
     }
 
-    static checkForCPUAction(result) {
+    static checkForCPUAction(result, breakpoint) {
+
+        if (breakpoint)
+        {
+            debugger;
+        }
 
         // if we don't have a game, then there's nothing to do
         if (!result.data)
@@ -764,14 +779,18 @@ class GameManager
 
         if (game.isTimeToClue())
         {
-            return GameManager.computerGiveClue(game);
+            // kick off this action, but don't return. We want the computer to go off and do its thing, but
+            // show the client the immediate result of the action
+            GameManager.computerGiveClue(game);
         }
         else if (game.isTimeToGuess())
         {
-            return GameManager.computerGuess(game);
+            // kick off this action, but don't return. We want the computer to go off and do its thing, but
+            // show the client the immediate result of the action
+            GameManager.computerGuess(game);
         }
 
-        // the game is not active, so it's definitely not the CPU's turn
+        // give the client the current state - if there is a CPU action they will get it on the next poll
         return result;
 
     }  // checkForCPUAction

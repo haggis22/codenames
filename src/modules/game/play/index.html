@@ -112,6 +112,8 @@
     
             <div class="moves" ng-show="viewService.game.moves">
 
+                <div ng-show="viewService.game.isThinking()" class="thinking">The computer is thinking...</div>
+
                 <ul>
 
                     <li class="move" ng-show="viewService.game.winner">
