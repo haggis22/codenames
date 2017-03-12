@@ -193,8 +193,6 @@ class GameManager
 
     static update(user, game) {
 
-        debugger;
-
         var deferred = q.defer();
 
         var collection = db.get(COLLECTION_NAME);
@@ -389,7 +387,7 @@ class GameManager
         return GameManager.update(user, game)
 
             .then(function(result) {
-                return GameManager.checkForCPUAction(result, true);
+                return GameManager.checkForCPUAction(result);
             });
             
 
@@ -649,15 +647,11 @@ class GameManager
     static computerGiveClue(game)
     {
         // put it into thinking mode so another thread can't kick off a clue generation
-        debugger;
-
         game.state = Game.STATES.THINKING;
 
         return GameManager.update(userCPU, game)
 
             .then(function(result) {
-
-                debugger;
 
                 if (!result.data)
                 {
@@ -672,8 +666,16 @@ class GameManager
 
                 if (availableWords.length)
                 {
+                    // look for all our previous clues and convert that array to an array of words. We don't want to give any of those words again.
+                    // Use a map for O(1) lookup
+                    let previousCluesMap = {};
 
-                    return ClueManager.thinkOfClue(availableWords)
+                    for (var previousClue of thinkGame.moves.filter(m => m.action == Action.CLUE && m.team == thinkGame.turn.team))
+                    {
+                        previousCluesMap[previousClue.word] = true;
+                    }
+
+                    return ClueManager.thinkOfClue(availableWords, previousCluesMap)
                     
                         .then(function(bestMatch) {
 
@@ -756,12 +758,7 @@ class GameManager
 
     }
 
-    static checkForCPUAction(result, breakpoint) {
-
-        if (breakpoint)
-        {
-            debugger;
-        }
+    static checkForCPUAction(result) {
 
         // if we don't have a game, then there's nothing to do
         if (!result.data)
@@ -781,13 +778,19 @@ class GameManager
         {
             // kick off this action, but don't return. We want the computer to go off and do its thing, but
             // show the client the immediate result of the action
-            GameManager.computerGiveClue(game);
+            GameManager.computerGiveClue(game)
+                .catch(function(error) {
+                    logger.error('Error in GameManager.computerGiveClue: ' + error.stack);
+                });
         }
         else if (game.isTimeToGuess())
         {
             // kick off this action, but don't return. We want the computer to go off and do its thing, but
             // show the client the immediate result of the action
-            GameManager.computerGuess(game);
+            GameManager.computerGuess(game)
+                .catch(function(error) {
+                    logger.error('Error in GameManager.computerGuess: ' + error.stack);
+                });
         }
 
         // give the client the current state - if there is a CPU action they will get it on the next poll

@@ -92,7 +92,7 @@ function calculateMaxMatches() {
 class ClueManager
 {
 
-    static thinkOfClue(words) {
+    static thinkOfClue(words, previousCluesMap) {
 
 	    var combos = combinations(words);
 
@@ -108,10 +108,11 @@ class ClueManager
 	
 	    for (var combo of combos)
 	    {
-		    promiseArray.push(lookupLink(combo, 10));
+		    promiseArray.push(lookupLink(combo, 100));
 	    }
 	
 	    return q.all(promiseArray)
+            
 		    .then(function(results) {
 			
 			    console.log('Time to run: ' + ((new Date()).getTime() - startTime.getTime()) + ' ms');
@@ -133,16 +134,30 @@ class ClueManager
 			    {
 				    if (result.links.length > 0)
 				    {
-					    // take out any words that have a space in them
-					    result.links.filter(l => l.word.indexOf(' ') == -1);
-					
-					    myScore = result.links[0].score * result.words.length;
-					    if (myScore > best.score)
-					    {
-						    best.score = myScore;
-						    best.words = result.words;
-						    best.clue = result.links[0].word;
-					    }
+					    // Take out any words...
+                        // 1. that have a space in them
+                        // 2. That we have used previously
+                        for (let l of result.links)
+                        {
+                            if (previousCluesMap.hasOwnProperty(l.word))
+                            {
+                                console.log('We have seen the word ' + l.word + ' before, so we are going to filter it out so as not to give it again');
+                            }
+                        }
+
+                        let filteredLinks = result.links.filter(l => l.word.indexOf(' ') == -1 && !previousCluesMap.hasOwnProperty(l.word));
+            
+                        if (filteredLinks.length > 0)
+                        {
+					        myScore = filteredLinks[0].score * result.words.length;
+					        if (myScore > best.score)
+					        {
+						        best.score = myScore;
+						        best.words = result.words;
+						        best.clue = filteredLinks[0].word;
+					        }
+
+                        }  // if the filtered list still has some elements
 	
 				    }  // if these words have anything in common
 	
