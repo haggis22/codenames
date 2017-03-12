@@ -726,7 +726,7 @@ class GameManager
                 var lastClue = ourClues[ourClues.length - 1];
 
                 // look at all the unrevealed words and find the best match
-                // Convert the cells to an array of words
+                // Convert the cells to an array of lower-case words (so that we can easily compare them later)
                 let availableWords = thinkGame.board.cells.filter(cell => !cell.revealed).map(c => c.word);
 
                 if (availableWords.length)

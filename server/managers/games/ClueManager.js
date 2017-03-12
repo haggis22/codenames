@@ -170,59 +170,88 @@ class ClueManager
     }  // supplyClue
 
 
+
+    // words is the array of words on the board (they will be sent lower-case already)
     static guessWord(words, clue)
     {
-	    var promiseArray = [];
-	
-	    let startTime = new Date();
 	    console.log('Thinking about clue ' + clue + '...');
-	
-	    // for each word on the board, get its best association with the clue. Whichever
-	    // word's best score
-	    for (var word of words)
-	    {
-		    // we only care about the best match's score, so we only need the top match
-		    promiseArray.push(lookupLink([ word, clue ], 100));
-	    }
-	
-	    return q.all(promiseArray)
 
-		    .then(function(results) {
-			
-			    console.log('Time to run for all matches guess: ' + ((new Date()).getTime() - startTime.getTime()) + ' ms');
-	
-			    var wordScores = [];
-	
-			    // each "result" is an object with the keys:
-			    // "words": the array of words that were requested
-			    // "links": the array of words that link them. This will be 0 or more elements long in the format {"word":"juice","score":1472}
-			    for (let result of results)
-			    {
-				    // result.words is the 2-element array we passed in.
-				    // result.words[0] = the word from the board
-				    // result.words[1] = the clude that was given
-				    if (result.links.length > 0)
-				    {
-					    wordScores.push({ word: result.words[0], score: result.links.reduce((totalScore, commonWord) => totalScore + commonWord.score, 0), common: result.links.map(c => c.word).join('|') });
-				    }
-	
-			    }
-					
+        // first look to see whether any of the words show up in direct relation to the clue
+        return lookupLink([ clue ], 1000)
 
-			    if (wordScores.length > 0)
+            .then(function(directLinks) {
+
+			    // directLinks is an object with the keys:
+			    // "words": the array of words that were requested - in this case, it'll just be [ clue ]
+			    // "links": the array of words related to the clue. This will be 0 or more elements long in the format {"word":"juice","score":1472}
+                // They are sorted with the best matches first, so we're just going to go in order
+                for (let link of directLinks.links)
                 {
-			        // sort them in reverse order
-			        wordScores.sort((a, b) => { return b.score - a.score });
-
-                    console.log('Going with ' + wordScores[0].word);
-                    return wordScores[0].word;
+                    if (words.indexOf(link.word) > -1)
+                    {
+                        console.log('we found the word ' + link.word + ' as directly related to clue ' + clue);
+                        
+                        // we found a good guess at the words, so we're going to dump out right here
+                        return link.word;
+                    }
+                
                 }
 
-                console.log('I give up');
-                return null;
+                // we didn't find a direct hit, so look to see which word on the board has the best common links to the clue word
+	            var promiseArray = [];
+	
+	            let startTime = new Date();
+	
+	            // for each word on the board, get its best association with the clue. Whichever
+	            // word's best score
+	            for (var word of words)
+	            {
+		            // we only care about the best match's score, so we only need the top match
+		            promiseArray.push(lookupLink([ word, clue ], 100));
+	            }
+	
+	            return q.all(promiseArray)
+
+		            .then(function(results) {
+			
+			            console.log('Time to run for all matches guess: ' + ((new Date()).getTime() - startTime.getTime()) + ' ms');
+	
+			            var wordScores = [];
+	
+			            // each "result" is an object with the keys:
+			            // "words": the array of words that were requested
+			            // "links": the array of words that link them. This will be 0 or more elements long in the format {"word":"juice","score":1472}
+			            for (let result of results)
+			            {
+				            // result.words is the 2-element array we passed in.
+				            // result.words[0] = the word from the board
+				            // result.words[1] = the clude that was given
+				            if (result.links.length > 0)
+				            {
+					            wordScores.push({ word: result.words[0], score: result.links.reduce((totalScore, commonWord) => totalScore + commonWord.score, 0), common: result.links.map(c => c.word).join('|') });
+				            }
+	
+			            }
+					
+
+			            if (wordScores.length > 0)
+                        {
+			                // sort them in reverse order
+			                wordScores.sort((a, b) => { return b.score - a.score });
+
+                            console.log('Going with ' + wordScores[0].word);
+                            return wordScores[0].word;
+                        }
+
+                        console.log('I give up');
+                        return null;
                 
 
-		    })
+		            })
+
+
+            });
+
 
     }  // guessWord
 
