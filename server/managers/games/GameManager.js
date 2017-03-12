@@ -647,7 +647,18 @@ class GameManager
                     
                     .then(function(bestMatch) {
 
-                        return GameManager.giveClue(userCPU, game, bestMatch.clue, bestMatch.words.length);
+                        if (bestMatch.clue)
+                        {
+                            return GameManager.giveClue(userCPU, game, bestMatch.clue, bestMatch.words.length);
+                        }
+                        else
+                        {
+                            debugger;
+
+                            let selectedIndex = Math.floor(Math.random() * availableWords.length);
+
+                            return GameManager.giveClue(userCPU, game, availableWords[selectedIndex], 1);
+                        }
 
                     });
 
