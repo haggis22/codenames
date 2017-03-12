@@ -103,7 +103,8 @@
 
             <div class="div-show-words">
 
-                <label><input type="checkbox" ng-model="viewService.options.showWords" value="true" />Show words</label>
+                <div><label><input type="checkbox" ng-model="viewService.options.showWords" value="true" />Show words</label></div>
+                <div ng-show="viewService.game.isComplete()"><label><input type="checkbox" ng-model="viewService.options.showRemaining" value="true" />Show remaining</label></div>
 
             </div>
 
@@ -183,12 +184,12 @@
             
             <tr ng-repeat="row in viewService.game.board.rows">
                 <td ng-repeat="cell in row track by $index"
-                    ng-class="[ { 'revealed': cell.revealed }, cell.role ]"
-                ><span ng-hide="!viewService.options.showWords && cell.revealed" 
+                    ng-class="[ { 'revealed': cell.revealed || (cell.revealedAfter && viewService.options.showRemaining) }, cell.role ]"
+                ><span ng-hide="!viewService.options.showWords && (cell.revealed || cell.revealedAfter)" 
                         ng-click="selectCell(cell)"
                         ng-class="{ 
                                         'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Action.GUESS),
-                                        'show-word': cell.revealed && viewService.options.showWords
+                                        'show-word': (cell.revealed || cell.revealedAfter) && viewService.options.showWords
                                     }">{{ cell.word }}</span></td>
             </tr>
 

@@ -16,6 +16,7 @@
                     this.word = cell.word;
                     this.role = cell.role;
                     this.revealed = cell.revealed;
+                    this.revealedAfter = cell.revealedAfter;
                 }
 
             }  // constructor

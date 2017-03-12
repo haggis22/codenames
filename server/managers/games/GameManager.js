@@ -637,7 +637,10 @@ class GameManager
         {
             for (var cell of game.board.cells)
             {
-                cell.revealed = true;
+                // this sets a special value that indicates that it is only revealed because
+                // the game is over. This differentiates it from the cards revealed during
+                // the course of the game.
+                cell.revealedAfter = true;
             }
 
         }
