@@ -19,10 +19,6 @@
                 
                 gameService.pullGame(viewService.gameID)
 
-                    .then(function(value) {
-                        console.log('In the then of pullGame()');
-
-                    })
                     .finally(function(value) { 
 
                         // this will cancel any timer that might be running. Won't throw an error if the promise is null
@@ -30,7 +26,6 @@
                         
                         gameTimerPromise = $timeout(pullGame, 2000);
 
-                        console.log('In the finally');
                     });
 
             }

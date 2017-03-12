@@ -16,6 +16,8 @@ var q = require('q');
 
 var BoardManager = require(__dirname + '/BoardManager');
 var GameInvitationManager = require(__dirname + '/GameInvitationManager');
+var ClueManager = require(__dirname + '/ClueManager');
+
 var Game = require(__dirname + '/../../../js/games/Game');
 var GameDesc = require(__dirname + '/../../../js/games/GameDesc');
 var Cell = require(__dirname + '/../../../js/games/Cell');
@@ -237,7 +239,7 @@ class GameManager
             .then(function(result) {
 
                 var game = result.data;
-                logger.info('Fetched game');
+                // logger.info('Fetched game');
 
                 switch (command.action)
                 {
@@ -631,73 +633,63 @@ class GameManager
         
         }
         
-        var game = result.data;
-        var availableCells = null;
-        var selectionIndex = null;
-        var numMatches = 0;
+        let game = result.data;
 
         if (game.isTimeToClue())
         {
             // find one of the computer's words and use that
-            availableCells = game.board.cells.filter(cell => !cell.revealed && cell.role == game.turn.team);
+            let availableWords = game.board.cells.filter(cell => !cell.revealed && cell.role == game.turn.team).map(c => c.word);
 
-            if (availableCells.length)
+            if (availableWords.length)
             {
-                var word = null;
 
-                // 30% chance of giving more than one clue
-                if (availableCells.length > 1 && Math.random() < 0.3)
-                {
-                    var firstIndex = Math.floor(Math.random() * availableCells.length);
-                    var secondIndex = firstIndex;
+                return ClueManager.giveClue(availableWords)
+                    
+                    .then(function(bestMatch) {
 
-                    while (secondIndex == firstIndex)
-                    {
-                        secondIndex = Math.floor(Math.random() * availableCells.length);
-                    }
+                        return GameManager.giveClue(userCPU, game, bestMatch.clue, bestMatch.words.length);
 
-                    word = availableCells[firstIndex].word + availableCells[secondIndex].word;
-                    numMatches = 2;
+                    });
 
-                }
-                else
-                {
-                    // for now, give one of the words at random
-                    selectionIndex = Math.floor(Math.random() * availableCells.length);
-
-                    word = availableCells[selectionIndex].word;
-                    numMatches = 1;
-                }
-
-                return GameManager.giveClue(userCPU, game, word, numMatches);
             }
 
         }
         else if (game.isTimeToGuess())
         {
 
-            var givenClues = {};
-
-            // track all the clues that the CPU's team has been given
-            for (var move of game.moves)
+            // the computer never makes an extra guess, so when it's down to 1 guess left, it's time to pass
+            if (game.turn.numGuesses === 1)
             {
-                if (move.action == Action.CLUE && move.team == game.turn.team)
-                {
-                    givenClues[move.word.toUpperCase()] = true;
-                }
-
+                return GameManager.passTurn(userCPU, game);
             }
 
-            // find one of the computer's words and use that
-            var availableCells = game.board.cells.filter(cell => !cell.revealed && GameManager.checkMapForWord(givenClues, cell.word));
-             
-            if (availableCells.length)
-            {
-                // for now, give one of the words at random
-                selectionIndex = Math.floor(Math.random() * availableCells.length);
+            // find the most recent clue for the CPU's team
+            var ourClues = game.moves.filter(m => m.action == Action.CLUE && m.team == game.turn.team);
 
-                return GameManager.selectWord(userCPU, game, availableCells[selectionIndex].word);
-            
+            var lastClue = ourClues[ourClues.length - 1];
+
+            // look at all the unrevealed words and find the best match
+            // Convert the cells to an array of words
+            let availableWords = game.board.cells.filter(cell => !cell.revealed).map(c => c.word);
+
+            if (availableWords.length)
+            {
+                return ClueManager.guessWord(availableWords, lastClue.word)
+                    .then(function(bestGuess) {
+
+                        if (bestGuess != null)
+                        {
+                            return GameManager.selectWord(userCPU, game, bestGuess);
+                        }
+                        else
+                        {
+                            // otherwise, give one of the words at random
+                            let selectionIndex = Math.floor(Math.random() * availableWords.length);
+                            return GameManager.selectWord(userCPU, game, availableCells[selectionIndex].word);
+                        }
+
+                    })
+
             }
             else
             {

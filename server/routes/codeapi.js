@@ -46,7 +46,7 @@ router.use(function (req, res, next) {
                 .then(function(user) {
 
                     // the user could be returned as NULL for someone not logged in
-                    if (logger.isDebugEnabled && user) { logger.debug('User in request = ' + user.username); }
+                    // if (logger.isDebugEnabled && user) { logger.debug('User in request = ' + user.username); }
 
                     req.user = user;
                     return next();
