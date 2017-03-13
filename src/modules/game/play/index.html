@@ -74,6 +74,7 @@
                             ng-model="viewService.clue.word" 
                             class="clue" 
                             ng-class="{ 'field-error': viewService.clue.submitted && clueForm.clue.$invalid }"
+                            h22-enter-action="giveClue()"
                             required />
 
                     <input type="text"
@@ -83,6 +84,7 @@
                             class="numMatches"
                             ng-class="{ 'field-error': viewService.clue.submitted && clueForm.numMatches.$invalid }"
                             pattern="[1-9]"
+                            h22-enter-action="giveClue()"
                             required />
 
                     <button type="button" 
