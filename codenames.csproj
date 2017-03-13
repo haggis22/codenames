@@ -65,6 +65,7 @@
     <Content Include="lib\haggis22\haggis22.js" />
     <Content Include="server\crypto\cryptographer.js" />
     <Content Include="server\managers\games\BoardManager.js" />
+    <Content Include="server\managers\games\ClueManager.js" />
     <Content Include="server\managers\games\GameInvitationManager.js" />
     <Content Include="server\managers\games\Sanitizer.js" />
     <Content Include="server\managers\games\WordManager.js" />
@@ -76,7 +77,6 @@
     <Content Include="server\routes\users.js" />
     <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
-    <Content Include="src\test.html" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\images\assassin.jpg" />
     <Content Include="src\images\blue-1.jpg" />
