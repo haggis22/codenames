@@ -20,7 +20,7 @@ config.db =
 
 config.logging =
 {
-    configFile: __dirname + "\\log4js_config.json",
+    configFile: __dirname + "/log4js_config.json",
     main: "codenames"
 };
 
