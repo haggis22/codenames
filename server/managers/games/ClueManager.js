@@ -25,15 +25,16 @@ function lookupLink(wordArray, maxResults) {
         url: url,
     };
 
-	// console.log('sending request for ' + JSON.stringify(wordArray));
+    logger.info('sending request for ' + JSON.stringify(wordArray));
 
     request(options, function (err, response, body) {
 
         if (err) {
+            logger.error('Error response from datamuse: ' + err.stack);
             return deferred.reject(err);
         }
         if (response.statusCode == 200) {
-        	
+        	logger.info('Successful response from datamuse');
         	var result = 
         	{
         		words: wordArray,
