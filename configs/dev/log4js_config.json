@@ -1,0 +1,17 @@
+{
+	"appenders": [
+		{
+			"type": "dateFile",
+			"filename": "logs/codenames.log",
+			"pattern": "-yyyy-MM-dd",
+			"alwaysIncludePattern": false,
+			"category": "codenames"
+		},
+		{
+			"type": "console",
+			"category": "codenames"
+		}
+
+	]
+}
+
