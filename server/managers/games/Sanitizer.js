@@ -27,7 +27,7 @@ class Sanitizer
 
         if (board)
         {
-            for (var cell of board.cells)
+            for (let cell of board.cells)
             {
                 this.sanitizeCell(cell);
             }

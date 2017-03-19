@@ -47,7 +47,7 @@ app.get('/', function (req, res) {
 
 logger.info('__dirname = ' + __dirname);
 
-for (var s = 0; s < config.servers.length; s++) {
+for (let s = 0; s < config.servers.length; s++) {
 
     var server = config.servers[s];
 

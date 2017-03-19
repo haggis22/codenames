@@ -85,7 +85,7 @@
                 if (this.invitations)
                 {
                     // game.invitations is an array of plain username strings
-                    for (var invitee of this.invitations)
+                    for (let invitee of this.invitations)
                     {
                         if (invitee == username)
                         {
@@ -103,7 +103,7 @@
                 if (this.players)
                 {
 
-                    for (var player of this.players)
+                    for (let player of this.players)
                     {
                         if (player.username == username)
                         {
@@ -125,7 +125,7 @@
 
             findPlayer(userID) { 
 
-                for (var player of this.players)
+                for (let player of this.players)
                 {
                     if (player.isUser(userID))
                     {
@@ -215,7 +215,7 @@
 
             findSpymaster(team) {
 
-                for (var player of this.players) {
+                for (let player of this.players) {
 
                     if (player.team == team && player.role == Team.ROLES.SPYMASTER)
                     {

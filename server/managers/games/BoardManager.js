@@ -33,7 +33,7 @@ class BoardManager
 
         var word = null;
 
-        for (var c=0; c < Board.NUM_CELLS; c++)
+        for (let c=0; c < Board.NUM_CELLS; c++)
         {
             board.cells.push(new Cell({ word: WordManager.pickNewWord(usedWords) }));
         }
@@ -42,7 +42,7 @@ class BoardManager
         var cellIndex = 0;
 
         // assign the red spies
-        for (var red=0; red < Board.NUM_AGENTS; red++)
+        for (let red=0; red < Board.NUM_AGENTS; red++)
         {
 
             do
@@ -59,7 +59,7 @@ class BoardManager
         }   // red team assigments
 
         // assign the blue spies
-        for (var blue=0; blue < Board.NUM_AGENTS; blue++)
+        for (let blue=0; blue < Board.NUM_AGENTS; blue++)
         {
 
             do
@@ -111,7 +111,7 @@ class BoardManager
         taken[cellIndex] = true;
 
         // assign the rest to be bystanders of some sort
-        for (var cell of board.cells)
+        for (let cell of board.cells)
         {
             if (!cell.role)
             {
