@@ -9,7 +9,7 @@ node_modules
 
 # log4js log files
 npm-debug.log
-codenames*.log
+codenames.log*
 
 # locally-built folders for running local server
 build
