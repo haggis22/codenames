@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/*jslint node: true */
+"use strict";
 
 var config = require(__dirname + '/../../config');
 
@@ -70,7 +71,7 @@ function combinations(array) {
 			fn(active, rest.slice(1), a);
 		}
 		return a;
-	}
+	};
 	
 	return fn([], array, []);
 }
@@ -106,7 +107,7 @@ class ClueManager
 	    let startTime = new Date();
 	    console.log('Thinking...');
 	
-	    for (var combo of combos)
+	    for (let combo of combos)
 	    {
 		    promiseArray.push(lookupLink(combo, 100));
 	    }
@@ -145,6 +146,8 @@ class ClueManager
                             }
                         }
 
+                        // jslint doesn't like the hasOwnProperty portion of this arrow function. It returns the following error on this line:
+                        // Don't make functions within a loop
                         let filteredLinks = result.links.filter(l => l.word.indexOf(' ') == -1 && !previousCluesMap.hasOwnProperty(l.word));
             
                         if (filteredLinks.length > 0)
@@ -165,7 +168,7 @@ class ClueManager
 					
                 return best;
 
-		    })
+		    });
 
     }  // supplyClue
 
@@ -204,7 +207,7 @@ class ClueManager
 	
 	            // for each word on the board, get its best association with the clue. Whichever
 	            // word's best score
-	            for (var word of words)
+	            for (let word of words)
 	            {
 		            // we only care about the best match's score, so we only need the top match
 		            promiseArray.push(lookupLink([ word, clue ], 100));
@@ -237,7 +240,7 @@ class ClueManager
 			            if (wordScores.length > 0)
                         {
 			                // sort them in reverse order
-			                wordScores.sort((a, b) => { return b.score - a.score });
+			                wordScores.sort((a, b) => { return b.score - a.score; });
 
                             console.log('Going with ' + wordScores[0].word);
                             return wordScores[0].word;
@@ -247,7 +250,7 @@ class ClueManager
                         return null;
                 
 
-		            })
+		            });
 
 
             });

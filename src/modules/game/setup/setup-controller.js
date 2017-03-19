@@ -30,7 +30,7 @@
                     return;
                 }
 
-                gameService.inviteUser()
+                gameService.inviteUser();
 
             };   // invite
 

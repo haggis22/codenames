@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/*jslint node: true */
+"use strict";
 
 var express = require('express');
 var router = express.Router();
@@ -45,7 +46,7 @@ router.post('/register', function (req, res) {
 
         })
         .catch(function(err) {
-            logger.warn('Could not register user ' + user.username + ': ' + err.stack);
+            logger.warn('Could not register user ' + newUser.username + ': ' + err.stack);
             return res.status(500).send('System error during registration').end();
         });
 

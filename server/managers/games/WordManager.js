@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/*jslint node: true */
+"use strict";
 
 var config = require(__dirname + '/../../config');
 
@@ -34,7 +35,7 @@ const wordArray =
     'wag', 'water', 'watermelon', 'wax', 'wedding', 'weed', 'welder', 'whatever', 'wheelchair', 'whiplash', 'whisk', 'whistle', 'white', 'wig', 'will', 'windmill', 'winter', 'wish', 'wolf', 'wool', 'world', 'worm', 'wristwatch', 
     'yardstick', 
     'zamboni', 'zen', 'zero', 'zipper', 'zone', 'zoo'
-]
+];
 
 
 class WordManager

@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/*jslint node: true */
+"use strict";
 
 var config = require(__dirname + '/../../config');
 
@@ -148,27 +149,27 @@ class UserManager
             return { error: 'User is null' };
         }
 
-        if (!user.username || user.username.trim().length == 0)
+        if (!user.username || user.username.trim().length === 0)
         {
             return { error: 'Invalid username' };
         }
 
-        if (!user.email || user.email.trim().length == 0)
+        if (!user.email || user.email.trim().length === 0)
         {
             return { error: 'Invalid email' };
         }
 
-        if (!user.first || user.first.trim().length == 0)
+        if (!user.first || user.first.trim().length === 0)
         {
             return { error: 'Missing first name' };
         }
 
-        if (!user.last || user.last.trim().length == 0)
+        if (!user.last || user.last.trim().length === 0)
         {
             return { error: 'Missing last name' };
         }
 
-        if (!user.password || user.password.trim().length == 0)
+        if (!user.password || user.password.trim().length === 0)
         {
             return { error: 'Missing password' };
         }
@@ -178,7 +179,7 @@ class UserManager
             return { error: 'Password too short' };
         }
 
-        if (!user.confirmPassword || user.confirmPassword.trim().length == 0)
+        if (!user.confirmPassword || user.confirmPassword.trim().length === 0)
         {
             return { error: 'Missing password confirmation' };
         }

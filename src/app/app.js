@@ -1,5 +1,9 @@
-﻿"use strict";
+﻿(function () {
 
-angular.module('codenames.app', ['ui.router', 'ngCookies', 'ngResource', 'haggis22' ]);
+    "use strict";
+
+    angular.module('codenames.app', ['ui.router', 'ngCookies', 'ngResource', 'haggis22']);
+
+})();
 
 

@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/*jslint node: true */
+"use strict";
 
 var config = require(__dirname + '/../../config');
 

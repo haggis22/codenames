@@ -1,4 +1,5 @@
-﻿var express = require('express');
+﻿/*jslint node: true */
+var express = require('express');
 var https = require('https');
 
 var cookieParser = require('cookie-parser');

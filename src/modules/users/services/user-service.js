@@ -26,7 +26,7 @@
 
                 viewService.user = new User();
 
-            };
+            }
 
 
             function validateRegistration()

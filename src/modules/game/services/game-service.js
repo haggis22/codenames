@@ -66,13 +66,13 @@
                 var numRows = Math.ceil(Math.sqrt(game.board.cells.length));
                 var numCols = Math.ceil(game.board.cells.length / numRows);
 
-                for (var c=0; c < game.board.cells.length; c++)
+                for (let c=0; c < game.board.cells.length; c++)
                 {
                     game.board.cells[c].cellIndex = c;
 
                     row.push(game.board.cells[c]);
 
-                    if (((c + 1) % numCols) == 0)
+                    if (((c + 1) % numCols) === 0)
                     {
                         rows.push(row);
                         row = [];

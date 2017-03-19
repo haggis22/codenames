@@ -26,7 +26,7 @@
                     first: user.first,
                     last: user.last,
                     email: user.email
-                })
+                });
 
             }
 

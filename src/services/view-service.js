@@ -35,7 +35,7 @@
             function saveOptions() {
 
                 // we need to stringify the JSON or it will just store "[Object object]"
-                localStorage.setItem(constants.STORAGE_KEY, JSON.stringify(this.options));
+                localStorage.setItem(constants.STORAGE_KEY, JSON.stringify(this.options));      // <-- JSLint doesn't like the this. here in strict mode, but it works just fine
 
             }
 

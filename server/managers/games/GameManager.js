@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/*jslint node: true */
+"use strict";
 
 var config = require(__dirname + '/../../config');
 
@@ -106,12 +107,15 @@ class GameManager
 
         if (!(user instanceof CPU))
         {
-            query['$or'] = 
+            // if it is not the computer loading the game, then make sure the player is either:
+            // 1. playing 
+            // 2. or has been invited to play
+            query.$or = 
                 [   
                     { players: { $elemMatch: { _id: user._id } } },
                     { invitations: { $in: [ user.username ] } }
                 ];
-        };
+        }
 
         return GameManager.fetch(query)
 
@@ -122,7 +126,7 @@ class GameManager
                     return gameArray;
                 }
 
-                if (gameArray.data.length == 0)
+                if (gameArray.data.length === 0)
                 {
                     return { error: 'Could not find game' };
                 }
@@ -335,7 +339,7 @@ class GameManager
         // there can only be one spymaster, so make sure no-one else is already doing that
         if (role == Team.ROLES.SPYMASTER)
         {
-            for (var player of game.players)
+            for (let player of game.players)
             {
                 if (player.team == team && player.role == role && !player.isUser(user._id))
                 {
@@ -345,7 +349,7 @@ class GameManager
 
         }
 
-        for (var player of game.players)
+        for (let player of game.players)
         {
             if (player.isUser(user._id))
             {
@@ -405,7 +409,7 @@ class GameManager
             return q.resolve({ error: 'It is not your turn' });
         }
 
-        if (word == null || word.trim().length == 0)
+        if (word == null || word.trim().length === 0)
         {
             return q.resolve({ error: 'Clue cannot be blank' });
         }
@@ -445,14 +449,14 @@ class GameManager
             return q.resolve({ error: 'It is not your turn' });
         }
 
-        if (word == null || word.trim().length == 0)
+        if (word == null || word.trim().length === 0)
         {
             return q.resolve({ error: 'Chosen word cannot be blank' });
         }
 
         var selectedCell = null;
 
-        for (var cell of game.board.cells)
+        for (let cell of game.board.cells)
         {
             if (cell.word == word && !cell.revealed)
             {
@@ -487,7 +491,7 @@ class GameManager
 
                 game.board.remaining[myTeam]--;
                 
-                if (game.board.remaining[myTeam] == 0)
+                if (game.board.remaining[myTeam] === 0)
                 {
                     winner = myTeam;
                 }
@@ -515,7 +519,7 @@ class GameManager
                
                 game.board.remaining[otherTeam]--;
 
-                if (game.board.remaining[otherTeam] == 0)
+                if (game.board.remaining[otherTeam] === 0)
                 {
                     winner = otherTeam;
                 }
@@ -618,7 +622,7 @@ class GameManager
             return false;
         }
 
-        for (var clue in map)
+        for (let clue in map)
         {
             if (map.hasOwnProperty(clue) && clue.toUpperCase().indexOf(word.toUpperCase()) > -1)
             {
@@ -635,7 +639,7 @@ class GameManager
 
         if (game)
         {
-            for (var cell of game.board.cells)
+            for (let cell of game.board.cells)
             {
                 // this sets a special value that indicates that it is only revealed because
                 // the game is over. This differentiates it from the cards revealed during
@@ -645,7 +649,7 @@ class GameManager
 
         }
 
-    };
+    }
 
     static computerGiveClue(game)
     {
@@ -673,7 +677,7 @@ class GameManager
                     // Use a map for O(1) lookup
                     let previousCluesMap = {};
 
-                    for (var previousClue of thinkGame.moves.filter(m => m.action == Action.CLUE && m.team == thinkGame.turn.team))
+                    for (let previousClue of thinkGame.moves.filter(m => m.action == Action.CLUE && m.team == thinkGame.turn.team))
                     {
                         previousCluesMap[previousClue.word] = true;
                     }
@@ -748,7 +752,7 @@ class GameManager
                                 return GameManager.selectWord(userCPU, thinkGame, availableWords[selectionIndex]);
                             }
 
-                        })
+                        });
 
                 }
                 else

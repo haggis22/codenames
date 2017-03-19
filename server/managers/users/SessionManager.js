@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/*jslint node: true */
+"use strict";
 
 var config = require(__dirname + '/../../config');
 
@@ -83,7 +84,7 @@ SessionManager.createSession = function (user) {
             }
 
             // otherwise, generate their session id and save it
-            var session = Session.fromUser(user);
+            session = Session.fromUser(user);
             session.hash = uuid.v4();
 
             return SessionManager.insert(session)
