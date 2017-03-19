@@ -8,11 +8,12 @@ obj
 node_modules
 
 # log4js log files
-logs
-*.log
+npm-debug.log
+codenames*.log
 
 # locally-built folders for running local server
 build
+dist
 localserver
 
 # locally-built folders for serving up the site
