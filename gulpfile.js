@@ -100,7 +100,15 @@ gulp.task('node_modules', ['clean'], function () {
 
 });
 
-gulp.task('build', ['client-js', 'client-html', 'css', 'images', 'libs', 'server', 'server-js', 'logs' ], function () {
+gulp.task('package', ['clean'], function() {
+
+   return gulp.src(['package.json'])
+	.pipe(gulp.dest('build'));
+
+});
+
+
+gulp.task('build', ['client-js', 'client-html', 'css', 'images', 'libs', 'server', 'server-js', 'package', 'logs' ], function () {
 
     return gulp.src('.');
 
@@ -117,8 +125,7 @@ gulp.task('build-dev', ['build'], function () {
 gulp.task('build-prod', ['build'], function () {
 
     // do not use a base so that it will just drop them in the server folder
-    return gulp.src(['configs/prod/*'])
-        .pipe(gulp.dest('build/server'));
+    return gulp.src(['configs/prod/*']);
 
 });
 
