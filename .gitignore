@@ -18,3 +18,6 @@ localserver
 
 # locally-built folders for serving up the site
 client
+
+#ignore production config files
+configs/prod
