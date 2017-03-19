@@ -35,8 +35,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="configs\prod\log4js_config.json" />
+    <None Include="jshint.json" />
+    <None Include="logs\empty.log" />
     <None Include="package.json" />
-    <None Include="server\log4js_config.json" />
+    <None Include="configs\dev\log4js_config.json" />
     <None Include="src\css\style.scss" />
     <None Include="src\modules\game\css\game.scss" />
     <None Include="src\modules\game\css\board.scss" />
@@ -47,6 +50,7 @@
     <None Include="src\modules\users\register\register.scss" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="configs\prod\config.js" />
     <Content Include="gulpfile.js" />
     <Content Include="js\Constants.js" />
     <Content Include="js\games\Board.js" />
@@ -75,7 +79,6 @@
     <Content Include="server\routes\play.js" />
     <Content Include="server\routes\games.js" />
     <Content Include="server\routes\users.js" />
-    <Content Include="server\spy.js" />
     <Content Include="src\app\app.js" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\images\assassin.jpg" />
@@ -108,7 +111,7 @@
     <Content Include="src\modules\users\login\index.html" />
     <Content Include="src\app\routes.js" />
     <Content Include="src\modules\users\login\login-controller.js" />
-    <Content Include="server\config.js" />
+    <Content Include="configs\dev\config.js" />
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
     <Content Include="src\modules\users\services\user-service.js" />
