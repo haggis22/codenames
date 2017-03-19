@@ -1,0 +1,7 @@
+  {
+	"predef": ["angular", "localStorage", "window", "confirm" ],	// don't freak out if you see these globals
+	"eqnull": true,
+	"unused": false,
+	"laxbreak": true,			// this relaxes the warning where multiple lines for a boolean || or && no longer throw a warning
+	"esversion": 6				// will recognize ES6 constructs like class, arrow functions, for of, etc
+}
