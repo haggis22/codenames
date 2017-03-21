@@ -25,8 +25,6 @@ function lookupLink(wordArray, maxResults) {
         url: url,
     };
 
-    logger.info('sending request for ' + JSON.stringify(wordArray));
-
     request(options, function (err, response, body) {
 
         if (err) {
@@ -34,7 +32,7 @@ function lookupLink(wordArray, maxResults) {
             return deferred.reject(err);
         }
         if (response.statusCode == 200) {
-        	logger.info('Successful response from datamuse');
+
         	var result = 
         	{
         		words: wordArray,

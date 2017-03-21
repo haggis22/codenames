@@ -105,7 +105,7 @@ SessionManager.fetchByHash = function (hash) {
 
     // null hash will mean NULL user
     if (hash === null) {
-        return q.resolve(null);
+        return q(null);
     }
 
     return SessionManager.fetch({ hash: hash });

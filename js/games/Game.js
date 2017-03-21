@@ -32,7 +32,10 @@
                         this.moves = game.moves.map(m => new Move(m));
                     }
 
+                    this.needsCPUAction = game.needsCPUAction;
+
                     this.created = game.created;
+                    this.updated = game.updated;
                 }
 
                 this.players = this.players || [];

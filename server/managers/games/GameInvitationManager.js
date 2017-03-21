@@ -22,27 +22,27 @@ class GameInvitationManager
 
         if (!game.isOwner(user._id))
         {
-            return q.resolve({ error: 'Only the game creator can invite other players' });
+            return q({ error: 'Only the game creator can invite other players' });
         }
 
         if (user.username == username)
         {
-            return q.resolve({ error: 'You cannot invite yourself' });
+            return q({ error: 'You cannot invite yourself' });
         }
 
         // look for the invitee already being in the game
         if (game.isPlaying(username)) {
-            return q.resolve({ error: username + ' is already in the game' });
+            return q({ error: username + ' is already in the game' });
         }
 
         // ...or already invited
         if (game.isInvited(username)) {
-            return q.resolve({ error: username + ' is already invited to the game' });
+            return q({ error: username + ' is already invited to the game' });
         }
 
         if (!game.isSettingUp())
         {
-            return q.resolve({ error: 'The game has already started' });
+            return q({ error: 'The game has already started' });
         }
 
         return UserManager.fetchByUsername(username)
@@ -68,12 +68,12 @@ class GameInvitationManager
 
         // Check to see whether the user has an invitation
         if (!game.isInvited(user.username)) {
-            return q.resolve({ error: ' You do not have an invitation to this game' });
+            return q({ error: ' You do not have an invitation to this game' });
         }
 
         if (!game.isSettingUp())
         {
-            return q.resolve({ error: 'The game has already started' });
+            return q({ error: 'The game has already started' });
         }
 
         // remove this user from the invitations
@@ -81,7 +81,7 @@ class GameInvitationManager
 
         game.addPlayer(Player.fromUser(user));
 
-        return q.resolve({ data: game });
+        return q({ data: game });
 
     }   // accept
 

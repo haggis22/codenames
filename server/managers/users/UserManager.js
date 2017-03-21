@@ -58,7 +58,7 @@ class UserManager
 
         // null email will mean NULL user
         if (email === null) {
-            return q.resolve(null);
+            return q(null);
         }
 
         return UserManager.fetch({ email: email });
@@ -69,7 +69,7 @@ class UserManager
 
         // null username will mean NULL user
         if (username === null) {
-            return q.resolve(null);
+            return q(null);
         }
 
         return UserManager.fetch({ username: username });
@@ -81,7 +81,7 @@ class UserManager
 
         // null ID will mean NULL user
         if (id === null) {
-            return q.resolve(null);
+            return q(null);
         }
 
         return UserManager.fetch({ _id: id });
@@ -93,7 +93,7 @@ class UserManager
 
         // null hash will mean NULL user
         if (sessionHash === null) {
-            return q.resolve(null);
+            return q(null);
         }
 
         return SessionManager.fetchByHash(sessionHash)
@@ -201,7 +201,7 @@ class UserManager
 
         if (validationResult.error)
         {
-            return q.resolve(validationResult);
+            return q(validationResult);
         }
 
         // pull by email address

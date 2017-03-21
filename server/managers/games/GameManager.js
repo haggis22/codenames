@@ -88,13 +88,49 @@ class GameManager
             
             .then(function(result) {
 
-                // turn the array of results to an array of GameDesc objects
-                // return { data: result.data.map(game => new GameDesc(game)) };
                 return { data: result.data };
 
             });
 
     }   // fetchGamesForUser
+
+    
+    static fetchGamesWaitingForCPU() {
+
+        var query = 
+        { 
+            needsCPUAction: true
+        };
+
+        return GameManager.fetch(query)
+            
+            .then(function(result) {
+
+                return { data: result.data };
+
+            });
+
+    }
+
+    static fetchStuckGames() {
+
+        // pull anything that has been in thinking mode for at least a minute
+        var query = 
+        { 
+            needsCPUAction: false,
+            state: Game.STATES.THINKING,
+            updated: { $lte: Date.now() - (1000 * 60) }        
+        };
+
+        return GameManager.fetch(query)
+            
+            .then(function(result) {
+
+                return { data: result.data };
+
+            });
+
+    }
 
     
     // returns a promise to a particuluar game
@@ -136,9 +172,7 @@ class GameManager
                     return { error: 'Matched more than one game' };
                 }
 
-                var result = { data: new Game(gameArray.data[0]) };
-
-                return GameManager.checkForCPUAction(result);
+                return { data: new Game(gameArray.data[0]) };
 
             });
         
@@ -146,7 +180,11 @@ class GameManager
     }   // fetchGame
 
 
+
+
     static insert(game) {
+
+        game.updated = Date.now();
 
         var deferred = q.defer();
 
@@ -174,7 +212,7 @@ class GameManager
 
         var game = new Game();
         
-        game.created = new Date();
+        game.created = Date.now();
 
         game.ownerID = user._id;
 
@@ -196,6 +234,12 @@ class GameManager
 
 
     static update(user, game) {
+
+        // set this field for easy querying later
+        game.needsCPUAction = GameManager.needsCPUAction(game);
+        
+        // mark the last time it was updated
+        game.updated = Date.now();
 
         var deferred = q.defer();
 
@@ -230,12 +274,12 @@ class GameManager
 
         if (user == null)
         {
-            return q.resolve({ error: 'No user in session' });
+            return q({ error: 'No user in session' });
         }
 
         if (!GameManager.validateCommand(command))
         {
-            return q.resolve({ error: 'Invalid command' });
+            return q({ error: 'Invalid command' });
         }
 
         return GameManager.fetchGame(user, command.gameID)
@@ -323,17 +367,17 @@ class GameManager
 
         if (team != Team.RED && team != Team.BLUE)
         {
-            return q.resolve({ error: 'Unknown team ' + team });
+            return q({ error: 'Unknown team ' + team });
         }
 
         if (role != Team.ROLES.SPYMASTER && role != Team.ROLES.SPY)
         {
-            return q.resolve({ error: 'Unknown role ' + role });
+            return q({ error: 'Unknown role ' + role });
         }
 
         if (!game.isPlaying(user.username))
         {
-            return q.resolve({ error: 'Player ' + user.username + ' is not in the game' });
+            return q({ error: 'Player ' + user.username + ' is not in the game' });
         }
 
         // there can only be one spymaster, so make sure no-one else is already doing that
@@ -343,7 +387,7 @@ class GameManager
             {
                 if (player.team == team && player.role == role && !player.isUser(user._id))
                 {
-                    return q.resolve({ error: 'Player ' + player.username + ' is already the spymaster for that team' });
+                    return q({ error: 'Player ' + player.username + ' is already the spymaster for that team' });
                 }
             }
 
@@ -369,12 +413,12 @@ class GameManager
 
         if (!game.isSettingUp())
         {
-            return q.resolve({ error: 'Game is not in setup phase' });
+            return q({ error: 'Game is not in setup phase' });
         }
 
         if (!game.isOwner(user._id))
         {
-            return q.resolve({ error: 'Only the game owner can start it' });
+            return q({ error: 'Only the game owner can start it' });
         }
 
         game.state = Game.STATES.PLAY;
@@ -388,12 +432,7 @@ class GameManager
         // ...and set the first team's turn
         game.turn = new Turn({ team: game.board.first, action: Action.CLUE });
 
-        return GameManager.update(user, game)
-
-            .then(function(result) {
-                return GameManager.checkForCPUAction(result);
-            });
-            
+        return GameManager.update(user, game);
 
     }   // startGame
 
@@ -406,18 +445,18 @@ class GameManager
 
         if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.CLUE))
         {
-            return q.resolve({ error: 'It is not your turn' });
+            return q({ error: 'It is not your turn' });
         }
 
         if (word == null || word.trim().length === 0)
         {
-            return q.resolve({ error: 'Clue cannot be blank' });
+            return q({ error: 'Clue cannot be blank' });
         }
 
         var numWords = parseInt(numMatches);
         if (isNaN(numWords) || numWords < 1 || numWords > 9)
         {
-            return q.resolve({ error: 'Number of matching words must be a numeric value between 1 and 9' });
+            return q({ error: 'Number of matching words must be a numeric value between 1 and 9' });
         }
 
         game.moves.push(new Move({ team: game.turn.team, playerID: user._id, action: Action.CLUE, word: word, numMatches: numMatches }));
@@ -434,10 +473,7 @@ class GameManager
         // you always get one more guess than the number of matches stated
         game.turn.numGuesses = parseInt(numMatches, 10) + 1;
 
-        return GameManager.update(user, game)
-
-            .then(GameManager.checkForCPUAction);
-
+        return GameManager.update(user, game);
 
     }  // giveClue
 
@@ -446,12 +482,12 @@ class GameManager
 
         if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.GUESS))
         {
-            return q.resolve({ error: 'It is not your turn' });
+            return q({ error: 'It is not your turn' });
         }
 
         if (word == null || word.trim().length === 0)
         {
-            return q.resolve({ error: 'Chosen word cannot be blank' });
+            return q({ error: 'Chosen word cannot be blank' });
         }
 
         var selectedCell = null;
@@ -466,7 +502,7 @@ class GameManager
 
         if (!selectedCell)
         {
-            return q.resolve({ error: word.toUpperCase() + ' is not on the board' });
+            return q({ error: word.toUpperCase() + ' is not on the board' });
         }
 
         selectedCell.revealed = true;
@@ -560,10 +596,7 @@ class GameManager
             game.state = Game.STATES.PLAY;
         }
 
-        return GameManager.update(user, game)
-
-            .then(GameManager.checkForCPUAction);
-
+        return GameManager.update(user, game);
 
     }   // selectCell
 
@@ -572,7 +605,7 @@ class GameManager
 
         if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.GUESS))
         {
-            return q.resolve({ error: 'It is not your turn' });
+            return q({ error: 'It is not your turn' });
         }
 
         game.moves.push(new Move({ team: game.turn.team, playerID: user._id, action: Action.PASS }));
@@ -582,9 +615,7 @@ class GameManager
         delete game.turn.numGuesses;
         game.turn.team = Team.findOpponent(game.turn.team);
 
-        return GameManager.update(user, game)
-
-            .then(GameManager.checkForCPUAction);
+        return GameManager.update(user, game);
 
     }   // passTurn
 
@@ -770,12 +801,12 @@ class GameManager
         // if we don't have a game, then there's nothing to do
         if (!result.data)
         {
-            return result;
+            return q(result);
         }
 
         if (!GameManager.needsCPUAction(result.data)) {
 
-            return result;
+            return q(result);
         
         }
         
@@ -785,25 +816,37 @@ class GameManager
         {
             // kick off this action, but don't return. We want the computer to go off and do its thing, but
             // show the client the immediate result of the action
-            GameManager.computerGiveClue(game)
-                .catch(function(error) {
-                    logger.error('Error in GameManager.computerGiveClue: ' + error.stack);
-                });
+            return GameManager.computerGiveClue(game);
+
         }
         else if (game.isTimeToGuess())
         {
             // kick off this action, but don't return. We want the computer to go off and do its thing, but
             // show the client the immediate result of the action
-            GameManager.computerGuess(game)
-                .catch(function(error) {
-                    logger.error('Error in GameManager.computerGuess: ' + error.stack);
-                });
+            return GameManager.computerGuess(game);
         }
 
         // give the client the current state - if there is a CPU action they will get it on the next poll
-        return result;
+        return q(result);
 
     }  // checkForCPUAction
+
+
+    static unstick(result) {
+
+        // if we don't have a game, then there's nothing to do
+        if (!result.data)
+        {
+            return q(result);
+        }
+
+        let game = result.data;
+
+        game.state = Game.STATES.PLAY;
+
+        return GameManager.update(userCPU, game);
+
+    }  // unstick
 
 
 }  // end class declaration

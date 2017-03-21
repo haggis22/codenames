@@ -67,6 +67,7 @@
     <Content Include="js\users\User.js" />
     <Content Include="lib\haggis22\haggis22.css" />
     <Content Include="lib\haggis22\haggis22.js" />
+    <Content Include="server\cpu-runner.js" />
     <Content Include="server\crypto\cryptographer.js" />
     <Content Include="server\managers\games\BoardManager.js" />
     <Content Include="server\managers\games\ClueManager.js" />
@@ -118,7 +119,9 @@
     <Content Include="src\services\view-service.js" />
     <Content Include="src\modules\users\services\users-dal-service.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
