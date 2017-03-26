@@ -31,7 +31,10 @@
             <tfoot>
                 <tr>
                     <td colspan="2" class="buttons">
-                        <button type="button" ng-click="login()">Log In</button>
+						<h22-ajax-message ng-show="viewService.loggingIn" message="Logging in"></h22-ajax-message>
+						<div ng-hide="viewService.loggingIn">			
+	                        <button type="button" ng-click="login()">Log In</button>
+						</div>
                     </td>
                 </tr>
             </tfoot>

@@ -62,7 +62,9 @@
 
             function login(email, password) {
 
-                dalService.login.login({}, { email: email, password: password }).$promise
+				viewService.loggingIn = true;                
+
+				dalService.login.login({}, { email: email, password: password }).$promise
 
                     .then(function (result) {
 
@@ -71,10 +73,12 @@
 
                     })
                     .catch(function(error) { 
-
                         errorService.addError('Login failure', error);
-
-                    });
+                    })
+					.finally(function() {
+						viewService.loggingIn = false;
+					});
+				
 
             }  // login
 
