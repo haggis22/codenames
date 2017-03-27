@@ -63,6 +63,7 @@
     <Content Include="js\games\Team.js" />
     <Content Include="js\games\Game.js" />
     <Content Include="js\games\Player.js" />
+    <Content Include="js\users\CPU.js" />
     <Content Include="js\users\Session.js" />
     <Content Include="js\users\User.js" />
     <Content Include="lib\haggis22\haggis22.css" />
