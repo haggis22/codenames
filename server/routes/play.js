@@ -14,6 +14,8 @@ var constants = require(__dirname + '/../../js/Constants');
 
 var Command = require(__dirname + '/../../js/games/Command');
 
+var MongoGameRepository = require(__dirname + '/../persistence/mongo/MongoGameRepository');
+
 var GameManager = require(__dirname + '/../managers/games/GameManager');
 var Sanitizer = require(__dirname + '/../managers/games/Sanitizer');
 
@@ -33,11 +35,13 @@ router.post('/', function (req, res) {
 
     console.log('Heard the command: ' + JSON.stringify(command));
 
-    GameManager.applyCommand(req.user, command)
+    let manager = new GameManager(new MongoGameRepository());
+    
+    return manager.applyCommand(req.user, command)
 
         .then(function (result) {
 
-            var game = result.data;
+            let game = result.data;
 
             if (game)
             {

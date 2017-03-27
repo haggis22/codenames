@@ -12,6 +12,8 @@ var logger = log4js.getLogger('codenames');
 
 var constants = require(__dirname + '/../../js/Constants');
 
+var MongoGameRepository = require(__dirname + '/../persistence/mongo/MongoGameRepository');
+
 var GameManager = require(__dirname + '/../managers/games/GameManager');
 var Sanitizer = require(__dirname + '/../managers/games/Sanitizer');
 
@@ -24,7 +26,9 @@ router.get('/', function (req, res) {
         return res.status(401).send('Not logged in');
     }
 
-    GameManager.fetchGamesForUser(req.user)
+    let repo = new MongoGameRepository();
+
+    return repo.fetchGamesForUser(req.user)
 
         .then(function (result) {
 
@@ -60,7 +64,9 @@ router.get('/:gameID', function (req, res) {
         return res.status(404).send('Invalid game ID');
     }
 
-    GameManager.fetchGame(req.user, req.params.gameID)
+    let repo = new MongoGameRepository();
+
+    return repo.fetchGame(req.params.gameID, req.user)
 
         .then(function (result) {
 
@@ -91,11 +97,12 @@ router.get('/:gameID', function (req, res) {
 });
 
 
-// Returns a Game object if the login is successful
+// Create a new game
 router.post('/', function (req, res) {
 
-    // for a POST the parameters come in req.body
-    GameManager.create(req.user)
+    let manager = new GameManager(new MongoGameRepository());
+
+    return manager.create(req.user)
 
         .then(function (result) {
 

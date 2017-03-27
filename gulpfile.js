@@ -138,4 +138,4 @@ gulp.task('dist-prod', ['build-prod'], function () {
 
 });
 
-gulp.task('default', ['client-js', 'client-html', 'css', 'images', 'libs' ]);
+gulp.task('default', ['build-dev' ]);

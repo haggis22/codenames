@@ -7,13 +7,7 @@ var log4js = require('log4js');
 log4js.configure(config.logging.configFile);
 var logger = log4js.getLogger('codenames');
 
-var mongo = require('mongodb');
-var monk = require('monk');
-
-var db = monk(config.db.codenames);
-
 var q = require('q');
-
 
 var BoardManager = require(__dirname + '/BoardManager');
 var GameInvitationManager = require(__dirname + '/GameInvitationManager');
@@ -47,166 +41,15 @@ var userCPU = new CPU();
 class GameManager
 {
 
-    // returns a promise to an array of modules
-    static fetch(query) {
-
-        var deferred = q.defer();
-
-        var collection = db.get(COLLECTION_NAME);
-
-        collection.find(query, {}, function (err, result) {
-
-            if (err) {
-                logger.error('Could not load games from database: ' + err);
-                return deferred.reject(err);
-            }
-
-            // turn the array of results to an array of Games
-            return deferred.resolve({ data: result.map(function(row) { return new Game(row); }) });
-
-        });
-
-        return deferred.promise;
-
-    }   // fetch
-
-
-    // returns a promise to an array of game descriptions
-    static fetchGamesForUser(user) {
-
-        var query = 
-        { 
-            $or:
-            [   
-                { players: { $elemMatch: { _id: user._id } } },
-                { invitations: { $in: [ user.username ] } }
-            ]
-
-        };
-
-        return GameManager.fetch(query)
-            
-            .then(function(result) {
-
-                return { data: result.data };
-
-            });
-
-    }   // fetchGamesForUser
-
+    constructor(repo) {
     
-    static fetchGamesWaitingForCPU() {
+        this.repo = repo;
 
-        var query = 
-        { 
-            needsCPUAction: true
-        };
-
-        return GameManager.fetch(query)
-            
-            .then(function(result) {
-
-                return { data: result.data };
-
-            });
-
-    }
-
-    static fetchStuckGames() {
-
-        // pull anything that has been in thinking mode for at least a minute
-        var query = 
-        { 
-            needsCPUAction: false,
-            state: Game.STATES.THINKING,
-            updated: { $lte: Date.now() - (1000 * 60) }        
-        };
-
-        return GameManager.fetch(query)
-            
-            .then(function(result) {
-
-                return { data: result.data };
-
-            });
-
-    }
-
-    
-    // returns a promise to a particuluar game
-    static fetchGame(user, gameID) {
-
-        var query = 
-        { 
-            _id: gameID,
-        };
-
-        if (!(user instanceof CPU))
-        {
-            // if it is not the computer loading the game, then make sure the player is either:
-            // 1. playing 
-            // 2. or has been invited to play
-            query.$or = 
-                [   
-                    { players: { $elemMatch: { _id: user._id } } },
-                    { invitations: { $in: [ user.username ] } }
-                ];
-        }
-
-        return GameManager.fetch(query)
-
-            .then(function(gameArray) {
-
-                if (gameArray.error)
-                {
-                    return gameArray;
-                }
-
-                if (gameArray.data.length === 0)
-                {
-                    return { error: 'Could not find game' };
-                }
-
-                if (gameArray.data.length > 1)
-                {
-                    return { error: 'Matched more than one game' };
-                }
-
-                return { data: new Game(gameArray.data[0]) };
-
-            });
-        
-
-    }   // fetchGame
+    } 
 
 
-
-
-    static insert(game) {
-
-        game.updated = Date.now();
-
-        var deferred = q.defer();
-
-        var collection = db.get(COLLECTION_NAME);
-
-        collection.insert(game, function (err, doc) {
-
-            if (err) {
-                logger.error('Could not insert game into database ' + err);
-                return deferred.reject(err);
-            }
-
-            return deferred.resolve(new Game(doc));
-
-        });
-
-        return deferred.promise;
-
-    }
-
-
-    static create(user) {
+    /// repo is the object thst knows how to insert a game into the database (or wherever)
+    create(user) {
 
         logger.info("Create game");
 
@@ -220,8 +63,9 @@ class GameManager
         game.addPlayer(Player.fromUser(user));
 
         game.state = Game.STATES.SETUP;
+        game.updated = Date.now();
 
-        return GameManager.insert(game)
+        return this.repo.insert(game)
 
             .then(function(newGame) { 
 
@@ -233,35 +77,26 @@ class GameManager
     }
 
 
-    static update(user, game) {
+    update(user, game) {
 
         // set this field for easy querying later
-        game.needsCPUAction = GameManager.needsCPUAction(game);
+        game.needsCPUAction = this.needsCPUAction(game);
         
         // mark the last time it was updated
         game.updated = Date.now();
 
-        var deferred = q.defer();
+        return this.repo.update(game)
 
-        var collection = db.get(COLLECTION_NAME);
+            .then((function(gameID) {
 
-        collection.update({ _id: game._id }, game, function (err, doc) {
-
-            if (err) {
-                logger.error('Could not update game in the database ' + err);
-                return deferred.reject(err);
-            }
-
-            return deferred.resolve(GameManager.fetchGame(user, game._id));
-
-        });
-
-        return deferred.promise;
+                return this.repo.fetchGame(gameID, user instanceof CPU ? null : user);
+                
+            }).bind(this));                
 
     }
 
 
-    static validateCommand(command)
+    validateCommand(command)
     {
         // we must check that cellID is not null specifically, since it could be 0, and that is falsey
         return command && command.gameID;
@@ -270,47 +105,47 @@ class GameManager
     }
 
 
-    static applyCommand(user, command) {
+    applyCommand(user, command) {
 
         if (user == null)
         {
             return q({ error: 'No user in session' });
         }
 
-        if (!GameManager.validateCommand(command))
+        if (!this.validateCommand(command))
         {
             return q({ error: 'Invalid command' });
         }
 
-        return GameManager.fetchGame(user, command.gameID)
+        return this.repo.fetchGame(command.gameID, user)
             
-            .then(function(result) {
+            .then((function(result) {
 
                 var game = result.data;
                 // logger.info('Fetched game');
 
                 switch (command.action)
                 {
-                    case Command.actions.INVITE:
-                        return GameManager.invite(user, game, command.username);
+                    case Command.actions.INVITE:        // invite a username to join the game
+                        return this.invite(user, game, command.username);
 
-                    case Command.actions.ACCEPT:
-                        return GameManager.accept(user, game);
+                    case Command.actions.ACCEPT:        // used to accept an invitation to join a game
+                        return this.accept(user, game);
 
-                    case Command.actions.APPLY:
-                        return GameManager.apply(user, game, command.team, command.role);
+                    case Command.actions.APPLY:         // used then the user has requested to be either Spy or Spymaster - see if the position is available
+                        return this.apply(user, game, command.team, command.role);
 
-                    case Command.actions.START:
-                        return GameManager.startGame(user, game);
+                    case Command.actions.START:         // try to start the game
+                        return this.startGame(user, game);
 
-                    case Command.actions.CLUE:
-                        return GameManager.giveClue(user, game, command.word, command.numMatches);
+                    case Command.actions.CLUE:          // try to give a clue
+                        return this.giveClue(user, game, command.word, command.numMatches);
 
-                    case Command.actions.SELECT:
-                        return GameManager.selectWord(user, game, command.word);
+                    case Command.actions.SELECT:        // select a word from the board
+                        return this.selectWord(user, game, command.word);
 
-                    case Command.actions.PASS:
-                        return GameManager.passTurn(user, game);
+                    case Command.actions.PASS:          // pass your turn rather than select a word
+                        return this.passTurn(user, game);
 
                 
                 }  // end switch
@@ -319,13 +154,13 @@ class GameManager
                 // we shouldn't get here, but....
                 return { data: game };
 
-            });
+            }).bind(this));
 
 
     }   // applyCommand
 
 
-    static invite(user, game, username) {
+    invite(user, game, username) {
 
         return GameInvitationManager.invite(user, game, username)
 
@@ -337,14 +172,14 @@ class GameManager
                 }
 
                 // save the updated game
-                return GameManager.update(user, result.data);
+                return this.update(user, result.data);
             
             });
 
     }   // invite
 
 
-    static accept(user, game) {
+    accept(user, game) {
 
         return GameInvitationManager.accept(user, game)
 
@@ -356,14 +191,14 @@ class GameManager
                 }
 
                 // save the updated game
-                return GameManager.update(user, result.data);
+                return this.update(user, result.data);
             
             });
 
     }   // accept
 
 
-    static apply(user, game, team, role) {
+    apply(user, game, team, role) {
 
         if (team != Team.RED && team != Team.BLUE)
         {
@@ -404,12 +239,12 @@ class GameManager
         }
 
         // save the updated game
-        return GameManager.update(user, game);
+        return this.update(user, game);
             
     }   // apply
 
 
-    static startGame(user, game) {
+    startGame(user, game) {
 
         if (!game.isSettingUp())
         {
@@ -432,16 +267,12 @@ class GameManager
         // ...and set the first team's turn
         game.turn = new Turn({ team: game.board.first, action: Action.CLUE });
 
-        return GameManager.update(user, game);
+        return this.update(user, game);
 
     }   // startGame
 
-    static endGame(user, game) {
 
-    }
-
-
-    static giveClue(user, game, word, numMatches) { 
+    giveClue(user, game, word, numMatches) { 
 
         if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.CLUE))
         {
@@ -473,12 +304,12 @@ class GameManager
         // you always get one more guess than the number of matches stated
         game.turn.numGuesses = parseInt(numMatches, 10) + 1;
 
-        return GameManager.update(user, game);
+        return this.update(user, game);
 
     }  // giveClue
 
     
-    static selectWord(user, game, word) {
+    selectWord(user, game, word) {
 
         if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.GUESS))
         {
@@ -578,7 +409,7 @@ class GameManager
             delete game.turn;
 
             // turn all the cards over
-            GameManager.flipCards(game);
+            this.flipCards(game);
             game.state = Game.STATES.COMPLETE;
 
         }
@@ -596,12 +427,12 @@ class GameManager
             game.state = Game.STATES.PLAY;
         }
 
-        return GameManager.update(user, game);
+        return this.update(user, game);
 
     }   // selectCell
 
 
-    static passTurn(user, game) {
+    passTurn(user, game) {
 
         if (!(user instanceof CPU) && !game.isMyTurn(user._id, Action.GUESS))
         {
@@ -615,12 +446,12 @@ class GameManager
         delete game.turn.numGuesses;
         game.turn.team = Team.findOpponent(game.turn.team);
 
-        return GameManager.update(user, game);
+        return this.update(user, game);
 
     }   // passTurn
 
 
-    static needsCPUAction(game) {
+    needsCPUAction(game) {
 
         if (!game)
         {
@@ -646,7 +477,7 @@ class GameManager
 
     }
 
-    static checkMapForWord(map, word) {
+    checkMapForWord(map, word) {
 
         if (!map || !word)
         {
@@ -666,7 +497,7 @@ class GameManager
 
     }   // checkMapForWord
  
-    static flipCards(game) { 
+    flipCards(game) { 
 
         if (game)
         {
@@ -682,14 +513,14 @@ class GameManager
 
     }
 
-    static computerGiveClue(game)
+    computerGiveClue(game)
     {
         // put it into thinking mode so another thread can't kick off a clue generation
         game.state = Game.STATES.THINKING;
 
-        return GameManager.update(userCPU, game)
+        return this.update(userCPU, game)
 
-            .then(function(result) {
+            .then((function(result) {
 
                 if (!result.data)
                 {
@@ -715,40 +546,40 @@ class GameManager
 
                     return ClueManager.thinkOfClue(availableWords, previousCluesMap)
                     
-                        .then(function(bestMatch) {
+                        .then((function(bestMatch) {
 
                             if (bestMatch.clue)
                             {
-                                return GameManager.giveClue(userCPU, thinkGame, bestMatch.clue, bestMatch.words.length);
+                                return this.giveClue(userCPU, thinkGame, bestMatch.clue, bestMatch.words.length);
                             }
                             else
                             {
                                 let selectedIndex = Math.floor(Math.random() * availableWords.length);
 
-                                return GameManager.giveClue(userCPU, thinkGame, availableWords[selectedIndex], 1);
+                                return this.giveClue(userCPU, thinkGame, availableWords[selectedIndex], 1);
                             }
 
-                        });
+                        }).bind(this));
 
                 }   // if they have any words
 
-            });
+            }).bind(this));
 
     }
 
-    static computerGuess(game) {
+    computerGuess(game) {
 
         // the computer never makes an extra guess, so when it's down to 1 guess left, it's time to pass
         if (game.turn.numGuesses === 1)
         {
-            return GameManager.passTurn(userCPU, game);
+            return this.passTurn(userCPU, game);
         }
 
         game.state = Game.STATES.THINKING;
 
-        return GameManager.update(userCPU, game)
+        return this.update(userCPU, game)
 
-            .then(function(result) {
+            .then((function(result) {
 
                 if (!result.data)
                 {
@@ -770,33 +601,33 @@ class GameManager
                 if (availableWords.length)
                 {
                     return ClueManager.guessWord(availableWords, lastClue.word)
-                        .then(function(bestGuess) {
+                        .then((function(bestGuess) {
 
                             if (bestGuess != null)
                             {
-                                return GameManager.selectWord(userCPU, thinkGame, bestGuess);
+                                return this.selectWord(userCPU, thinkGame, bestGuess);
                             }
                             else
                             {
                                 // otherwise, give one of the words at random
                                 let selectionIndex = Math.floor(Math.random() * availableWords.length);
-                                return GameManager.selectWord(userCPU, thinkGame, availableWords[selectionIndex]);
+                                return this.selectWord(userCPU, thinkGame, availableWords[selectionIndex]);
                             }
 
-                        });
+                        }).bind(this));
 
                 }
                 else
                 {
-                    return GameManager.passTurn(userCPU, thinkGame);
+                    return this.passTurn(userCPU, thinkGame);
                 }
 
-            });     // THINKING update.then
+            }).bind(this));     // THINKING update.then
 
 
     }
 
-    static checkForCPUAction(result) {
+    checkForCPUAction(result) {
 
         // if we don't have a game, then there's nothing to do
         if (!result.data)
@@ -804,7 +635,7 @@ class GameManager
             return q(result);
         }
 
-        if (!GameManager.needsCPUAction(result.data)) {
+        if (!this.needsCPUAction(result.data)) {
 
             return q(result);
         
@@ -816,14 +647,14 @@ class GameManager
         {
             // kick off this action, but don't return. We want the computer to go off and do its thing, but
             // show the client the immediate result of the action
-            return GameManager.computerGiveClue(game);
+            return this.computerGiveClue(game);
 
         }
         else if (game.isTimeToGuess())
         {
             // kick off this action, but don't return. We want the computer to go off and do its thing, but
             // show the client the immediate result of the action
-            return GameManager.computerGuess(game);
+            return this.computerGuess(game);
         }
 
         // give the client the current state - if there is a CPU action they will get it on the next poll
@@ -832,7 +663,7 @@ class GameManager
     }  // checkForCPUAction
 
 
-    static unstick(result) {
+    unstick(result) {
 
         // if we don't have a game, then there's nothing to do
         if (!result.data)
@@ -844,7 +675,7 @@ class GameManager
 
         game.state = Game.STATES.PLAY;
 
-        return GameManager.update(userCPU, game);
+        return this.update(userCPU, game);
 
     }  // unstick
 

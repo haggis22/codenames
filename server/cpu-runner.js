@@ -9,26 +9,36 @@ var logger = log4js.getLogger('codenames');
 
 var q = require('q');
 
+var MongoGameRepository = require(__dirname + '/persistence/mongo/MongoGameRepository');
 var GameManager = require(__dirname + '/managers/games/GameManager');
 
 
 function pullCPUGames()
 {
-    return GameManager.fetchGamesWaitingForCPU()
+    let repo = new MongoGameRepository();
+    let manager = new GameManager(repo);
+
+    return repo.fetchGamesWaitingForCPU()
 
         .then(function (result) {
 
             if (result.data)
             {
-                logger.info("Found " + result.data.length + " games ready for CPU action");
+                if (result.data.length)
+                {
+                    logger.info("Found " + result.data.length + " games ready for CPU action");
+                }
 
-                let promiseArray = result.data.map(game => GameManager.checkForCPUAction({ data: game }));
+                let promiseArray = result.data.map(game => manager.checkForCPUAction({ data: game }));
 
                 return q.all(promiseArray)
                 
                     .then(function() { 
                     
-                        logger.info('Finished running ' + promiseArray.length + ' game(s)');
+                        if (promiseArray.length)
+                        {
+                            logger.info('Finished running ' + promiseArray.length + ' game(s)');
+                        }
 
                     });
 
@@ -49,21 +59,30 @@ function pullCPUGames()
 
 function pullStuckCPUGames()
 {
-    return GameManager.fetchStuckGames()
+    let repo = new MongoGameRepository();
+    let manager = new GameManager(repo);
+
+    return repo.fetchStuckGames()
 
         .then(function (result) {
 
             if (result.data)
             {
-                logger.info("Found " + result.data.length + " stuck games");
+                if (result.data.length)
+                {
+                    logger.info("Found " + result.data.length + " stuck games");
+                }
 
-                let promiseArray = result.data.map(game => GameManager.unstick({ data: game }));
+                let promiseArray = result.data.map(game => manager.unstick({ data: game }));
 
                 return q.all(promiseArray)
                 
                     .then(function() { 
                     
-                        logger.info('Finished unsticking ' + promiseArray.length + ' game(s)');
+                        if (promiseArray.length)
+                        {
+                            logger.info('Finished unsticking ' + promiseArray.length + ' game(s)');
+                        }
 
                     });
 
