@@ -11,6 +11,10 @@ log4js.configure(config.logging.configFile);
 var logger = log4js.getLogger('codenames');
 
 var constants = require(__dirname + '/../../js/Constants');
+
+var MongoSessionRepository = require(__dirname + '/../persistence/mongo/MongoSessionRepository');
+var MongoUserRepository = require(__dirname + '/../persistence/mongo/MongoUserRepository');
+
 var SessionManager = require(__dirname + '/../managers/users/SessionManager');
 var UserManager = require(__dirname + '/../managers/users/UserManager');
 
@@ -30,7 +34,9 @@ router.use(function (req, res, next) {
         return next();
     }
 
-    SessionManager.fetchByHash(sessionHash)
+    let sessionManager = new SessionManager(new MongoSessionRepository());
+
+    sessionManager.fetchByHash(sessionHash)
 
         .then(function (session) {
 
@@ -42,11 +48,15 @@ router.use(function (req, res, next) {
 
             req.session = session;
 
-            UserManager.fetchByID(session.userID)
+            let userManager = new UserManager(new MongoUserRepository());
+
+            userManager.fetchByID(session.userID)
                 
-                .then(function(user) {
+                .then(function(userResult) {
 
                     // the user could be returned as NULL for someone not logged in
+                    let user = userResult.data;
+
                     // if (logger.isDebugEnabled && user) { logger.debug('User in request = ' + user.username); }
 
                     req.user = user;

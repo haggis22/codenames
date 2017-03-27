@@ -78,6 +78,8 @@
     <Content Include="server\managers\users\SessionManager.js" />
     <Content Include="server\managers\users\UserManager.js" />
     <Content Include="server\persistence\mongo\MongoGameRepository.js" />
+    <Content Include="server\persistence\mongo\MongoSessionRepository.js" />
+    <Content Include="server\persistence\mongo\MongoUserRepository.js" />
     <Content Include="server\routes\play.js" />
     <Content Include="server\routes\games.js" />
     <Content Include="server\routes\users.js" />

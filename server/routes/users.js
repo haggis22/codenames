@@ -11,6 +11,10 @@ log4js.configure(config.logging.configFile);
 var logger = log4js.getLogger('codenames');
 
 var constants = require(__dirname + '/../../js/Constants');
+
+var MongoSessionRepository = require(__dirname + '/../persistence/mongo/MongoSessionRepository');
+var MongoUserRepository = require(__dirname + '/../persistence/mongo/MongoUserRepository');
+
 var User = require(__dirname + '/../../js/users/User');
 var UserManager = require(__dirname + '/../managers/users/UserManager');
 var SessionManager = require(__dirname + '/../managers/users/SessionManager');
@@ -26,19 +30,40 @@ router.post('/register', function (req, res) {
 
     if (logger.isDebugEnabled) { logger.debug('Registration attempt for ' + newUser.email); }
 
-    UserManager.register(newUser)
+    let userManager = new UserManager(new MongoUserRepository());
+
+    return userManager.register(newUser)
 
         .then(function (result) {
 
             if (result.data)
             {
-                // put the session in the cookies
-                res.cookie(constants.cookies.SESSION, result.data.hash);
+                // result.data = the newly registered user
+                let sessionManager = new SessionManager(new MongoSessionRepository());
 
-                logger.info('session = ' + JSON.stringify(result.data));
+                return sessionManager.createSession(result.data)
 
-                // return the newly-created user session data
-                return res.send(result.data).end();
+                    .then(function(sessionResult) {
+
+                        if (sessionResult.data)
+                        {
+                            // now result.data is the 
+
+                            // put the session in the cookies
+                            res.cookie(constants.cookies.SESSION, sessionResult.data.hash);
+
+                            logger.info('session = ' + JSON.stringify(sessionResult.data));
+
+                            // return the newly-created user session data
+                            return res.send(sessionResult.data).end();
+                        }
+                        else
+                        {
+                            throw new Error(sessionResult.error);
+                        }
+
+                    });
+
             }
 
             // the login failed because of the input, not because of a system error
@@ -58,20 +83,36 @@ router.post('/login', function (req, res) {
 
     if (logger.isDebugEnabled) { logger.debug('Login attempt for ' + req.body.email); }
 
+    let userManager = new UserManager(new MongoUserRepository());
+
     // for a POST the parameters come in req.body
-    UserManager.login(req.body.email, req.body.password)
+    userManager.login(req.body.email, req.body.password)
 
         .then(function (result) {
 
             if (result.data)
             {
-                // put the session in the cookies
-                res.cookie(constants.cookies.SESSION, result.data.hash);
+                // returns the user, so create a session
+                let sessionManager = new SessionManager(new MongoSessionRepository());
 
-                logger.info('session = ' + JSON.stringify(result.data));
+                return sessionManager.createSession(result.data)
 
-                // return the newly-created user session data
-                return res.send(result.data).end();
+                    .then(function(result) {
+
+                        if (result.data)
+                        {
+                            // put the session in the cookies
+                            res.cookie(constants.cookies.SESSION, result.data.hash);
+
+                            logger.info('session = ' + JSON.stringify(result.data));
+
+                            // return the newly-created user session data
+                            return res.send(result.data).end();
+                        }
+
+                        throw new Error(result.error);
+
+                    });
             }
 
             // the login failed because of the input, not because of a system error
@@ -98,7 +139,9 @@ router.get('/session', function (req, res) {
 // Returns a Session object if the login is successful
 router.post('/logout', function (req, res) {
 
-    SessionManager.logout(req.session)
+    let sessionManager = new SessionManager(new MongoSessionRepository());
+
+    sessionManager.logout(req.session)
             
         .then(function(result) { 
             

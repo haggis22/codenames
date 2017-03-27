@@ -26,97 +26,31 @@ const MIN_PASSWORD_LENGTH = 8;
 class UserManager 
 {
 
+    constructor(repo)
+    {
+        this.repo = repo;
+    }
 
-    static fetch(query) {
+    fetchByID(id) {
 
-        var deferred = q.defer();
+        return this.repo.fetchByID(id);
 
-        var collection = db.get(COLLECTION_NAME);
-
-        collection.find(query, {}, function (err, result) {
-
-            if (err) {
-                logger.error('Could not load user from database for query ' + JSON.stringify(query) + ': ' + err);
-                return deferred.reject(err);
-            }
-
-            if (result.length === 0) {
-                // did not find a user with that username, but we don't want 
-                // to tell them whether it is a wrong user or password
-                return deferred.resolve(null);
-            }
-
-            return deferred.resolve(new User(result[0]));
-
-        });
-
-        return deferred.promise;
-
-    }  // fetch
-
-    static fetchByEmail(email) {
-
-        // null email will mean NULL user
-        if (email === null) {
-            return q(null);
-        }
-
-        return UserManager.fetch({ email: email });
-
-    }  // fetchByEmail
-
-    static fetchByUsername(username) {
-
-        // null username will mean NULL user
-        if (username === null) {
-            return q(null);
-        }
-
-        return UserManager.fetch({ username: username });
-
-    }  // fetchByUsername
-
-
-    static fetchByID(id) {
-
-        // null ID will mean NULL user
-        if (id === null) {
-            return q(null);
-        }
-
-        return UserManager.fetch({ _id: id });
-
-    }  // fetchByID
-
-
-    static fetchBySession(sessionHash) {
-
-        // null hash will mean NULL user
-        if (sessionHash === null) {
-            return q(null);
-        }
-
-        return SessionManager.fetchByHash(sessionHash)
-
-            .then(function (session) {
-
-                if (session == null) {
-                    return null;
-                }
-
-                return UserManager.fetch({ _id: session.userID });
-
-            });
-
-    }  // fetchBySession
+    }
 
     // Success: returns a Session object
-    static login(email, password) {
+    login(email, password) {
 
         // pull by email address
-        return UserManager.fetchByEmail(email)
+        return this.repo.fetchByEmail(email)
 
-            .then(function (user) {
+            .then(function(userResult) {
+
+                if (!userResult.data)
+                {
+                    return userResult;
+                }
+
+                let user = userResult.data;
 
                 if (user == null) {
 
@@ -125,6 +59,7 @@ class UserManager
                 }
 
                 return cryptographer.compare(password, user.password)
+
                     .then(function (isPasswordMatch) {
 
                         if (!isPasswordMatch) {
@@ -133,7 +68,7 @@ class UserManager
 
                         }
 
-                        return SessionManager.createSession(user);
+                        return { data: user };
 
                     });
 
@@ -142,7 +77,7 @@ class UserManager
     }  // login
 
 
-    static validateRegistration(user) {
+    validateRegistration(user) {
 
         if (!user)
         {
@@ -195,9 +130,9 @@ class UserManager
 
 
     // Success: returns a Session object
-    static register(newUser) {
+    register(newUser) {
 
-        var validationResult = UserManager.validateRegistration(newUser);
+        var validationResult = this.validateRegistration(newUser);
 
         if (validationResult.error)
         {
@@ -205,21 +140,31 @@ class UserManager
         }
 
         // pull by email address
-        return UserManager.fetchByEmail(newUser.email)
+        return this.repo.fetchByEmail(newUser.email)
 
-            .then(function (emailUser) {
+            .then((function (emailUserResult) {
 
-                if (emailUser != null) {
+                if (emailUserResult.error)
+                {
+                    return emailUserResult;
+                }
+
+                if (emailUserResult.data != null) {
 
                     return { error: 'Email is already in use' };
 
                 }
 
-                return UserManager.fetchByUsername(newUser.username)
+                return this.repo.fetchByUsername(newUser.username)
 
-                    .then(function(usernameUser) {
+                    .then((function(usernameUserResult) {
 
-                        if (usernameUser)
+                        if (usernameUserResult.error)
+                        {
+                            return usernameUserResult;
+                        }
+
+                        if (usernameUserResult.data)
                         {
                             return { error: 'Username is already in use' };
                         }
@@ -227,55 +172,22 @@ class UserManager
                         // hash the password via a promise
                         return cryptographer.encrypt(newUser.password)
 
-                            .then(function(hashedPassword) { 
+                            .then((function(hashedPassword) { 
 
                                 newUser.password = hashedPassword;
 
                                 // run the user through the User constructor to weed out any extra fields we don't need
                                 newUser = new User(newUser);
 
-                                return UserManager.insert(newUser)
+                                return this.repo.insert(newUser);
+                                    
+                            }).bind(this));  // password hashing
 
-                                    .then(function(insertedUser) {
+                    }).bind(this));  // fetchByUsername
 
-                                        return SessionManager.createSession(insertedUser);
-
-                                    });  // UserManager.insert
-                                     
-
-                            });  // password hashing
-
-
-                    });  // fetchByUsername
-
-            });  // fetchByEmail
+            }).bind(this));  // fetchByEmail
 
     }   // register
-
-
-    static insert(user) {
-
-        var deferred = q.defer();
-
-        var collection = db.get(COLLECTION_NAME);
-
-        collection.insert(user, function (err, doc) {
-
-            if (err) {
-                logger.error('Could not insert user into database ' + err);
-                return deferred.reject(err);
-            }
-
-            
-            var newUser = new User(doc);
-
-            return deferred.resolve(newUser);
-
-        });
-
-        return deferred.promise;
-
-    }
 
 
 }   // class declaration
