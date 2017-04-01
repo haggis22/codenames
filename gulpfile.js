@@ -125,7 +125,9 @@ gulp.task('build-dev', ['build'], function () {
 gulp.task('build-prod', ['build'], function () {
 
     // do not use a base so that it will just drop them in the server folder
-    return gulp.src(['configs/prod/*']);
+    return gulp.src(['configs/prod/*'])
+        .pipe(gulp.dest('build/server'));
+
 
 });
 
