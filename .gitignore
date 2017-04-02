@@ -20,4 +20,3 @@ localserver
 client
 
 #ignore production config files
-configs/prod
