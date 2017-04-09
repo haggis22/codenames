@@ -18,6 +18,19 @@ var logger = log4js.getLogger(config.logging.main);
 
 var app = express();
 
+app.get('*', function (req, res, next) {
+
+    if (config.forceHttps && (req.protocol != 'https')) {
+
+        console.log('redirecting insecure request. hostname = ' + req.hostname + ', url = ' + req.url + ', path = ' + req.path);
+        res.protocol = 'https';
+        return res.redirect('https://' + req.hostname + req.url);
+    }
+    else {
+        next();
+    }
+});
+
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());

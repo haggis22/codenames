@@ -2,6 +2,8 @@
 
 var config = {};
 
+config.forceHttps = false;
+
 config.servers =
 [
     { secure: false, port: 5701, ip: 'localhost' },

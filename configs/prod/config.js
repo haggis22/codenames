@@ -2,6 +2,8 @@
 
 var config = {};
 
+config.forceHttps = true;
+
 config.servers =
 [
     { secure: false, port: 8080, ip: '0.0.0.0' },
