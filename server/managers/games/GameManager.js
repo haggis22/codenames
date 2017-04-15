@@ -447,7 +447,7 @@ class GameManager
             return false;
         }
 
-        if (game.isThinking())
+        if (game.isThinking() || game.isStuckThinking())
         {
             return false;
         }

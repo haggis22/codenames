@@ -90,18 +90,37 @@ class MongoGameRepository
 
     fetchStuckGames() {
 
-        // pull anything that has been in thinking mode for at least a minute
-        var query = 
-        { 
-            needsCPUAction: false,
-            state: Game.STATES.THINKING,
-            updated: { $lte: Date.now() - (1000 * 60) }        
-        };
+        // pull anything that:
+        // 1. has been in thinking mode for at least a minute
+        // 2. OR is in an error status
+        let query = 
+        {
+            $or:
+                [   
+                    { 
+                        needsCPUAction: false,
+                        state: Game.STATES.THINKING,
+                        updated: { $lte: Date.now() - (1000 * 60) }        
+                    },
+                    { 
+                        needsCPUAction: false,
+                        state: Game.STATES.THINKING_ERROR
+                    }
+                ]
+        }
+
+        logger.info("Running query " + JSON.stringify(query));
 
         return this.fetch(query)
             
             .then(function(result) {
 
+                if (Array.isArray(result.data)) {
+                    logger.info("Found " + result.data.length + " stuck game(s)");
+                }
+                else {
+                    logger.info("Did not find any stuck games");
+                }
                 return { data: result.data };
 
             });

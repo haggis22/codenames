@@ -61,6 +61,11 @@
                 return this.state == Game.STATES.THINKING;
             }
 
+            isStuckThinking() {
+
+                return this.state == Game.STATES.THINKING_ERROR;
+            }
+
             isComplete() { 
 
                 return this.state == Game.STATES.COMPLETE;
@@ -244,6 +249,7 @@
             SETUP: 'setup',
             PLAY: 'play',
             THINKING: 'thinking',
+            THINKING_ERROR: 'thinking_error',
             COMPLETE: 'complete'
         };
 

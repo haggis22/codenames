@@ -18,7 +18,7 @@ function lookupLink(wordArray, maxResults) {
 	
 	var params = wordArray.map(w => 'rel_trg=' + w).join('&');
 	
-	var url = 'http://api.datamuse.com/words?max=' + maxResults + '&' + params;
+	var url = 'http://api.datamuse.com/wordssss?max=' + maxResults + '&' + params;
 	
 
     var options = {

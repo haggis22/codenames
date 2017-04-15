@@ -204,6 +204,14 @@ class CPURunner
                                 return this.gameManager.giveClue(userCPU, thinkGame, availableWords[selectedIndex], 1);
                             }
 
+                        }).bind(this))
+                        .catch((function(error) {
+
+                            logger.error("Error from ClueManager, setting game state to THINKING_ERROR: " + error);
+                            game.state = Game.STATES.THINKING_ERROR;
+
+                            return this.gameManager.update(userCPU, game);
+
                         }).bind(this));
 
                 }   // if they have any words
