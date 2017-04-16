@@ -52,7 +52,7 @@
 
             isActive() { 
 
-                return this.state == Game.STATES.PLAY || this.state == Game.STATES.THINKING;
+                return this.state == Game.STATES.PLAY || this.state == Game.STATES.THINKING || this.state == Game.STATES.THINKING_ERROR;
 
             }
 

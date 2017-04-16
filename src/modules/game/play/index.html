@@ -115,9 +115,9 @@
     
             <div class="moves" ng-show="viewService.game.moves">
 
-                <div ng-show="viewService.game.needsCPUAction" class="thinking">Waiting on the computer...</div>
+                <div ng-show="viewService.game.isStuckThinking()" class="thinking">The computer is stuck thinking...</div>
                 <div ng-show="viewService.game.isThinking() && viewService.game.isTimeToClue()" class="thinking">The computer is thinking of a clue...</div>
-                <div ng-show="viewService.game.isThinking() && viewService.game.isTimeToGuess()" class="thinking">The computer choosing a tile...</div>
+                <div ng-show="viewService.game.isThinking() && viewService.game.isTimeToGuess()" class="thinking">The computer is choosing a tile...</div>
 
                 <ul>
 
