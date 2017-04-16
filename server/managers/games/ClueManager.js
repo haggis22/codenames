@@ -75,6 +75,7 @@ function combinations(array) {
 	return fn([], array, []);
 }
 
+// sometimes we want to limit the computer to only giving a clue for 1 word, just to help the balance. The rest of the time it can go for broke. 
 function calculateMaxMatches() {
 
     var rnd = Math.random();
@@ -88,11 +89,52 @@ function calculateMaxMatches() {
 
 }
 
+function appearsOnBoard(clue, words) {
+    
+    for (let word of words)
+    {
+        if (clue.indexOf(word) > -1 || word.indexOf(clue) > -1)
+        {
+            return word;
+        }
+    }
+
+    return null;
+
+}  // appearsOnBoard
+
+
 
 class ClueManager
 {
 
-    static thinkOfClue(words, previousCluesMap) {
+    static isValidClue(clue, words, previousCluesMap)
+    {
+        if (clue.indexOf(' ') > -1)
+        {
+            if (logger.isDebugEnabled) { logger.debug('Dropping clue "' + clue + '" because it has a space'); }
+            return false;
+        }
+
+        if (previousCluesMap.hasOwnProperty(clue))
+        {
+            if (logger.isDebugEnabled) { logger.debug('Have given clue "' + clue + '" before, so ruling it out.'); }
+            return false;
+        }        
+
+        let matchesWord = appearsOnBoard(clue, words);
+        if (matchesWord) {
+            if (logger.isDebugEnabled) { logger.debug('Clue "' + clue + '" appears on the board as ' + matchesWord + ', so is being ruled ineligible'); }
+            return false;
+        }
+
+        return true;
+
+
+    }  // isValidClue
+
+
+    static thinkOfClue(words, unplayedWords, previousCluesMap) {
 
 	    var combos = combinations(words);
 
@@ -134,21 +176,13 @@ class ClueManager
 			    {
 				    if (result.links.length > 0)
 				    {
-					    // Take out any words...
+					    // Take out any clues...
                         // 1. that have a space in them
                         // 2. That we have used previously
-                        for (let l of result.links)
-                        {
-                            if (previousCluesMap.hasOwnProperty(l.word))
-                            {
-                                console.log('We have seen the word ' + l.word + ' before, so we are going to filter it out so as not to give it again');
-                            }
-                        }
+                        // 3. That is part of one of the words on the board (or vice versa)
 
-                        // jslint doesn't like the hasOwnProperty portion of this arrow function. It returns the following error on this line:
-                        // Don't make functions within a loop
-                        let filteredLinks = result.links.filter(l => l.word.indexOf(' ') == -1 && !previousCluesMap.hasOwnProperty(l.word));
-            
+                        let filteredLinks = result.links.filter(l => isValidClue(l.word, unplayedWords, previousCluesMap));
+
                         if (filteredLinks.length > 0)
                         {
 					        myScore = filteredLinks[0].score * result.words.length;

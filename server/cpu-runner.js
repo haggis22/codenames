@@ -175,8 +175,11 @@ class CPURunner
 
                 let thinkGame = result.data;
 
-                // find one of the computer's words and use that
+                // availableWords will be the pool of my words that still remain unrevealed
                 let availableWords = thinkGame.board.cells.filter(cell => !cell.revealed && cell.role == thinkGame.turn.team).map(c => c.word);
+
+                // unplayedWords are ALL unrevealed words - any clues can't contain words from any of them
+                let unplayedWords = thinkGame.board.cells.filter(cell => !cell.revealed).map(c => c.word);
 
                 if (availableWords.length)
                 {
@@ -189,7 +192,7 @@ class CPURunner
                         previousCluesMap[previousClue.word] = true;
                     }
 
-                    return ClueManager.thinkOfClue(availableWords, previousCluesMap)
+                    return ClueManager.thinkOfClue(availableWords, unplayedWords, previousCluesMap)
                     
                         .then((function(bestMatch) {
 
