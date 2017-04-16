@@ -92,13 +92,14 @@ table.zebra tbody tr:nth-child(even) {
   border: solid 3px #ff0000;
   padding: 7px 7px 10px 7px;
   z-index: 5; }
-
-.error-details {
-  font-weight: bold;
-  margin: 7px;
-  padding: 10px 15px 10px 15px;
-  border: solid 1px #000000;
-  background-color: #eeeeee; }
-
-.error-details div {
-  margin: 3px 0px; }
+  .error-popup .error-details {
+    font-weight: bold;
+    margin: 10px 7px 7px 7px;
+    padding: 10px 15px 10px 15px;
+    border: solid 1px #000000;
+    background-color: #eeeeee; }
+    .error-popup .error-details div {
+      margin: 3px 0px; }
+  .error-popup .buttons {
+    margin-top: 10px;
+    text-align: center; }
