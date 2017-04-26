@@ -7,7 +7,7 @@ config.forceHttps = true;
 config.servers =
 [
     { secure: false, port: 8080, ip: '0.0.0.0' },
-    { secure: true, port: 4343, ip: '0.0.0.0', keyFile: './server/certs/haggis22.com.key', certFile: './server/certs/haggis22.com.crt' }
+    { secure: true, port: 4343, ip: '0.0.0.0', keyFile: './server/certs/privkey.pem', certFile: './server/certs/fullchain.pem' }
 ];
 
 
