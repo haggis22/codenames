@@ -109,18 +109,23 @@ class MongoGameRepository
                 ]
         }
 
-        logger.info("Running query " + JSON.stringify(query));
+        if (logger.isDebugEnabled) { logger.debug("Running query " + JSON.stringify(query)); }
 
         return this.fetch(query)
             
             .then(function(result) {
 
-                if (Array.isArray(result.data)) {
-                    logger.info("Found " + result.data.length + " stuck game(s)");
+                if (logger.isDebugEnabled) {
+
+                    if (Array.isArray(result.data)) {
+                        logger.debug("Found " + result.data.length + " stuck game(s)");
+                    }
+                    else {
+                        logger.debug("Did not find any stuck games");
+                    }
+
                 }
-                else {
-                    logger.info("Did not find any stuck games");
-                }
+
                 return { data: result.data };
 
             });

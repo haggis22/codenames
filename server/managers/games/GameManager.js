@@ -11,6 +11,7 @@ var q = require('q');
 
 var BoardManager = require(__dirname + '/BoardManager');
 var GameInvitationManager = require(__dirname + '/GameInvitationManager');
+var ClueManager = require(__dirname + '/ClueManager');
 
 var CPU = require(__dirname + '/../../../js/users/CPU');
 
@@ -273,6 +274,15 @@ class GameManager
             return q({ error: 'Clue cannot be blank' });
         }
 
+        // unplayedWords are ALL unrevealed words - clues can't contain words from any of them
+        let unplayedWords = BoardManager.getUnplayedWords(game.board);
+
+        let validation = ClueManager.validateClue(word, unplayedWords, null);
+        if (validation.error)
+        {
+            return q(validation);
+        }
+
         var numWords = parseInt(numMatches);
         if (isNaN(numWords) || numWords < 1 || numWords > 9)
         {
@@ -501,6 +511,22 @@ class GameManager
         }
 
     }
+
+    getMyPreviousClues(game) {
+
+        // Create a map of our previous clues so that we don't repeat them (it's allowed by the rules, but doesn't really progress the game)
+        // Use a map for O(1) lookup
+        let previousCluesMap = {};
+
+        for (let previousClue of game.moves.filter(m => m.action == Action.CLUE && m.team == game.turn.team))
+        {
+            previousCluesMap[previousClue.word] = true;
+        }
+
+        return previousCluesMap;
+
+    }
+
 
 
 }  // end class declaration

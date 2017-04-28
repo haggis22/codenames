@@ -16,6 +16,7 @@ var CPU = require(__dirname + '/../js/users/CPU');
 
 var MongoGameRepository = require(__dirname + '/persistence/mongo/MongoGameRepository');
 var GameManager = require(__dirname + '/managers/games/GameManager');
+var BoardManager = require(__dirname + '/managers/games/BoardManager');
 
 var ClueManager = require(__dirname + '/managers/games/ClueManager');
 
@@ -176,21 +177,15 @@ class CPURunner
                 let thinkGame = result.data;
 
                 // availableWords will be the pool of my words that still remain unrevealed
-                let availableWords = thinkGame.board.cells.filter(cell => !cell.revealed && cell.role == thinkGame.turn.team).map(c => c.word);
+                let availableWords = BoardManager.getMyUnplayedWords(thinkGame.board, thinkGame.turn.team);
 
                 // unplayedWords are ALL unrevealed words - any clues can't contain words from any of them
-                let unplayedWords = thinkGame.board.cells.filter(cell => !cell.revealed).map(c => c.word);
+                let unplayedWords = BoardManager.getUnplayedWords(thinkGame.board);
 
                 if (availableWords.length)
                 {
-                    // look for all our previous clues and convert that array to an array of words. We don't want to give any of those words again.
-                    // Use a map for O(1) lookup
-                    let previousCluesMap = {};
-
-                    for (let previousClue of thinkGame.moves.filter(m => m.action == Action.CLUE && m.team == thinkGame.turn.team))
-                    {
-                        previousCluesMap[previousClue.word] = true;
-                    }
+                    // get a map of the clues this team has already given so that the computer will not just keep repeating it
+                    let previousCluesMap = this.gameManager.getMyPreviousClues(thinkGame);
 
                     return ClueManager.thinkOfClue(availableWords, unplayedWords, previousCluesMap)
                     

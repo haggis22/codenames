@@ -108,32 +108,42 @@ function appearsOnBoard(clue, words) {
 class ClueManager
 {
 
-    static isValidClue(clue, words, previousCluesMap)
+    static validateClue(clue, words, previousCluesMap)
     {
+        // Invalidate any clues that...
+
+        // 1. that have a space in them
         if (clue.indexOf(' ') > -1)
         {
             if (logger.isDebugEnabled) { logger.debug('Dropping clue "' + clue + '" because it has a space'); }
-            return false;
+            return { error: 'Clue must be a single word' };
         }
 
-        if (previousCluesMap.hasOwnProperty(clue))
+        // 2. That we have used previously
+        // For human players we don't care about rejecting already-given clues, so the map will be null and this check not performed
+        if (previousCluesMap && previousCluesMap.hasOwnProperty(clue))
         {
             if (logger.isDebugEnabled) { logger.debug('Have given clue "' + clue + '" before, so ruling it out.'); }
-            return false;
+            return { error: 'Clue should not be given more than once' };
         }        
 
+        // 3. That is part of one of the words on the board (or vice versa)
         let matchesWord = appearsOnBoard(clue, words);
         if (matchesWord) {
             if (logger.isDebugEnabled) { logger.debug('Clue "' + clue + '" appears on the board as ' + matchesWord + ', so is being ruled ineligible'); }
-            return false;
+            return { error: 'Clue appears on board in the form ' + matchesWord };
         }
 
-        return true;
+        return { success: true };
 
 
-    }  // isValidClue
+    }  // validateClue
 
 
+    /// parameters: 
+    /// words: the unrevealed words for the current team
+    /// unplayedWords: all unrevealed words on the board
+    // previousCluesMap: 
     static thinkOfClue(words, unplayedWords, previousCluesMap) {
 
 	    var combos = combinations(words);
@@ -146,7 +156,7 @@ class ClueManager
 	    var promiseArray = [];
 	
 	    let startTime = new Date();
-	    console.log('Thinking...');
+	    if (logger.isDebugEnabled) { logger.debug('Thinking...'); }
 	
 	    for (let combo of combos)
 	    {
@@ -157,7 +167,7 @@ class ClueManager
             
 		    .then(function(results) {
 			
-			    console.log('Time to run: ' + ((new Date()).getTime() - startTime.getTime()) + ' ms');
+			    if (logger.isDebugEnabled) { logger.debug('Time to run: ' + ((new Date()).getTime() - startTime.getTime()) + ' ms'); }
 	
 			    let best = 
 			    {
@@ -176,12 +186,9 @@ class ClueManager
 			    {
 				    if (result.links.length > 0)
 				    {
-					    // Take out any clues...
-                        // 1. that have a space in them
-                        // 2. That we have used previously
-                        // 3. That is part of one of the words on the board (or vice versa)
-
-                        let filteredLinks = result.links.filter(l => isValidClue(l.word, unplayedWords, previousCluesMap));
+					    // Take out any invalid clues.  For the computer, we are not going to allow it to repeat clues, or it will just 
+                        // keep giving the same suggestion over and over.
+                        let filteredLinks = result.links.filter(l => ClueManager.validateClue(l.word, unplayedWords, previousCluesMap, false).success);
 
                         if (filteredLinks.length > 0)
                         {
@@ -210,7 +217,7 @@ class ClueManager
     // words is the array of words on the board (they will be sent lower-case already)
     static guessWord(words, clue)
     {
-	    console.log('Thinking about clue ' + clue + '...');
+	    if (logger.isDebugEnabled) { logger.debug('Thinking about clue ' + clue + '...'); }
 
         // first look to see whether any of the words show up in direct relation to the clue
         return lookupLink([ clue ], 1000)
@@ -225,7 +232,7 @@ class ClueManager
                 {
                     if (words.indexOf(link.word) > -1)
                     {
-                        console.log('we found the word ' + link.word + ' as directly related to clue ' + clue);
+                        if (logger.isDebugEnabled) { logger.debug('we found the word ' + link.word + ' as directly related to clue ' + clue); }
                         
                         // we found a good guess at the words, so we're going to dump out right here
                         return link.word;
@@ -250,7 +257,7 @@ class ClueManager
 
 		            .then(function(results) {
 			
-			            console.log('Time to run for all matches guess: ' + ((new Date()).getTime() - startTime.getTime()) + ' ms');
+			            if (logger.isDebugEnabled) { logger.debug('Time to run for all matches guess: ' + ((new Date()).getTime() - startTime.getTime()) + ' ms'); }
 	
 			            var wordScores = [];
 	
@@ -261,7 +268,7 @@ class ClueManager
 			            {
 				            // result.words is the 2-element array we passed in.
 				            // result.words[0] = the word from the board
-				            // result.words[1] = the clude that was given
+				            // result.words[1] = the clue that was given
 				            if (result.links.length > 0)
 				            {
 					            wordScores.push({ word: result.words[0], score: result.links.reduce((totalScore, commonWord) => totalScore + commonWord.score, 0), common: result.links.map(c => c.word).join('|') });
@@ -275,11 +282,11 @@ class ClueManager
 			                // sort them in reverse order
 			                wordScores.sort((a, b) => { return b.score - a.score; });
 
-                            console.log('Going with ' + wordScores[0].word);
+                            if (logger.isDebugEnabled) { logger.debug('Going with ' + wordScores[0].word); }
                             return wordScores[0].word;
                         }
 
-                        console.log('I give up');
+                        if (logger.isDebugEnabled) { logger.debug('I give up'); }
                         return null;
                 
 

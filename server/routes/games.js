@@ -77,7 +77,7 @@ router.get('/:gameID', function (req, res) {
                 var game = result.data;
 
                 // for non-Spymasters, clean the game before sending it back to the client
-                logger.info('Found game for request, isSpymaster? ' + game.isSpymaster(req.user._id));
+                if (logger.isDebugEnabled) { logger.debug('Found game for request, isSpymaster? ' + game.isSpymaster(req.user._id)); }
 
                 if (!game.isSpymaster(req.user._id))
                 {
