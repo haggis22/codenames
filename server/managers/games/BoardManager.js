@@ -125,6 +125,18 @@ class BoardManager
     }   // generate
 
 
+    static getUnplayedWords(board)
+    {
+        return board.cells.filter(cell => !cell.revealed).map(c => c.word);
+    }
+
+    static getMyUnplayedWords(board, team)
+    {
+        return board.cells.filter(cell => !cell.revealed && cell.role == team).map(c => c.word);
+    }
+
+
+
 }  // end class declaration
 
 
