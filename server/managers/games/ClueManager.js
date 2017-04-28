@@ -31,6 +31,7 @@ function lookupLink(wordArray, maxResults) {
             logger.error('Error response from datamuse: ' + err.stack);
             return deferred.reject(err);
         }
+
         if (response.statusCode == 200) {
 
         	var result = 
@@ -80,7 +81,7 @@ function calculateMaxMatches() {
 
     var rnd = Math.random();
 
-    if (rnd < 0.5)
+    if (rnd < 0.25)
     {
         return 1;
     }
