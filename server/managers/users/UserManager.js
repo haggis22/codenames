@@ -129,6 +129,13 @@ class UserManager
     }  // validateRegistration
 
 
+    fetchByUsername(username) {
+
+        return this.repo.fetchByUsername(username);
+
+    }
+
+
     // Success: returns a Session object
     register(newUser) {
 

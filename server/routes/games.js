@@ -13,6 +13,7 @@ var logger = log4js.getLogger('codenames');
 var constants = require(__dirname + '/../../js/Constants');
 
 var MongoGameRepository = require(__dirname + '/../persistence/mongo/MongoGameRepository');
+var MongoUserRepository = require(__dirname + '/../persistence/mongo/MongoUserRepository');
 
 var GameManager = require(__dirname + '/../managers/games/GameManager');
 var Sanitizer = require(__dirname + '/../managers/games/Sanitizer');
@@ -102,7 +103,7 @@ router.get('/:gameID', function (req, res) {
 // Create a new game
 router.post('/', function (req, res) {
 
-    let manager = new GameManager(new MongoGameRepository());
+    let manager = new GameManager(new MongoGameRepository(), new MongoUserRepository());
 
     return manager.create(req.user)
 

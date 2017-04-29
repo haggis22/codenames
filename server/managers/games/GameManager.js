@@ -10,8 +10,10 @@ var logger = log4js.getLogger('codenames');
 var q = require('q');
 
 var BoardManager = require(__dirname + '/BoardManager');
-var GameInvitationManager = require(__dirname + '/GameInvitationManager');
 var ClueManager = require(__dirname + '/ClueManager');
+var GameInvitationManager = require(__dirname + '/GameInvitationManager');
+
+var UserManager = require(__dirname + '/../users/UserManager');
 
 var CPU = require(__dirname + '/../../../js/users/CPU');
 
@@ -31,9 +33,13 @@ var COLLECTION_NAME = 'games';
 class GameManager
 {
 
-    constructor(repo) {
+    constructor(gameRepo, userRepo) {
     
-        this.repo = repo;
+        this.gameRepo = gameRepo;
+        this.userRepo = userRepo;
+
+        this.userManager = new UserManager(userRepo);
+        this.invitationManager = new GameInvitationManager(this.userManager);
 
     } 
 
@@ -55,7 +61,7 @@ class GameManager
         game.state = Game.STATES.SETUP;
         game.updated = Date.now();
 
-        return this.repo.insert(game)
+        return this.gameRepo.insert(game)
 
             .then(function(newGame) { 
 
@@ -75,11 +81,11 @@ class GameManager
         // mark the last time it was updated
         game.updated = Date.now();
 
-        return this.repo.update(game)
+        return this.gameRepo.update(game)
 
             .then((function(gameID) {
 
-                return this.repo.fetchGame(gameID, user instanceof CPU ? null : user);
+                return this.gameRepo.fetchGame(gameID, user instanceof CPU ? null : user);
                 
             }).bind(this));                
 
@@ -107,7 +113,7 @@ class GameManager
             return q({ error: 'Invalid command' });
         }
 
-        return this.repo.fetchGame(command.gameID, user)
+        return this.gameRepo.fetchGame(command.gameID, user)
             
             .then((function(result) {
 
@@ -152,9 +158,9 @@ class GameManager
 
     invite(user, game, username) {
 
-        return GameInvitationManager.invite(user, game, username)
+        return this.invitationManager.invite(user, game, username)
 
-            .then(function(result) {
+            .then((function(result) {
 
                 if (result.error)
                 {
@@ -164,16 +170,16 @@ class GameManager
                 // save the updated game
                 return this.update(user, result.data);
             
-            });
+            }).bind(this));
 
     }   // invite
 
 
     accept(user, game) {
 
-        return GameInvitationManager.accept(user, game)
+        return this.invitationManager.accept(user, game)
 
-            .then(function(result) {
+            .then((function(result) {
 
                 if (result.error)
                 {
@@ -183,7 +189,7 @@ class GameManager
                 // save the updated game
                 return this.update(user, result.data);
             
-            });
+            }).bind(this));
 
     }   // accept
 

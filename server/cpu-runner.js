@@ -15,6 +15,8 @@ var Action = require(__dirname + '/../js/games/Action');
 var CPU = require(__dirname + '/../js/users/CPU');
 
 var MongoGameRepository = require(__dirname + '/persistence/mongo/MongoGameRepository');
+var MongoUserRepository = require(__dirname + '/persistence/mongo/MongoUserRepository');
+
 var GameManager = require(__dirname + '/managers/games/GameManager');
 var BoardManager = require(__dirname + '/managers/games/BoardManager');
 
@@ -300,7 +302,10 @@ class CPURunner
 }  // class declaration
 
 let gameRepo = new MongoGameRepository();
-let gameManager = new GameManager(gameRepo);
+let userRepo = new MongoUserRepository();
+
+let gameManager = new GameManager(gameRepo, userRepo);
+
 let runner = new CPURunner(gameManager, gameRepo);
 
 runner.run();

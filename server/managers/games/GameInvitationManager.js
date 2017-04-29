@@ -11,14 +11,19 @@ var q = require('q');
 
 var Player = require(__dirname + '/../../../js/games/Player');
 
-var UserManager = require(__dirname + '/../users/UserManager');
-
 
 
 class GameInvitationManager
 {
 
-    static invite(user, game, username) {
+    constructor(userManager) {
+
+        this.userManager = userManager;
+
+    }
+
+
+    invite(user, game, username) {
 
         if (!game.isOwner(user._id))
         {
@@ -45,7 +50,7 @@ class GameInvitationManager
             return q({ error: 'The game has already started' });
         }
 
-        return UserManager.fetchByUsername(username)
+        return this.userManager.fetchByUsername(username)
 
             .then(function(invitee) {
 
@@ -64,7 +69,7 @@ class GameInvitationManager
     }   // invite
 
 
-    static accept(user, game) {
+    accept(user, game) {
 
         // Check to see whether the user has an invitation
         if (!game.isInvited(user.username)) {
