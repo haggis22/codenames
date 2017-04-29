@@ -81,7 +81,7 @@ function calculateMaxMatches() {
 
     var rnd = Math.random();
 
-    if (rnd < 0.25)
+    if (rnd < 0.4)
     {
         return 1;
     }
