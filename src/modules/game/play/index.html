@@ -184,20 +184,25 @@
                     </select>
         </div>
 
-        <table class="board" ng-style="{ zoom: viewService.options.zoom }">
-            
-            <tr ng-repeat="row in viewService.game.board.rows">
-                <td ng-repeat="cell in row track by $index"
-                    ng-class="[ { 'revealed': cell.revealed || (cell.revealedAfter && viewService.options.showRemaining) }, cell.role ]"
-                ><span ng-hide="!viewService.options.showWords && (cell.revealed || cell.revealedAfter)" 
-                        ng-click="selectCell(cell)"
-                        ng-class="{ 
-                                        'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Action.GUESS),
-                                        'show-word': (cell.revealed || cell.revealedAfter) && viewService.options.showWords
-                                    }">{{ cell.word }}</span></td>
-            </tr>
+        <div class="board" ng-style="{ zoom: viewService.options.zoom }">
 
-        </table><!-- board table -->
+            <div 
+                ng-repeat="cell in viewService.game.board.cells"
+                class="card" 
+                ng-class="[ { 'revealed': cell.revealed || (cell.revealedAfter && viewService.options.showRemaining) }, cell.role ]">
+
+                <div ng-hide="!viewService.options.showWords && (cell.revealed || cell.revealedAfter)" 
+                    ng-click="selectCell(cell)"
+                    class="word"
+                    ng-class="{ 
+                                    'secret': !cell.revealed && viewService.game.isMyTurn(viewService.session.userID, Action.GUESS),
+                                    'show-word': (cell.revealed || cell.revealedAfter) && viewService.options.showWords
+                                }">{{ cell.word }}</div>
+            
+            </div><!-- card -->
+
+            
+        </div><!-- board table -->
 
     </div><!-- div-board -->
 

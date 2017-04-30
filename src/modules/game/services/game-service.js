@@ -57,39 +57,8 @@
                     return game;
                 }
 
-                game = new Game(game);
+                return new Game(game);
 
-                var rows = [];
-                var row = [];
-                
-                // we are going to make a square out of the board, so 25 cells is 5 x 5 rows/columns
-                var numRows = Math.ceil(Math.sqrt(game.board.cells.length));
-                var numCols = Math.ceil(game.board.cells.length / numRows);
-
-                for (let c=0; c < game.board.cells.length; c++)
-                {
-                    game.board.cells[c].cellIndex = c;
-
-                    row.push(game.board.cells[c]);
-
-                    if (((c + 1) % numCols) === 0)
-                    {
-                        rows.push(row);
-                        row = [];
-                    }
-
-                }
-
-                // see if we have any left over...
-                if (row.length > 0)
-                {
-                    // ...and add the last row (might not be a complete row, but we'll take it)
-                    rows.push(row);
-                }
-
-                game.board.rows = rows;
-
-                return game;
             }
 
 

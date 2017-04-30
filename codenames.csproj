@@ -41,8 +41,8 @@
     <None Include="package.json" />
     <None Include="configs\dev\log4js_config.json" />
     <None Include="src\css\style.scss" />
-    <None Include="src\modules\game\css\game.scss" />
-    <None Include="src\modules\game\css\board.scss" />
+    <None Include="src\modules\game\play\game.scss" />
+    <None Include="src\modules\game\play\board.scss" />
     <None Include="src\modules\game\play\play.scss" />
     <None Include="src\modules\game\setup\setup.scss" />
     <None Include="src\modules\lobby\lobby.scss" />
