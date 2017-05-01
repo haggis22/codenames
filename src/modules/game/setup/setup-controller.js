@@ -3,13 +3,14 @@
     "use strict";
 
     app.controller('codenames.game.SetupCtrl', ['$scope',
-                                            'codenames.viewService', 'codenames.gameService',
+                                            'codenames.viewConstants', 'codenames.viewService', 'codenames.gameService',
                                             'codenames.Game', 'codenames.Team',
 
         function ($scope,
-                    viewService, gameService,
+                    viewConstants, viewService, gameService,
                     Game, Team) {
 
+            $scope.viewConstants = viewConstants;
             $scope.viewService = viewService;
             $scope.Team = Team;
 
@@ -19,6 +20,11 @@
 
             };
 
+            $scope.selectTab = function (newTab) {
+
+                viewService.tabs.setup = newTab;
+
+            };
 
             gameService.clearInvitation();
 

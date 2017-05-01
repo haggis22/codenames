@@ -2,14 +2,19 @@
 
     "use strict";
 
-    app.factory('codenames.viewService', [ 'codenames.Constants',
+    app.factory('codenames.viewService', ['codenames.Constants', 'codenames.viewConstants',
 
-        function (constants) {
+        function (constants, viewConstants) {
 
             return {
 
                 options: loadOptions(),
-                saveOptions: saveOptions
+                saveOptions: saveOptions,
+
+                tabs:
+                {
+                    setup: viewConstants.TABS.SETUP.ROLES
+                }
 
             };
 
@@ -21,7 +26,7 @@
                 if (options == null) {
 
                     options =
-                    {   
+                    {
                         zoom: 1.0,
                         showWords: false
                     };

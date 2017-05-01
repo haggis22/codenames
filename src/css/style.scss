@@ -1,6 +1,7 @@
 ﻿$primaryColor: #eeffcc;
 $borderColor: #0033cc;
 $backgroundColor: #99ccff;
+$manila-color: #fcd986;
 $font-family: Verdana;
 
 $red-background-color: #ff6666;
@@ -13,4 +14,75 @@ body
 {
 	font-family: $font-family;
 }
+
+div.folder-tabs
+{
+	margin-top: 15px;
+	border-bottom: 1px solid #999999;
+	margin-bottom: 0;
+	padding-left: 4px;
+
+	&:before, 
+	&:after 
+	{
+		display: table;
+		content: ""; 
+	}
+
+	&:after {
+		clear: both; 
+	}
+
+	.tab
+	{
+		background-color: $manila-color;
+		border: 1px solid #ccc;
+		border-bottom-width: 0;
+		-webkit-border-radius: 3px 3px 0 0;
+		-moz-border-radius: 3px 3px 0 0;
+		border-radius: 3px 3px 0 0;
+		color: #666;
+		float: left;
+		margin-right: 7px;
+		padding: 4px;
+		position: relative;
+
+		&.active
+		{
+			border-color: #999;
+			color: #333;
+			font-weight: bold;
+			padding-bottom: 5px;
+			margin-top: -1px;
+			top: 1px;
+		}
+	
+		&:not(.active) a
+		{
+			cursor: pointer;
+		}
+
+		a
+		{
+			border: 1px solid #aaa;
+			background-color: #fff;
+			text-decoration: none;
+			padding: 1px 3px;
+		}
+
+
+	}
+
+}
+
+div.folder
+{
+	background-color: $manila-color;
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;
+
+	padding: 15px 10px;
+}
+
 

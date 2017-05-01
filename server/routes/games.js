@@ -10,8 +10,6 @@ var log4js = require('log4js');
 log4js.configure(config.logging.configFile);
 var logger = log4js.getLogger('codenames');
 
-var constants = require(__dirname + '/../../js/Constants');
-
 var MongoGameRepository = require(__dirname + '/../persistence/mongo/MongoGameRepository');
 var MongoUserRepository = require(__dirname + '/../persistence/mongo/MongoUserRepository');
 

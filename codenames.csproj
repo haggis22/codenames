@@ -120,6 +120,7 @@
     <Content Include="server\routes\codeapi.js" />
     <Content Include="server\server.js" />
     <Content Include="src\modules\users\services\user-service.js" />
+    <Content Include="src\services\view-constants.js" />
     <Content Include="src\services\view-service.js" />
     <Content Include="src\modules\users\services\users-dal-service.js" />
   </ItemGroup>

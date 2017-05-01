@@ -11,39 +11,68 @@
 		margin-top: 15px;
 	}
 
-	.role-table
+	.roles
 	{
-		td
+		margin-top: 15px;
+
+		.role-table
 		{
-			vertical-align: top;
+			td
+			{
+				vertical-align: top;
+			}
+
+			.role
+			{
+				width: 150px;
+				text-align: left;
+				background-color: #fff;
+			}
+
+			td.spymaster,
+			td.spy
+			{
+				width: 150;
+				text-align: center;
+			}
+
+			.blue
+			{
+				background: blue;
+				color: #fff;
+				width: 175px;
+			}
+
+			.red
+			{
+				background: red;
+				color: #fff;
+				width: 175px;
+			}
+
+			.players
+			{
+				margin-top: 10px;
+			}
+
 		}
 
-		.role
-		{
-			width: 150px;
-			text-align: left;
-		}
+	}  /* .roles */
 
-		td.spymaster,
-		td.spy
-		{
-			width: 150;
-			text-align: center;
-		}
+	.buttons
+	{
+		margin-top: 15px;
 
-		.blue
+		button.start
 		{
-			background: blue;
+			background: #090;
 			color: #fff;
-		}
-
-		.red
-		{
-			background: red;
-			color: #fff;
+			font-weight: bold;
+			padding: 5px;
 		}
 
 	}
+
 
 }
 

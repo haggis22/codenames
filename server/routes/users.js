@@ -66,7 +66,7 @@ router.post('/register', function (req, res) {
 
             }
 
-            // the login failed because of the input, not because of a system error
+            // the registration failed because of the input, not because of a system error
             return res.status(400).send(result.error);
 
         })
