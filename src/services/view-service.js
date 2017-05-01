@@ -13,7 +13,8 @@
 
                 tabs:
                 {
-                    setup: viewConstants.TABS.SETUP.ROLES
+                    setup: viewConstants.TABS.SETUP.ROLES,
+                    lobby: null
                 }
 
             };

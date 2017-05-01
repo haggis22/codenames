@@ -6,9 +6,24 @@
 
     <div class="loader" ng-show="viewService.pullingGames">Pulling games...</div>
 
+    <div class="folder-tabs">
+        <div class="tab" ng-show="getActiveGames().length > 0" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.ACTIVE }">
+            <a ng-click="selectTab(viewConstants.TABS.LOBBY.ACTIVE)">Active Games</a>
+        </div>
+        <div class="tab" ng-show="getSetupGames().length > 0" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.SETUP}">
+            <a ng-click="selectTab(viewConstants.TABS.LOBBY.SETUP)">Setting up</a>
+        </div>
+        <div class="tab" ng-show="getCompleteGames().length > 0" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.FINISHED }">
+            <a ng-click="selectTab(viewConstants.TABS.LOBBY.FINISHED)">Finished</a>
+        </div>
+    </div>
+
+    <div class="folder">
+
+
     <div ng-show="viewService.games">
 
-        <div class="setup-games" ng-show="getSetupGames().length > 0">
+        <div class="setup-games" ng-show="viewService.tabs.setup == viewConstants.TABS.LOBBY.SETUP">
 
             <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
                 <div class="header">Games Setting Up</div>
@@ -29,10 +44,9 @@
                 </tbody>
             </table>
 
-        </div><!-- invitations -->
+        </div><!-- setting up -->
 
-        <div class="active-games" ng-show="getActiveGames().length > 0">
-            <div class="header">Active games</div>
+        <div class="active-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.ACTIVE">
 
             <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
                 <thead>
@@ -57,7 +71,7 @@
 
         </div><!-- active-games -->
 
-        <div class="complete-games" ng-show="getCompleteGames().length > 0">
+        <div class="complete-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.FINISHED">
             <div class="header">Finished games</div>
 
             <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">

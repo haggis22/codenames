@@ -13,7 +13,14 @@
                             ROLES: 'roles',
                             INVITE: 'invite',
                             INVITEES: 'invitees'
+                        },
+                        LOBBY:
+                        {
+                            SETUP: 'setup',
+                            ACTIVE: 'active',
+                            FINISHED: 'finished'
                         }
+
                     }
 
                 };

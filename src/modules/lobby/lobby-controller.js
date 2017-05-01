@@ -3,15 +3,23 @@
     "use strict";
 
     app.controller('codenames.lobbyCtrl', ['$scope', '$q',
-                                                'codenames.viewService', 'codenames.gameService',
+                                                'codenames.viewConstants', 'codenames.viewService', 'codenames.gameService',
 
         function ($scope, $q,
-                    viewService, gameService) {
+                    viewConstants, viewService, gameService) {
 
+            $scope.viewConstants = viewConstants;
             $scope.viewService = viewService;
 
-
             gameService.pullGames();
+
+
+            $scope.selectTab = function (newTab) {
+
+                viewService.tabs.lobby = newTab;
+
+            };
+
 
             $scope.createGame = function () {
 
@@ -33,6 +41,8 @@
                     return viewService.games.filter(g => g.isSettingUp());
                 }
 
+                return [];
+
             };  // getInvitedGames
 
             $scope.getActiveGames = function () {
@@ -41,6 +51,8 @@
                 {
                     return viewService.games.filter(g => (g.isActive()) && g.isPlaying(viewService.session.username));
                 }
+
+                return [];
 
             };  // getActiveGames
 
@@ -51,7 +63,34 @@
                     return viewService.games.filter(g => g.isComplete() && g.isPlaying(viewService.session.username));
                 }
 
+                return [];
+
             };  // getCompleteGames
+
+            $scope.checkTab = function() {
+
+                if (!viewService.tabs.lobby)
+                {
+                    if ($scope.getActiveGames().length > 0)
+                    {
+                        $scope.selectTab(viewConstants.TABS.LOBBY.ACTIVE);
+                    }
+
+                    else if ($scope.getSetupGames().length > 0)
+                    {
+                        $scope.selectTab(viewConstants.TABS.LOBBY.SETUP);
+                    }
+
+                    else if ($scope.getSetupGames().length > 0)
+                    {
+                        $scope.selectTab(viewConstants.TABS.LOBBY.FINISHED);
+                    }
+                }
+
+            };
+
+
+            $scope.checkTab();
 
 
         }  // outer function
