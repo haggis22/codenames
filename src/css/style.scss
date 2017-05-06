@@ -2,7 +2,7 @@
 $borderColor: #0033cc;
 $backgroundColor: #99ccff;
 $manila-color: #fcd986;
-$font-family: Verdana;
+$font-family: Courier;
 
 $red-background-color: #ff6666;
 $red-color: red;
@@ -10,9 +10,11 @@ $red-color: red;
 $blue-background-color: #6666ff;
 $blue-color: blue;
 
-body
+body,
+button
 {
 	font-family: $font-family;
+	font-size: 16px;
 }
 
 div.folder-tabs
@@ -44,7 +46,7 @@ div.folder-tabs
 		color: #666;
 		float: left;
 		margin-right: 7px;
-		padding: 4px;
+		padding: 8px;
 		position: relative;
 
 		&.active
@@ -52,7 +54,7 @@ div.folder-tabs
 			border-color: #999;
 			color: #333;
 			font-weight: bold;
-			padding-bottom: 5px;
+			padding-bottom: 9px;
 			margin-top: -1px;
 			top: 1px;
 		}

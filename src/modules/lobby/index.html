@@ -6,6 +6,7 @@
 
     <div class="loader" ng-show="viewService.pullingGames">Pulling games...</div>
 
+
     <div class="folder-tabs">
         <div class="tab" ng-show="getActiveGames().length > 0" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.ACTIVE }">
             <a ng-click="selectTab(viewConstants.TABS.LOBBY.ACTIVE)">Active Games</a>
@@ -18,80 +19,87 @@
         </div>
     </div>
 
+
     <div class="folder">
 
 
     <div ng-show="viewService.games">
 
-        <div class="setup-games" ng-show="viewService.tabs.setup == viewConstants.TABS.LOBBY.SETUP">
+        <div class="setup-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.SETUP">
 
-            <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
-                <div class="header">Games Setting Up</div>
+            <div class="games-list">
 
-                <thead>
-                    <tr>
-                        <th>Game ID</th>
-                        <th class="num-players"># Players</th>
-                        <th>Created</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="game in getSetupGames()">
-                        <td><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></td>
-                        <td class="num-players">{{ game.players.length | number:0 }}</td>
-                        <td>{{ game.created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-                    </tr>
-                </tbody>
-            </table>
+                <div class="header">
+                    <div class="id">Game ID</div>
+                    <div class="num-players"># Players</div>
+                    <div class="created">Created</div>
+                </div>                
+
+                <div class="content">
+
+                    <div class="game" ng-repeat="game in getSetupGames()">
+                        <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
+                        <div class="num-players">{{ game.players.length | number:0 }}</div>
+                        <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
+                    </div>
+
+                </div><!-- content -->
+
+            </div><!-- games-list -->
 
         </div><!-- setting up -->
 
         <div class="active-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.ACTIVE">
 
-            <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
-                <thead>
-                    <tr>
-                        <th>Game ID</th>
-                        <th class="num-players"># Players</th>
-                        <th>State</th>
-                        <th>Turn</th>
-                        <th>Created</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="game in getActiveGames()">
-                        <td><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></td>
-                        <td class="num-players">{{ game.players.length | number:0 }}</td>
-                        <td>{{ game.state }}</td>
-                        <td class="turn" ng-class="game.turn.team"><span ng-show="game.turn.team">{{ game.turn.team }}</span></td>
-                        <td>{{ game.created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="games-list">
+
+                <div class="header">
+                    <div class="id">Game ID</div>
+                    <div class="num-players"># Players</div>
+                    <div class="state">State</div>
+                    <div class="turn">Turn</div>
+                    <div class="created">Created</div>
+                </div>                
+
+                <div class="content">
+
+                    <div class="game" ng-repeat="game in getActiveGames()">
+                        <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
+                        <div class="num-players">{{ game.players.length | number:0 }}</div>
+                        <div class="state">{{ game.state }}</div>
+                        <div class="turn" ng-class="game.turn.team"><span ng-show="game.turn.team">{{ game.turn.team }}</span></div>
+                        <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
+                    </div>
+
+                </div><!-- content -->
+
+            </div><!-- games-list -->
 
         </div><!-- active-games -->
 
         <div class="complete-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.FINISHED">
-            <div class="header">Finished games</div>
 
-            <table class="datagrid zebra games" cellpadding="5" cellspacing="0" border="1">
-                <thead>
-                    <tr>
-                        <th>Game ID</th>
-                        <th class="num-players"># Players</th>
-                        <th>Winner</th>
-                        <th>Created</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="game in getCompleteGames()">
-                        <td><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></td>
-                        <td class="num-players">{{ game.players.length | number:0 }}</td>
-                        <td class="winner" ng-class="game.winner">{{ game.winner }}</td>
-                        <td>{{ game.created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="games-list">
+
+                <div class="header">
+                    <div class="id">Game ID</div>
+                    <div class="num-players"># Players</div>
+                    <div class="winner">Winner</div>
+                    <div class="created">Created</div>
+                </div>                
+
+                <div class="content">
+
+                    <div class="game" ng-repeat="game in getCompleteGames()">
+                        <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
+                        <div class="num-players">{{ game.players.length | number:0 }}</div>
+                        <div class="winner" ng-class="game.winner">{{ game.winner }}</div>
+                        <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
+                    </div>
+
+                </div><!-- content -->
+
+            </div><!-- games-list -->
 
         </div><!-- active-games -->
 
