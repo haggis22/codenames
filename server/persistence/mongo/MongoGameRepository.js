@@ -103,7 +103,6 @@ class MongoGameRepository
                         updated: { $lte: Date.now() - (1000 * 60) }        
                     },
                     { 
-                        needsCPUAction: false,
                         state: Game.STATES.THINKING_ERROR
                     }
                 ]
