@@ -123,10 +123,15 @@
     <Content Include="src\services\view-constants.js" />
     <Content Include="src\services\view-service.js" />
     <Content Include="src\modules\users\services\users-dal-service.js" />
+    <Content Include="test\users.session.js" />
+    <Content Include="test\users.user.js" />
+    <Content Include="test\users\session.js" />
+    <Content Include="test\users\user.js" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
