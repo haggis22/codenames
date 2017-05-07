@@ -123,10 +123,12 @@
     <Content Include="src\services\view-constants.js" />
     <Content Include="src\services\view-service.js" />
     <Content Include="src\modules\users\services\users-dal-service.js" />
-    <Content Include="test\users.session.js" />
-    <Content Include="test\users.user.js" />
-    <Content Include="test\users\session.js" />
-    <Content Include="test\users\user.js" />
+    <Content Include="test\users.CPU.js" />
+    <Content Include="test\users.Session.js" />
+    <Content Include="test\users.User.js" />
+    <Content Include="test\users\CPU.js" />
+    <Content Include="test\users\Session.js" />
+    <Content Include="test\users\User.js" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
