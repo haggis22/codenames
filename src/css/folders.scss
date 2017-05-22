@@ -2,9 +2,8 @@
 
 div.folder-tabs
 {
-	margin-top: 15px;
+	margin: 15px 4px 0 4px;
 	border-bottom: 1px solid #999999;
-	margin-bottom: 0;
 	padding-left: 4px;
 
 	&:before, 
@@ -63,9 +62,11 @@ div.folder-tabs
 div.folder
 {
 	background-color: $manila-color;
-	border-left: 1px solid #000;
-	border-right: 1px solid #000;
-	border-bottom: 1px solid #000;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+	border-bottom: 1px solid #999;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
 
 	padding: 15px 10px;
 }
