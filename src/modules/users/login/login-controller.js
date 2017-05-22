@@ -1,5 +1,5 @@
-﻿(function(app) { 
-    
+﻿(function (app) {
+
     "use strict";
 
     app.controller('codenames.users.loginCtrl', ['$scope', '$rootScope', '$state',
@@ -12,12 +12,11 @@
             // $scope.password = 'password';
 
 
-            $scope.login = function() {
+            $scope.login = function () {
 
                 $scope.loginSubmitted = true;
 
-                if (!$scope.loginForm.$valid)
-                {
+                if (!$scope.loginForm.$valid) {
                     return;
                 }
 
@@ -25,12 +24,18 @@
 
             };
 
+            $scope.loginAsGuest = function () {
+
+                userService.loginAsGuest();
+
+            };  // loginAsGuest
+
 
 
         }  // outer function
 
     ]);
 
-}) (angular.module('codenames.app'));
+})(angular.module('codenames.app'));
 
 

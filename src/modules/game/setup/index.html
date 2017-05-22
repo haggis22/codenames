@@ -2,10 +2,12 @@
 
     <div class="folder-tabs">
         <div class="tab" ng-show="viewService.game.isPlaying(viewService.session.username)" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.ROLES}">
-            <a ng-click="selectTab(viewConstants.TABS.SETUP.ROLES)">Pick a team</a>
+            <a ng-click="selectTab(viewConstants.TABS.SETUP.ROLES)" 
+                title="Choose your team (RED or BLUE) and then your role">Pick a team</a>
         </div>
         <div class="tab" ng-show="isOwner()" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.INVITE }">
-            <a ng-click="selectTab(viewConstants.TABS.SETUP.INVITE)">Invite players</a>
+            <a ng-click="selectTab(viewConstants.TABS.SETUP.INVITE)"
+                title="Invite other users to join your game">Invite players</a>
         </div>
         <div class="tab" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.INVITEES }">
             <a ng-click="selectTab(viewConstants.TABS.SETUP.INVITEES)">Invitations</a>

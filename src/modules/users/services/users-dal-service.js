@@ -15,6 +15,11 @@
                         login: { method: 'POST' }
                     }),
 
+                loginAsGuest: $resource('/api/users/loginAsGuest', {},
+                    {
+                        login: { method: 'POST' }
+                    }),
+
                 session: $resource('/api/users/session'),
                 
                 logout: $resource('/api/users/logout', {},

@@ -17,6 +17,7 @@
                 initializeUser: initializeUser,
                 register: register,
                 login: login,
+                loginAsGuest: loginAsGuest,
                 logout: logout,
                 checkSession: checkSession
 
@@ -82,6 +83,28 @@
 
             }  // login
 
+
+            function loginAsGuest() {
+
+				viewService.loggingIn = true;                
+
+				dalService.loginAsGuest.login().$promise
+
+                    .then(function (result) {
+
+                        viewService.session = result;
+                        $rootScope.$broadcast(constants.events.SESSION_CHANGE);
+
+                    })
+                    .catch(function(error) { 
+                        errorService.addError('Login failure', error);
+                    })
+					.finally(function() {
+						viewService.loggingIn = false;
+					});
+				
+
+            }  // loginAsGuest
 
 
 
