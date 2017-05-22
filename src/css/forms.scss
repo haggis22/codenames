@@ -8,6 +8,7 @@
 	{
 		text-align: center;
 		font-weight: bold;
+		margin-bottom: 15px;
 	}
 
 	.form-row
@@ -33,10 +34,18 @@
 		margin-top: 10px;
 	}
 
-	.buttons
+	.buttons,
+	.message
 	{
 		margin-top: 10px;
 		text-align: center;
 	}
+
+	.required:after
+	{
+		content: "*";
+		color: #f00;
+	}
+
 
 }

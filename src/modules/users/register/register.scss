@@ -1,5 +1,35 @@
-﻿.mismatched-passwords
+﻿.panel-registration
 {
-	color: red;
-	font-weight: bold;
+
+	.div-form.registration
+	{
+		.form-row
+		{
+		
+			.label
+			{
+				width: 180px;
+			}
+
+			.field
+			{
+				input
+				{
+					width: 150px;
+				}
+
+			}
+
+		}
+
+		.mismatched-passwords
+		{
+			color: red;
+			font-weight: bold;
+		}
+
+	}
+
 }
+
+
