@@ -1,5 +1,31 @@
-﻿.game-setup
+﻿.panel-game-setup
 {
+
+	.folder-invitations
+	{
+		.div-form
+		{
+			background-color: #fff;
+
+			.form-row
+			{
+				margin-top: 10px;
+			}
+
+		}
+
+		.invitations
+		{
+			margin-top: 15px;
+			border: 1px solid #000;
+			padding: 10px;
+			background-color: #fff;
+			display: inline-block;
+			min-width: 300px;
+		}
+
+	}
+
 
 	.owner-panels
 	{

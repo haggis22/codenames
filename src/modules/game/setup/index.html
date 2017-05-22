@@ -1,4 +1,4 @@
-﻿<div ng-controller="codenames.game.SetupCtrl" class="game-setup">
+﻿<div ng-controller="codenames.game.SetupCtrl" class="panel-game-setup">
 
     <div class="folder-tabs">
         <div class="tab" ng-show="viewService.game.isPlaying(viewService.session.username)" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.ROLES}">
@@ -7,59 +7,55 @@
         </div>
         <div class="tab" ng-show="isOwner()" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.INVITE }">
             <a ng-click="selectTab(viewConstants.TABS.SETUP.INVITE)"
-                title="Invite other users to join your game">Invite players</a>
-        </div>
-        <div class="tab" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.INVITEES }">
-            <a ng-click="selectTab(viewConstants.TABS.SETUP.INVITEES)">Invitations</a>
+                title="Invite other users to join your game">Invite more players</a>
         </div>
     </div>
 
     <div class="folder">
 
-        <div ng-show="viewService.tabs.setup == viewConstants.TABS.SETUP.INVITEES" class="invitations">
-
-            <div ng-repeat="invitee in viewService.game.invitations" class="invitation">
-                {{ invitee }}
-            </div><!-- invitee -->
-
-        </div><!-- invitations -->
-
-        <div ng-show="viewService.tabs.setup == viewConstants.TABS.SETUP.INVITE" class="invitations">
+        <div ng-show="viewService.tabs.setup == viewConstants.TABS.SETUP.INVITE" class="folder-invitations">
 
             <div class="inviter">
         
                 <form name="inviteForm" novalidate>
 
-                    <table class="invitations" cellpadding="5" cellspacing="0" border="1">
-            
-                        <thead>
-                            <tr>
-                                <th colspan="2">Invite players</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Username:</td>
-                                <td><input type="text" 
-                                            class="username" 
-                                            ng-class="{ 'field-error': viewService.invitation.submitted && inviteForm.username.$invalid }"
-                                            name="username" 
-                                            ng-model="viewService.invitation.username"
-                                            required 
-                                            h22-enter-action="invite()" /></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2" class="buttons">
-                                    <button type="button" ng-click="invite()">Invite</button>
-                                </td>
-                            </tr>
-                        </tfoot>
+                    <div class="div-form">
+                        <div class="header">
+                            Invite players
+                        </div><!-- header -->
+                        <div class="form-row">
+                            <div class="label">
+                                Username:
+                            </div><!-- label -->
+                            <div class="field">
+                                <input type="text" 
+                                    class="username" 
+                                    ng-class="{ 'field-error': viewService.invitation.submitted && inviteForm.username.$invalid }"
+                                    name="username" 
+                                    ng-model="viewService.invitation.username"
+                                    required 
+                                    h22-enter-action="invite()" />                            
+                            </div><!-- field -->
+                        </div>
+                        <div class="buttons">
+                            <button type="button" ng-click="invite()">Invite</button>
+                        </div>
 
-                    </table><!-- invitations -->
+                    </div><!-- invitations div-form -->
 
                 </form><!-- inviteForm -->
+
+            </div><!-- inviter -->
+            
+            <div class="invitations">
+
+                <div ng-hide="viewService.game.invitations.length" class="no-invitations">
+                    There are no open invitations for this game.
+                </div>
+                
+                <div ng-repeat="invitee in viewService.game.invitations" class="invitation">
+                    {{ invitee }}
+                </div><!-- invitee -->
 
             </div><!-- invitations -->
 
