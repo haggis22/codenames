@@ -94,7 +94,7 @@
                     <tr class="team">
                         <td class="role">Spies</td>
                         <td class="spy red">
-                            <div><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPY)">Choose</button></div>
+                            <div ng-hide="iAmSpyFor(Team.RED)"><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPY)">Choose</button></div>
                             <div class="players">
                                 <div ng-show="findSpies(Team.RED).length == 0">
                                     <div class="spy">CPU</div>
@@ -105,7 +105,7 @@
                             </div><!-- players -->
                         </td>
                         <td class="spy blue">
-                            <div><button type="button" ng-click="apply(Team.BLUE, Team.ROLES.SPY)">Choose</button></div>
+                            <div ng-hide="iAmSpyFor(Team.BLUE)"><button type="button" ng-click="apply(Team.BLUE, Team.ROLES.SPY)">Choose</button></div>
                             <div class="players">
                                 <div ng-show="findSpies(Team.BLUE).length > 0">
                                     <div class="spy" ng-repeat="spy in findSpies(Team.BLUE)">{{ spy.username }}</div>

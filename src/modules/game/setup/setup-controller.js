@@ -76,6 +76,12 @@
 
             };
 
+            $scope.iAmSpyFor = function(team) {
+
+                return viewService.game && viewService.game.findSpies(team).find(s => s._id == viewService.session.userID);
+
+            };  // iAmSpy
+
 
         }  // outer function
 
