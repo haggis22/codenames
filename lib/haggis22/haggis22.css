@@ -61,9 +61,7 @@
   clear: both; }
 
 .text-link {
-  display: inline-block; }
-
-.text-link:hover {
+  display: inline-block;
   text-decoration: underline;
   cursor: pointer; }
 
