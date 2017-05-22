@@ -1,45 +1,44 @@
-﻿<div ng-controller="codenames.users.loginCtrl">
+﻿<div ng-controller="codenames.users.loginCtrl" class="panel-login">
 
     <form name="loginForm">
         
-        <table class="login" border="1" cellpadding="5" cellspacing="0">
-        
-            <tbody>
-            
-                <tr>
-                    <td>Email:</td>
-                    <td><input type="text" 
-                            name="username"
-                            ng-model="email" 
-                            ng-class="{ 'field-error': loginSubmitted && loginForm.username.$invalid }"
-                            h22-focus-me="true"
-                            h22-enter-action="login()"
-                            required />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td><input type="password" 
+        <div class="login div-form">
+
+            <div class="form-row">
+                <div class="label">
+                    Email:
+                </div><!-- label -->
+                <div class="field">
+                    <input type="text" 
+                        name="username"
+                        ng-model="email" 
+                        ng-class="{ 'field-error': loginSubmitted && loginForm.username.$invalid }"
+                        h22-focus-me="true"
+                        h22-enter-action="login()"
+                        required />
+                </div><!-- field -->
+            </div><!-- form-row -->
+            <div class="form-row">
+                <div class="label">
+                    Password:
+                </div><!-- label -->
+                <div class="field">
+                    <input type="password" 
                             name="password"
                             ng-model="password" 
                             ng-class="{ 'field-error': loginSubmitted && loginForm.password.$invalid }"
                             h22-enter-action="login()"
                             required />
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2" class="buttons">
-						<h22-ajax-message ng-show="viewService.loggingIn" message="Logging in"></h22-ajax-message>
-						<div ng-hide="viewService.loggingIn">			
-	                        <button type="button" ng-click="login()">Log In</button>
-						</div>
-                    </td>
-                </tr>
-            </tfoot>
-
-        </table>
+                </div><!-- field -->
+            </div><!-- form-row -->
+            <div class="buttons">
+				<h22-ajax-message ng-show="viewService.loggingIn" message="Logging in"></h22-ajax-message>
+				<div ng-hide="viewService.loggingIn">			
+	                <button type="button" ng-click="login()">Log In</button>
+				</div>
+            </div><!-- footer -->
+        
+        </div>
 
     </form>
 
