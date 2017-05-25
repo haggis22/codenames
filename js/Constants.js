@@ -13,7 +13,8 @@
 
         Constants.cookies = 
         {
-            SESSION: 'session'
+            SESSION: 'session',
+            EXPIRES_LENGTH: 1000 * 60 * 60 * 24 * 365
         };
 
         Constants.events = 

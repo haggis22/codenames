@@ -50,7 +50,7 @@ router.post('/register', function (req, res) {
                             // now result.data is the 
 
                             // put the session in the cookies
-                            res.cookie(constants.cookies.SESSION, sessionResult.data.hash);
+                            res.cookie(constants.cookies.SESSION, sessionResult.data.hash, { expires: new Date(Date.now() + constants.cookies.EXPIRES_LENGTH), httpOnly: true, secure: config.forceHttps });
 
                             logger.info('session = ' + JSON.stringify(sessionResult.data));
 
@@ -102,7 +102,7 @@ router.post('/login', function (req, res) {
                         if (result.data)
                         {
                             // put the session in the cookies
-                            res.cookie(constants.cookies.SESSION, result.data.hash);
+                            res.cookie(constants.cookies.SESSION, result.data.hash, { expires: new Date(Date.now() + constants.cookies.EXPIRES_LENGTH), httpOnly: true, secure: config.forceHttps });
 
                             logger.info('session = ' + JSON.stringify(result.data));
 
@@ -150,7 +150,7 @@ router.post('/loginAsGuest', function (req, res) {
                         if (result.data)
                         {
                             // put the session in the cookies
-                            res.cookie(constants.cookies.SESSION, result.data.hash);
+                            res.cookie(constants.cookies.SESSION, result.data.hash, { expires: new Date(Date.now() + constants.cookies.EXPIRES_LENGTH), httpOnly: true, secure: config.forceHttps });
 
                             logger.info('session = ' + JSON.stringify(result.data));
 
