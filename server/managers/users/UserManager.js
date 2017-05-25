@@ -14,6 +14,7 @@ var db = monk(config.db.users);
 var COLLECTION_NAME = 'users';
 
 var q = require('q');
+var uuid = require('uuid');
 
 var User = require(__dirname + '/../../../js/users/User');
 
@@ -38,7 +39,7 @@ class UserManager
     }
 
     // Success: returns a Session object
-    login(email, password) {
+    login(username, password) {
 
         // pull by email address
         return this.repo.fetchByEmail(email)
@@ -77,6 +78,28 @@ class UserManager
     }  // login
 
 
+    // Success: returns a Session object
+    loginAsGuest() {
+
+        let password = uuid.v4();
+
+        // first, create a new guest user
+        let guest = 
+        {
+            username: 'Guest-' + uuid.v4(),
+            password: password,
+            confirmPassword: password,          // so that they match
+            email: null,                        // guest users have no email set up, so there is nothing to dupe out against
+            first: 'Guest',
+            last: 'User'
+        };
+
+        // returns a new { data: User } object
+        return this.register(guest);
+
+    }  // loginAsGuest
+
+
     validateRegistration(user) {
 
         if (!user)
@@ -88,6 +111,9 @@ class UserManager
         {
             return { error: 'Invalid username' };
         }
+
+/*
+    For now, email and names are not required
 
         if (!user.email || user.email.trim().length === 0)
         {
@@ -103,7 +129,7 @@ class UserManager
         {
             return { error: 'Missing last name' };
         }
-
+*/
         if (!user.password || user.password.trim().length === 0)
         {
             return { error: 'Missing password' };

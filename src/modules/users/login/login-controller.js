@@ -20,7 +20,7 @@
                     return;
                 }
 
-                userService.login($scope.email, $scope.password);
+                userService.login($scope.username, $scope.password);
 
             };
 

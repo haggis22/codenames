@@ -61,11 +61,11 @@
             }  // register
 
 
-            function login(email, password) {
+            function login(username, password) {
 
 				viewService.loggingIn = true;                
 
-				dalService.login.login({}, { email: email, password: password }).$promise
+				dalService.login.login({}, { username: username, password: password }).$promise
 
                     .then(function (result) {
 

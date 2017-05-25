@@ -81,12 +81,12 @@ router.post('/register', function (req, res) {
 // Returns a Session object if the login is successful
 router.post('/login', function (req, res) {
 
-    if (logger.isDebugEnabled) { logger.debug('Login attempt for ' + req.body.email); }
+    if (logger.isDebugEnabled) { logger.debug('Login attempt for ' + req.body.username); }
 
     let userManager = new UserManager(new MongoUserRepository());
 
     // for a POST the parameters come in req.body
-    userManager.login(req.body.email, req.body.password)
+    userManager.login(req.body.username, req.body.password)
 
         .then(function (result) {
 
@@ -121,6 +121,54 @@ router.post('/login', function (req, res) {
         })
         .catch(function(err) {
             logger.warn('Could not log in for user ' + req.body.email + ': ' + err.stack);
+            return res.status(500).send('Could not log in').end();
+        });
+
+});
+
+// Returns a Session object if the login is successful
+router.post('/loginAsGuest', function (req, res) {
+
+    if (logger.isDebugEnabled) { logger.debug('Guest login attempt'); }
+
+    let userManager = new UserManager(new MongoUserRepository());
+
+    // no parameters for a guest login
+    userManager.loginAsGuest()
+
+        .then(function (result) {
+
+            if (result.data)
+            {
+                // returns the user, so create a session
+                let sessionManager = new SessionManager(new MongoSessionRepository());
+
+                return sessionManager.createSession(result.data)
+
+                    .then(function(result) {
+
+                        if (result.data)
+                        {
+                            // put the session in the cookies
+                            res.cookie(constants.cookies.SESSION, result.data.hash);
+
+                            logger.info('session = ' + JSON.stringify(result.data));
+
+                            // return the newly-created user session data
+                            return res.send(result.data).end();
+                        }
+
+                        throw new Error(result.error);
+
+                    });
+            }
+
+            // the login failed because of the input, not because of a system error
+            return res.status(401).send(result.error);
+
+        })
+        .catch(function(err) {
+            logger.warn('Could not log in as guest: ' + err.stack);
             return res.status(500).send('Could not log in').end();
         });
 
