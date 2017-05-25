@@ -58,7 +58,7 @@ class MongoUserRepository
 
         // null email will mean NULL user
         if (email === null) {
-            return q(null);
+            return q({ data: null });
         }
 
         return this.fetch({ email: email });
@@ -69,7 +69,7 @@ class MongoUserRepository
 
         // null username will mean NULL user
         if (username === null) {
-            return q(null);
+            return q({ data: null });
         }
 
         return this.fetch({ username: username });
@@ -81,7 +81,7 @@ class MongoUserRepository
 
         // null ID will mean NULL user
         if (id === null) {
-            return q(null);
+            return q({ data: null });
         }
 
         return this.fetch({ _id: id });
