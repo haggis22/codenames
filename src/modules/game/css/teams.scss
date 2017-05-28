@@ -1,0 +1,78 @@
+﻿div.panel-game-play,
+div.panel-game-setup
+{
+
+	.teams
+	{
+		border-top: 1px solid #000;
+		border-left: 1px solid #000;
+		border-right: 1px solid #000;
+		display: inline-block;
+		padding: 0;
+
+		.row
+		{
+			border-bottom: 1px solid #000;
+			display: flex;
+			flex-direction: row;
+
+			&.header
+			{
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+		}
+
+		.role,
+		.team,
+		.remain
+		{
+			display: inline-block;
+			margin: 0;
+			padding: 4px;
+		}
+
+		.role,
+		.remain
+		{
+			background-color: #fff;
+			width: 100px;
+		}
+
+		.role
+		{
+			font-weight: bold;
+		}
+
+		.team
+		{
+			width: 150px;
+			text-align: center;
+			overflow: hidden;
+
+			.players
+			{
+				margin-top: 8px;
+			}
+
+		}
+
+		.red
+		{
+			background: $red-background-color;
+			color: $red-foreground-color;
+			border-right: 1px solid #000;
+			border-left: 1px solid #000;
+		}
+
+		.blue
+		{
+			background: $blue-background-color;
+			color: $blue-foreground-color;
+		}
+
+	}  /* .teams */
+
+}
+
+
