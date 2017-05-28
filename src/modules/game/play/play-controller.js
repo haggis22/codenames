@@ -17,6 +17,7 @@
             // clear the clue the first time through this controller
             gameService.clearClue();
 
+
             $scope.getTurnDescription = function () {
 
                 if (viewService.game && viewService.game.turn) {

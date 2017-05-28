@@ -182,6 +182,12 @@
 
             }
 
+            isTeamTurn(team) {
+
+                return this.turn.team == team;
+
+            }
+
 
             isMyTurn(userID, action) {
 

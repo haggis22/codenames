@@ -65,13 +65,13 @@
         <div ng-show="viewService.tabs.setup == viewConstants.TABS.SETUP.ROLES" class="teams">
 
             <div class="row header">
-                <div class="role">Role</div>
+                <div class="label role">Role</div>
                 <div class="team red">Red</div>
                 <div class="team blue">Blue</div>
             </div><!-- row -->
 
             <div class="row">
-                <div class="role">Spymaster</div>
+                <div class="label role">Spymaster</div>
                 <div class="team red">
                     <div ng-hide="findSpymaster(Team.RED)"><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPYMASTER)">Choose</button></div>
                     <div class="players">
@@ -89,7 +89,7 @@
             </div><!-- row -->
 
             <div class="row">
-                <div class="role">Spies</div>
+                <div class="label role">Spies</div>
                 <div class="team red">
                     <div ng-hide="iAmSpyFor(Team.RED)"><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPY)">Choose</button></div>
                     <div class="players">

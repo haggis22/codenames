@@ -21,55 +21,60 @@ div.panel-game-setup
 				text-transform: uppercase;
 				font-weight: bold;
 			}
-		}
 
-		.role,
-		.team,
-		.remain
-		{
-			display: inline-block;
-			margin: 0;
-			padding: 4px;
-		}
-
-		.role,
-		.remain
-		{
-			background-color: #fff;
-			width: 100px;
-		}
-
-		.role
-		{
-			font-weight: bold;
-		}
-
-		.team
-		{
-			width: 150px;
-			text-align: center;
-			overflow: hidden;
-
-			.players
+			.label,
+			.team
 			{
-				margin-top: 8px;
+				display: inline-block;
+				margin: 0;
+				padding: 4px;
 			}
 
-		}
+			.label
+			{
+				background-color: #fff;
+				width: 100px;
+			}
 
-		.red
-		{
-			background: $red-background-color;
-			color: $red-foreground-color;
-			border-right: 1px solid #000;
-			border-left: 1px solid #000;
-		}
+			.role
+			{
+				font-weight: bold;
+			}
 
-		.blue
-		{
-			background: $blue-background-color;
-			color: $blue-foreground-color;
-		}
+			.team
+			{
+				width: 150px;
+				text-align: center;
+				overflow: hidden;
+
+				.players
+				{
+					margin-top: 8px;
+				}
+
+			}
+
+			.red
+			{
+				background: $red-background-color;
+				color: $red-foreground-color;
+				border-right: 1px solid #000;
+				border-left: 1px solid #000;
+			}
+
+			.blue
+			{
+				background: $blue-background-color;
+				color: $blue-foreground-color;
+			}
+
+			&.turn .team
+			{
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+
+		}  /* row */
 
 	}  /* .teams */
 

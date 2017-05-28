@@ -43,6 +43,7 @@
     <None Include="src\css\base.scss" />
     <None Include="src\css\forms.scss" />
     <None Include="src\css\folders.scss" />
+    <None Include="src\modules\game\css\teams.scss" />
     <None Include="src\modules\game\play\game.scss" />
     <None Include="src\modules\game\play\board.scss" />
     <None Include="src\modules\game\play\play.scss" />

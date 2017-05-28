@@ -4,12 +4,6 @@
 
         <div class="game-state">
 
-            <div ng-show="viewService.game.isActive()" class="turn">Turn: 
-                <span class="turn-value" ng-class="getTurnClass(viewService.game.turn.team)">
-                    {{ getTurnDescription() }}
-                </span>
-            </div><!-- if playing, show turn -->
-
             <div ng-show="viewService.game.isComplete()" class="winner">
                 <span class="winner-value" ng-class="getTurnClass(viewService.game.winner)">{{ viewService.game.winner }} WINS!</span>
             </div><!-- if complete, show winner -->
@@ -17,13 +11,13 @@
             <div class="teams">
 
                 <div class="row header">
-                    <div class="role"></div>
+                    <div class="label role"></div>
                     <div class="team red">Red</div>
                     <div class="team blue">Blue</div>
                 </div><!-- row -->
 
                 <div class="row">
-                    <div class="role">Spymaster</div>
+                    <div class="label role">Spymaster</div>
                     <div class="team red">
                         <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.RED)">{{ viewService.game.findSpymaster(Team.RED).first }}</div>
                         <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.RED)">CPU</div>
@@ -35,7 +29,7 @@
                 </div><!-- row -->
 
                 <div class="row">
-                    <div class="role">Spies</div>
+                    <div class="label role">Spies</div>
                     <div class="team red">
                         <div ng-show="viewService.game.findSpies(Team.RED).length == 0">
                             <div class="spy">CPU</div>
@@ -55,10 +49,17 @@
                 </div><!-- row -->
 
                 <div class="row">
-                    <div class="remain">Remaining</div>
+                    <div class="label remain">Remaining</div>
                     <div class="team red">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</div><!-- red team remaining -->
                     <div class="team blue">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</div><!-- blue team remaining -->
                 </div><!-- row -->
+
+                <div class="row turn" ng-show="viewService.game.isActive()">
+                    <div class="label">Turn</div>
+                    <div class="team red"><span ng-show="viewService.game.isTeamTurn(Team.RED)">{{ getTurnDescription() }}</span></div>
+                    <div class="team blue"><span ng-show="viewService.game.isTeamTurn(Team.BLUE)">{{ getTurnDescription() }}</span></div>
+                </div><!-- if playing, show turn -->
+
 
             </div><!-- teams -->
 
