@@ -12,6 +12,8 @@
                 {
                     this._id = player._id;
                     this.username = player.username;
+                    this.first = player.first;
+                    this.last = player.last;
                     this.team = player.team;
                     this.role = player.role;
                 }
@@ -23,6 +25,8 @@
                 var player = new Player();
                 player._id = user._id;
                 player.username = user.username;
+                player.first = user.first;
+                player.last = user.last;
                 return player;
 
             }
