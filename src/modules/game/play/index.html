@@ -28,11 +28,11 @@
                         <tr class="spymaster">
                             <td class="role">Spymaster</td>
                             <td class="spymaster red">
-                                <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.RED)">{{ viewService.game.findSpymaster(Team.RED).username }}</div>
+                                <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.RED)">{{ viewService.game.findSpymaster(Team.RED).first }}</div>
                                 <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.RED)">CPU</div>
                             </td>
                             <td class="spymaster blue">
-                                <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.BLUE)">{{ viewService.game.findSpymaster(Team.BLUE).username }}</div>
+                                <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.BLUE)">{{ viewService.game.findSpymaster(Team.BLUE).first }}</div>
                                 <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.BLUE)">CPU</div>
                             </td>
                         </tr>
@@ -43,12 +43,12 @@
                                     <div class="spy">CPU</div>
                                 </div>
                                 <div ng-show="viewService.game.findSpies(Team.RED).length > 0">
-                                    <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.RED)">{{ spy.username }}</div>
+                                    <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.RED)">{{ spy.first }}</div>
                                 </div>
                             </td>
                             <td class="spy blue">
                                 <div ng-show="viewService.game.findSpies(Team.BLUE).length > 0">
-                                    <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.BLUE)">{{ spy.username }}</div>
+                                    <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.BLUE)">{{ spy.first }}</div>
                                 </div>
                                 <div ng-show="viewService.game.findSpies(Team.BLUE).length == 0">
                                     <div class="spy">CPU</div>
