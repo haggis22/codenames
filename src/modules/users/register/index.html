@@ -34,25 +34,27 @@
         
             <div class="form-row">
                 <div class="label">
-                    First Name:
+                    <span class="required">First Name:</span>
                 </div>
                 <div class="field">
                     <input type="text" 
                         name="first"
                         ng-model="viewService.user.first" 
-                        ng-class="{ 'field-error': viewService.user.submitted && registerForm.first.$invalid }" />
+                        ng-class="{ 'field-error': viewService.user.submitted && registerForm.first.$invalid }" 
+                        required />
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="label">
-                    Last Name:
+                    <span class="required">Last Name:</span>
                 </div>
                 <div class="field">
                     <input type="text" 
                         name="last"
                         ng-model="viewService.user.last" 
-                        ng-class="{ 'field-error': viewService.user.submitted && registerForm.last.$invalid }" />
+                        ng-class="{ 'field-error': viewService.user.submitted && registerForm.last.$invalid }" 
+                        required />
                 </div>
             </div>
 

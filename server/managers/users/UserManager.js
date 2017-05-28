@@ -113,13 +113,13 @@ class UserManager
         }
 
 /*
-    For now, email and names are not required
+    email is no longer required
 
         if (!user.email || user.email.trim().length === 0)
         {
             return { error: 'Invalid email' };
         }
-
+*/
         if (!user.first || user.first.trim().length === 0)
         {
             return { error: 'Missing first name' };
@@ -129,7 +129,7 @@ class UserManager
         {
             return { error: 'Missing last name' };
         }
-*/
+
         if (!user.password || user.password.trim().length === 0)
         {
             return { error: 'Missing password' };
