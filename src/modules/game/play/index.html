@@ -15,53 +15,51 @@
             </div><!-- if complete, show winner -->
 
             <div class="teams">
-                <table class="role-table" cellpadding="5" cellspacing="0" border="1">
-        
-                    <thead>
-                        <tr>
-                            <th class="role"></th>
-                            <th class="red">RED</th>
-                            <th class="blue">BLUE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="spymaster">
-                            <td class="role">Spymaster</td>
-                            <td class="spymaster red">
-                                <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.RED)">{{ viewService.game.findSpymaster(Team.RED).first }}</div>
-                                <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.RED)">CPU</div>
-                            </td>
-                            <td class="spymaster blue">
-                                <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.BLUE)">{{ viewService.game.findSpymaster(Team.BLUE).first }}</div>
-                                <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.BLUE)">CPU</div>
-                            </td>
-                        </tr>
-                        <tr class="team">
-                            <td class="role">Spies</td>
-                            <td class="spy red">
-                                <div ng-show="viewService.game.findSpies(Team.RED).length == 0">
-                                    <div class="spy">CPU</div>
-                                </div>
-                                <div ng-show="viewService.game.findSpies(Team.RED).length > 0">
-                                    <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.RED)">{{ spy.first }}</div>
-                                </div>
-                            </td>
-                            <td class="spy blue">
-                                <div ng-show="viewService.game.findSpies(Team.BLUE).length > 0">
-                                    <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.BLUE)">{{ spy.first }}</div>
-                                </div>
-                                <div ng-show="viewService.game.findSpies(Team.BLUE).length == 0">
-                                    <div class="spy">CPU</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="remaining">
-                            <td>Remaining</td>
-                            <td class="count red">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</td>
-                            <td class="count blue">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</td>
-                        </tr>
-                    </tbody>
-                </table><!-- role-table -->
+
+                <div class="row header">
+                    <div class="role"></div>
+                    <div class="team red">Red</div>
+                    <div class="team blue">Blue</div>
+                </div><!-- row -->
+
+                <div class="row">
+                    <div class="role">Spymaster</div>
+                    <div class="team red">
+                        <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.RED)">{{ viewService.game.findSpymaster(Team.RED).first }}</div>
+                        <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.RED)">CPU</div>
+                    </div><!-- red team spymaster -->
+                    <div class="team blue">
+                        <div class="spymaster" ng-show="viewService.game.findSpymaster(Team.BLUE)">{{ viewService.game.findSpymaster(Team.BLUE).first }}</div>
+                        <div class="spymaster" ng-hide="viewService.game.findSpymaster(Team.BLUE)">CPU</div>
+                    </div><!-- blue team spymaster -->
+                </div><!-- row -->
+
+                <div class="row">
+                    <div class="role">Spies</div>
+                    <div class="team red">
+                        <div ng-show="viewService.game.findSpies(Team.RED).length == 0">
+                            <div class="spy">CPU</div>
+                        </div>
+                        <div ng-show="viewService.game.findSpies(Team.RED).length > 0">
+                            <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.RED)">{{ spy.first }}</div>
+                        </div>
+                    </div><!-- red team spymaster -->
+                    <div class="team blue">
+                        <div ng-show="viewService.game.findSpies(Team.BLUE).length > 0">
+                            <div class="spy" ng-repeat="spy in viewService.game.findSpies(Team.BLUE)">{{ spy.first }}</div>
+                        </div>
+                        <div ng-show="viewService.game.findSpies(Team.BLUE).length == 0">
+                            <div class="spy">CPU</div>
+                        </div>
+                    </div><!-- blue team spymaster -->
+                </div><!-- row -->
+
+                <div class="row">
+                    <div class="remain">Remaining</div>
+                    <div class="team red">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</div><!-- red team remaining -->
+                    <div class="team blue">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</div><!-- blue team remaining -->
+                </div><!-- row -->
+
             </div><!-- teams -->
 
             <div class="clues" ng-show="viewService.game.isActive() && isSpymaster()">
