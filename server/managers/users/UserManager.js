@@ -42,7 +42,7 @@ class UserManager
     login(username, password) {
 
         // pull by email address
-        return this.repo.fetchByEmail(email)
+        return this.repo.fetchByEmail(username)
 
             .then(function(userResult) {
 
