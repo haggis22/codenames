@@ -26,7 +26,7 @@ gulp.task('lint', function () {
 
 gulp.task('css', ['clean'], function () {
 
-    return gulp.src('src/**/*.scss')
+    return gulp.src([ 'src/**/*.scss', '!src/css/imports.scss' ])
         .pipe(concat('style.css'))
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('build/client/css'));

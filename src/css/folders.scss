@@ -1,4 +1,4 @@
-﻿@import 'css/base';
+﻿@import 'css/imports';
 
 div.folder-tabs
 {
@@ -62,9 +62,9 @@ div.folder-tabs
 div.folder
 {
 	background-color: $manila-color;
-	border-left: 1px solid #999;
-	border-right: 1px solid #999;
-	border-bottom: 1px solid #999;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+	border-bottom: 1px solid #666;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
 

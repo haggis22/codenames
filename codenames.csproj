@@ -41,6 +41,7 @@
     <None Include="package.json" />
     <None Include="configs\dev\log4js_config.json" />
     <None Include="src\css\base.scss" />
+    <None Include="src\css\imports.scss" />
     <None Include="src\css\forms.scss" />
     <None Include="src\css\folders.scss" />
     <None Include="src\modules\game\css\teams.scss" />
