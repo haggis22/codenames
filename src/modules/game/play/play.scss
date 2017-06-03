@@ -32,27 +32,6 @@
 			}
 */
 
-			.winner
-			{
-				font-size: 1.5em;
-				font-weight: bold;
-
-				.winner-value
-				{
-					text-transform: uppercase;
-
-					&.blue
-					{
-						color: $blue-color;
-					}
-
-					&.red
-					{
-						color: $red-color;
-					}
-
-				}
-			}
 
 			.pass
 			{

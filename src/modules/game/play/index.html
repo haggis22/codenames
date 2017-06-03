@@ -4,10 +4,6 @@
 
         <div class="game-state">
 
-            <div ng-show="viewService.game.isComplete()" class="winner">
-                <span class="winner-value" ng-class="getTurnClass(viewService.game.winner)">{{ viewService.game.winner }} WINS!</span>
-            </div><!-- if complete, show winner -->
-
             <div class="teams">
 
                 <div class="row header">
@@ -50,14 +46,22 @@
 
                 <div class="row">
                     <div class="label remain">Remaining</div>
-                    <div class="team red">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</div><!-- red team remaining -->
-                    <div class="team blue">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</div><!-- blue team remaining -->
+
+                    <div ng-show="viewService.game.isComplete()" class="winner">
+                        <span class="winner-value" ng-class="getTurnClass(viewService.game.winner)">{{ viewService.game.winner }} WINS!</span>
+                    </div><!-- if complete, show winner -->
+
+                    <div ng-hide="viewService.game.isComplete()">
+                        <div class="team red">{{ viewService.game.board.remaining[Team.RED] | number:0 }}</div><!-- red team remaining -->
+                        <div class="team blue">{{ viewService.game.board.remaining[Team.BLUE] | number:0 }}</div><!-- blue team remaining -->
+                    </div>
+
                 </div><!-- row -->
 
                 <div class="row turn" ng-show="viewService.game.isActive()">
                     <div class="label">Turn</div>
-                    <div class="team red"><span ng-show="viewService.game.isTeamTurn(Team.RED)">{{ getTurnDescription() }}</span></div>
-                    <div class="team blue"><span ng-show="viewService.game.isTeamTurn(Team.BLUE)">{{ getTurnDescription() }}</span></div>
+                    <div class="team red"><span ng-show="viewService.game.isTeamTurn(Team.RED)">&#x25ba; {{ getTurnDescription() }} &#x25c4;</span></div>
+                    <div class="team blue"><span ng-show="viewService.game.isTeamTurn(Team.BLUE)">&#x25ba; {{ getTurnDescription() }} &#x25c4;</span></div>
                 </div><!-- if playing, show turn -->
 
 

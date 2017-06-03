@@ -10,6 +10,10 @@
 
                 options: loadOptions(),
                 saveOptions: saveOptions,
+                menu: 
+                {
+                    display: false
+                },
 
                 tabs:
                 {

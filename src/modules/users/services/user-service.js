@@ -115,6 +115,10 @@
                     .then(function () {
 
                         viewService.session = null;
+                        
+                        // close the menu, if it is open
+                        viewService.menu.display = false;
+
                         $rootScope.$broadcast(constants.events.SESSION_CHANGE);
 
                     })

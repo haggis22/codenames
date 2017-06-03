@@ -9,6 +9,7 @@
                     constants, viewService, userService) {
 
             $scope.viewService = viewService;
+            $scope.state = $state;
 
             function isInEntryway() {
                 return $state.is('main.login') || $state.is('main.register');
@@ -50,6 +51,21 @@
             $scope.logout = function () {
 
                 userService.logout();
+
+            };
+
+            $scope.isInLobby = function () {
+
+                return $state.current && $state.current.name == 'main.lobby';
+
+            };
+
+            $scope.goToLobby = function () {
+
+                // hide the menu
+                viewService.menu.display = false;
+
+                return $state.go('main.lobby');
 
             };
 

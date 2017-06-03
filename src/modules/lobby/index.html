@@ -1,4 +1,4 @@
-﻿<div ng-controller="codenames.lobbyCtrl" class="lobby">
+﻿<div ng-controller="codenames.lobbyCtrl" class="panel-lobby">
 
     <div>
         <button type="button" ng-click="createGame()">Create game</button>
@@ -7,132 +7,136 @@
     <div class="loader" ng-show="viewService.pullingGames">Pulling games...</div>
 
 
-    <div class="folder-tabs">
-        <div class="tab" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.SETUP}">
-            <a ng-click="selectTab(viewConstants.TABS.LOBBY.SETUP)">Setting up</a>
+    <div class="folders">
+        <div class="folder-tabs">
+            <div class="tab" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.SETUP}">
+                <a ng-click="selectTab(viewConstants.TABS.LOBBY.SETUP)">Setting up</a>
+            </div>
+            <div class="tab" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.ACTIVE }">
+                <a ng-click="selectTab(viewConstants.TABS.LOBBY.ACTIVE)">Active Games</a>
+            </div>
+            <div class="tab" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.FINISHED }">
+                <a ng-click="selectTab(viewConstants.TABS.LOBBY.FINISHED)">Finished</a>
+            </div>
         </div>
-        <div class="tab" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.ACTIVE }">
-            <a ng-click="selectTab(viewConstants.TABS.LOBBY.ACTIVE)">Active Games</a>
-        </div>
-        <div class="tab" ng-class="{ 'active': viewService.tabs.lobby == viewConstants.TABS.LOBBY.FINISHED }">
-            <a ng-click="selectTab(viewConstants.TABS.LOBBY.FINISHED)">Finished</a>
-        </div>
-    </div>
 
 
-    <div class="folder">
+        <div class="folder">
 
+            <div ng-show="viewService.games">
 
-    <div ng-show="viewService.games">
+                <div class="setup-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.SETUP">
 
-        <div class="setup-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.SETUP">
+                    <div class="games-list">
 
-            <div class="games-list">
+                        <div ng-hide="getSetupGames().length">
 
-                <div ng-hide="getSetupGames().length">
+                            <div class="no-games">There are no games currently setting up to display.</div>
 
-                    <div class="no-games">There are no games currently setting up to display.</div>
+                        </div><!-- ng-hide="getSetupGames().length" -->
 
-                </div><!-- ng-hide="getSetupGames().length" -->
+                        <div ng-show="getSetupGames().length">
 
-                <div ng-show="getSetupGames().length">
+                            <div class="header">
+                                <div class="id">Game ID</div>
+                                <div class="num-players"># Players</div>
+                                <div class="created">Created</div>
+                            </div>                
 
-                    <div class="header">
-                        <div class="id">Game ID</div>
-                        <div class="num-players"># Players</div>
-                        <div class="created">Created</div>
-                    </div>                
+                            <div class="content">
 
-                    <div class="content">
+                                <div class="game" ng-repeat="game in getSetupGames()">
+                                    <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
+                                    <div class="num-players">{{ game.players.length | number:0 }}</div>
+                                    <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
+                                </div>
 
-                        <div class="game" ng-repeat="game in getSetupGames()">
-                            <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
-                            <div class="num-players">{{ game.players.length | number:0 }}</div>
-                            <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
-                        </div>
+                            </div><!-- content -->
 
-                    </div><!-- content -->
+                        </div><!-- ng-show="getSetupGames().length" -->
 
-                </div><!-- ng-show="getSetupGames().length" -->
+                    </div><!-- games-list -->
 
-            </div><!-- games-list -->
+                </div><!-- setting up -->
 
-        </div><!-- setting up -->
+                <div class="active-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.ACTIVE">
 
-        <div class="active-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.ACTIVE">
+                    <div class="games-list">
 
-            <div class="games-list">
+                        <div ng-hide="getActiveGames().length">
 
-                <div ng-hide="getActiveGames().length">
+                            <div class="no-games">There are no active games to display.</div>
 
-                    <div class="no-games">There are no active games to display.</div>
+                        </div><!-- ng-hide="getActiveGames().length" -->
 
-                </div><!-- ng-hide="getActiveGames().length" -->
+                        <div ng-show="getActiveGames().length">
 
-                <div ng-show="getActiveGames().length">
+                            <div class="header">
+                                <div class="id">Game ID</div>
+                                <div class="num-players"># Players</div>
+                                <div class="state">State</div>
+                                <div class="turn">Turn</div>
+                                <div class="created">Created</div>
+                            </div>                
 
-                    <div class="header">
-                        <div class="id">Game ID</div>
-                        <div class="num-players"># Players</div>
-                        <div class="state">State</div>
-                        <div class="turn">Turn</div>
-                        <div class="created">Created</div>
-                    </div>                
+                            <div class="content">
 
-                    <div class="content">
+                                <div class="game" ng-repeat="game in getActiveGames()">
+                                    <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
+                                    <div class="num-players">{{ game.players.length | number:0 }}</div>
+                                    <div class="state">{{ game.state }}</div>
+                                    <div class="turn" ng-class="game.turn.team"><span ng-show="game.turn.team">{{ game.turn.team }}</span></div>
+                                    <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
+                                </div>
 
-                        <div class="game" ng-repeat="game in getActiveGames()">
-                            <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
-                            <div class="num-players">{{ game.players.length | number:0 }}</div>
-                            <div class="state">{{ game.state }}</div>
-                            <div class="turn" ng-class="game.turn.team"><span ng-show="game.turn.team">{{ game.turn.team }}</span></div>
-                            <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
-                        </div>
+                            </div><!-- content -->
 
-                    </div><!-- content -->
+                        </div><!-- ng-show="getActiveGames().length" -->
 
-                </div><!-- ng-show="getActiveGames().length" -->
+                    </div><!-- games-list -->
 
-            </div><!-- games-list -->
+                </div><!-- active-games -->
 
-        </div><!-- active-games -->
+                <div class="complete-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.FINISHED">
 
-        <div class="complete-games" ng-show="viewService.tabs.lobby == viewConstants.TABS.LOBBY.FINISHED">
+                    <div class="games-list">
 
-            <div class="games-list">
+                        <div ng-hide="getCompleteGames().length">
 
-                <div ng-hide="getCompleteGames().length">
+                            <div class="no-games">There are no finished games to display.</div>
 
-                    <div class="no-games">There are no finished games to display.</div>
+                        </div><!-- ng-hide="getCompleteGames().length" -->
 
-                </div><!-- ng-hide="getCompleteGames().length" -->
+                        <div ng-show="getCompleteGames().length">
 
-                <div ng-show="getCompleteGames().length">
+                            <div class="header">
+                                <div class="id">Game ID</div>
+                                <div class="num-players"># Players</div>
+                                <div class="winner">Winner</div>
+                                <div class="created">Created</div>
+                            </div>                
 
-                    <div class="header">
-                        <div class="id">Game ID</div>
-                        <div class="num-players"># Players</div>
-                        <div class="winner">Winner</div>
-                        <div class="created">Created</div>
-                    </div>                
+                            <div class="content">
 
-                    <div class="content">
+                                <div class="game" ng-repeat="game in getCompleteGames()">
+                                    <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
+                                    <div class="num-players">{{ game.players.length | number:0 }}</div>
+                                    <div class="winner" ng-class="game.winner">{{ game.winner }}</div>
+                                    <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
+                                </div>
 
-                        <div class="game" ng-repeat="game in getCompleteGames()">
-                            <div class="id"><a ui-sref="main.game({ gameID: game._id })">{{ game._id }}</a></div>
-                            <div class="num-players">{{ game.players.length | number:0 }}</div>
-                            <div class="winner" ng-class="game.winner">{{ game.winner }}</div>
-                            <div class="created">{{ game.created | date:'yyyy-MM-dd h:mm:ss a' }}</div>
-                        </div>
+                            </div><!-- content -->
 
-                    </div><!-- content -->
+                        </div><!-- ng-show="getCompleteGames().length" -->
 
-                </div><!-- ng-show="getCompleteGames().length" -->
+                    </div><!-- games-list -->
 
-            </div><!-- games-list -->
+                </div><!-- active-games -->
 
-        </div><!-- active-games -->
+            </div><!-- ng-show="viewService.games" -->
 
-    </div><!-- ng-show="viewService.games" -->
+        </div><!-- folder -->
 
-</div>
+    </div><!-- folders -->
+
+</div><!-- panel-lobby -->

@@ -1,16 +1,35 @@
 ﻿<div ng-controller="codenames.mainCtrl" class="panel-main">
 	
     <div class="masthead">
-        <div class="header">Codenames</div>
-        <div class="login-info" ng-show="viewService.session">
+        <div class="header">
+
+            <div class="title">Codenames</div>
+
+            <div class="login-info" ng-show="viewService.session">
             
-            <div class="name">{{ viewService.session.first }} {{ viewService.session.last }}</div>
-            <div class="logout"><span class="text-link" ng-click="logout()">Logout</span></div>
+                <div class="name" ng-click="viewService.menu.display = !viewService.menu.display">
+                    {{ viewService.session.first }} {{ viewService.session.last }} 
+                        <span ng-show="!viewService.menu.display">&#x25c4;</span>
+                        <span ng-show="viewService.menu.display">&#x25bc;</span>
+                </div><!-- name -->
 
-        </div>
-        <div class="breaker">&nbsp;</div>
-    </div>
+            </div><!-- login-info -->
 
-    <div ui-view></div>
+            <div class="menu" ng-show="viewService.menu.display">
+                
+                <div class="option" ng-hide="isInLobby()">
+                    <span class="text-link" ng-click="goToLobby()">Lobby</span> 
+                </div>
+                <div class="option">
+                    <span class="text-link" ng-click="logout()">Logout</span>
+                </div>
+            </div><!-- menu -->
+
+        </div><!-- header -->
+    
+    </div><!-- masthead -->
+
+    <div ui-view class="content"></div>
+
 
 </div>

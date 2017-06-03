@@ -54,7 +54,7 @@ div.panel-game-setup
 
 			}
 
-			.red
+			.team.red
 			{
 				background: $red-background-color;
 				color: $red-foreground-color;
@@ -62,7 +62,7 @@ div.panel-game-setup
 				border-left: 1px solid #000;
 			}
 
-			.blue
+			.team.blue
 			{
 				background: $blue-background-color;
 				color: $blue-foreground-color;
@@ -73,6 +73,34 @@ div.panel-game-setup
 				text-transform: uppercase;
 				font-weight: bold;
 			}
+
+			.winner
+			{
+				width: 317px;
+				background: #fff;
+				text-align: center;
+				font-size: 1.5em;
+				font-weight: bold;
+				border-left: 1px solid #000;
+
+
+				.winner-value
+				{
+					text-transform: uppercase;
+
+					&.blue
+					{
+						color: $blue-color;
+					}
+
+					&.red
+					{
+						color: $red-color;
+					}
+
+				}
+			}
+
 
 		}  /* row */
 
