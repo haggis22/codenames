@@ -1,24 +1,55 @@
 ﻿<div ng-controller="codenames.rulesCtrl" class="panel-rules">
 	
+    <div class="instructions">
+        <div class="title">Game Flow</div>
+        <div class="para">
+            <strong>Spymasters take turns giving clues.</strong> After a spymaster gives a clue, his or her team starts guessing. Their turn ends when they
+            guess wrong, when they decide to stop, or when they have made the maximum number of guesses for that clue. Then it is the other team's turn.</div>
+    </div><!-- instructions -->
 
     <div class="instructions">
         <div class="title">Giving a Clue</div>
         <div class="para">If you are the spymaster, you are trying to think of a one-word clue that relates to some of the words your team is trying to guess. When you think you 
-        have a good clue, you say it. You also say one number, which tells your teammates how many codenames are related to your clue.</div>
+        have a good clue, give it to your team. You also give a number, which tells your teammates how many codenames are related to your clue.</div>
         <div class="para"><span class="label">Example:</span> Two of your words are <span class="word">nut</span> and <span class="word">bark</span>. Both of these grow on trees, so you say <span class="clue">tree: 2</span>.</div>
         <div class="para">You are allowed to give a clue for only one word (<span class="clue">cashew: 1</span>), but it's fun to try for two or more. Getting four words
         with one clue is a big accomplishment.</div>
-        <div class="title">One Word</div>
-        <div class="para">Your clue must be only one word. Your clue cannot be any of the codenames visible on the table. On later turns, some codenames will be covered up,
+    </div><!-- instructions -->
+
+    <div class="instructions">
+        <div class="title">Valid Clues</div>
+        <div class="para">
+            <strong>Your clue must be only one word.</strong>
+             Your clue cannot be any of the codenames visible on the table. On later turns, some codenames will be covered up,
            so a clue that is not legal now might be legal later.</div>
-    </div>
+        <div class="para"><strong>Your clue must be about the meaning of the words.</strong> You can't use your clue to talk about the letters in a word
+            or its position on the table. <span class="clue">Gland</span> is not a valid clue for <span class="word">England</span>. You can't tie
+            <span class="word">bug</span>, <span class="word">bed</span> and <span class="word">bow</span> together with a clue like 
+            <span class="clue">b: 3</span> nor with a clue like <span class="clue">three: 3</span>. However...</div>
+        <div class="para"><strong>Letters and numbers are valid clues, as long as they refer to meanings.</strong> You can use <span class="clue">X: 1</span> as 
+            a clue for <span class="word">ray</span>. You can use <span class="clue">eight: 3</span> as a clue for <span class="word">ball</span>, 
+            <span class="word">figure</span> and <span class="word">octopus</span>.</div>
+        <div class="para"><strong>You must play in English.</strong> A foreign word is allowed only if the players in your group would use it in an English 
+            sentence. For example, you can't use <span class="clue">Apfel</span> as a clue for <span class="word">apple</span> and <span class="word">Berlin</span>,
+            but you can use <span class="clue">strudel</span>.</div>
+        <div class="para"><strong>You can't say any form of the visible word on the table.</strong> Until <span class="word">break</span> is covered up by a card,
+            you can't say <span class="clue">break</span>, <span class="clue">broken</span>, <span class="clue">breakage</span> or <span class="clue">breakdown</span>.
+            <span class="apology">[ The computer will sometimes cheat at this - sorry. :) ]</span></div>
+        <div class="para"><strong>You can't say part of a compound word on the table.</strong> Until <span class="word">horseshoe</span> is covered up,
+            you can't say <span class="clue">horse</span>, <span class="clue">shoe</span>, <span class="clue">unhorsed</span> or <span class="clue">snowshoe</span>.</div>
+        <div class="para">Rhymes are always valid when they refer to meanings. <span class="clue">Snail</span> is a valid clue for <span class="word">mail</span> because
+            this rhyme is a common phrase. <span class="clue">Snail</span> is also a valid clue for <span class="word">whale</span> because they are both animals.
+            <span class="clue">Snail</span> is not a valid clue for <span class="word">scale</span> because their main association is through the sound of the words.
+            (If someone in your group has a job weighing snails, however, this clue is perfectly fine.)</div>
+    </div><!-- instructions -->
+
 
     <div class="instructions">
         <div class="title">Making Contact</div>
         <div class="para">When the spymaster gives a clue, his or her field operatives try to figure out what it means. The operatives indicate their official guess when
         one of them clicks on one of the codenames on the board.</div>
         <ul>
-            <li>If the field operative selects <strong>a card belonging to his or her team</strong>, the word will be covered with an agent card in that color.
+            <li>If the field operative selects <strong>a card belonging to his or her team</strong>, the word will be covered with an agent card in that colour.
                 <strong>The operatives get another guess (but not another clue).</strong></li>
             <li>If the field operative selects <strong>an innocent bystander</strong>, the word will be covered with an innocent bystander card.
                 <strong>This ends the turn.</strong></li>
@@ -28,22 +59,41 @@
                 <strong>The team that contacted the assassin loses.</strong></li>
         </ul>
         <div class="para"><span class="label">Tip:</span> Before giving your clue, make sure it doesn't relate to the assassin.</div>
-    </div>
+    </div><!-- instructions -->
 
     <div class="instructions">
         <div class="title">Number of Guesses</div>
         <div class="para">
             <strong>The field operatives must always make at least one guess.</strong>
-            Any wrong guess ends the turn immediately, but if the field operatives guess a word of their team's color, they can keep guessing.</div>
+            Any wrong guess ends the turn immediately, but if the field operatives guess a word of their team's colour, they can keep guessing.</div>
         <div class="para">
             <strong>You can stop guessing at any time</strong>, but usually you want to guess as many words as the spymaster said. Sometimes you might even
                 want to guess <strong>one more:</strong></div>
         <div class="para">
-            <span class="label">Example:</span> Red Team's first clue was <span class="clue">tree: 2</span>. The red operative wanted to guess 
+            <span class="label">Example:</span> Red Team's first clue was <span class="clue">tree: 2</span>. The red operative wanted to guess <span class="word">orange</span>
+            and <span class="word">nut</span>. She guessed <span class="word">orange</span> first. That was an innocent bystander, so she did not get a change to guess 
+            <span class="word">nut</span>.
         </div>
+        <div class="para">Blue Team took a turn and correctly guessed two words. Now it is Red Team's turn again.</div>
+        <div class="para">The red spymaster says <span class="clue">river: 3</span>. The red operative is pretty sure the <span class="word">amazon</span> is a river,
+            so she selects that card. The spymaster covers it with a red agent card, so she gets to go again. A river has a <span class="word">bed</span>, so she touches
+            that codename. It's also red, so she can go again.</div>
+        <div class="para">She's not sure of the third <span class="clue">river</span> word. She picks <span class="word">nut</span>. This has nothing to do with 
+            <span class="clue">river</span>. She is guessing a word from the previous clue.</div>
+        <div class="para"><span class="word">Nut</span> is a red word. The operative has made 3 correct guesses for the clue <span class="clue">river: 3</span>. She is
+            allowed one final guess. She can try to find the third <span class="clue">river</span> word, or she can try to find the other <span class="clue">tree</span>
+            word. Or she can stop at three and let Blue Team have a turn.</div>
+        <div class="para">
+            <strong>You are allowed only one extra guess.</strong> In the example above, the red operative would be allowed 4 guesses because her spymaster said the number
+            <span class="clue">3</span>. When the field operatives say they are done guessing (by clicking the Pass Turn button), or when they guess wrong, it is the
+            other team's turn.</div>
+    </div><!-- instructions -->
 
-        </div>
-            When the spymaster gives a clue, his or her field operatives try to figure out what it means. The operatives indicate their official guess when
-        one of them clicks on one of the codenames on the board.</div>
+    <div class="instructions">
+        <div class="title">Ending the game</div>
+        <div class="para"><strong>The game ends when one team has all their words covered. That team wins.</strong></div>
+        <div class="para">It is possible to win on the other team's turn if they guess your last word.</div>
+        <div class="para"><strong>The game can end early if a field operative makes contact with the assassin. That operative's team loses.</strong></div>
+    </div><!-- instructions -->
 
 </div>
