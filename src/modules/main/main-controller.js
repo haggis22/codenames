@@ -3,12 +3,13 @@
     "use strict";
 
     app.controller('codenames.mainCtrl', ['$scope', '$rootScope', '$state',
-                                            'codenames.Constants', 'codenames.viewService', 'codenames.userService',
+                                            'codenames.Constants', 'codenames.viewService', 'codenames.userService', 'codenames.gameService',
 
         function ($scope, $rootScope, $state,
-                    constants, viewService, userService) {
+                    constants, viewService, userService, gameService) {
 
             $scope.viewService = viewService;
+            $scope.gameService = gameService;
             $scope.state = $state;
 
             function isInEntryway() {

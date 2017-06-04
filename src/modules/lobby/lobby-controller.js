@@ -2,7 +2,7 @@
 
     "use strict";
 
-    app.controller('codenames.lobbyCtrl', ['$scope', '$q',
+    app.controller('codenames.lobbyCtrl', ['$scope', '$q', 
                                                 'codenames.viewConstants', 'codenames.viewService', 'codenames.gameService',
 
         function ($scope, $q,
@@ -11,6 +11,7 @@
             $scope.viewConstants = viewConstants;
             $scope.viewService = viewService;
 
+            
             gameService.pullGames();
 
 
@@ -25,9 +26,10 @@
 
                 gameService.create()
 
-                    .then(function () {
+                    .then(function() {
 
-                        gameService.pullGames();
+                        // change the tab as well
+                        $scope.selectTab(viewConstants.TABS.LOBBY.SETUP);
 
                     });
 
