@@ -67,44 +67,49 @@
 
             </div><!-- teams -->
 
-            <div class="clues" ng-show="viewService.game.isActive() && isSpymaster()">
+            <div class="clues">
+            
+                <div class="giving" ng-show="viewService.game.isActive() && isSpymaster()">
 
-                <form name="clueForm" novalidate>
+                    <form name="clueForm" novalidate>
 
-                    <input type="text" 
-                            name="clue"
-                            placeholder="clue"
-                            ng-model="viewService.clue.word" 
-                            class="clue" 
-                            ng-class="{ 'field-error': viewService.clue.submitted && clueForm.clue.$invalid }"
-                            h22-enter-action="giveClue()"
-                            required />
+                        <input type="text" 
+                                name="clue"
+                                placeholder="clue"
+                                ng-model="viewService.clue.word" 
+                                class="clue" 
+                                ng-class="{ 'field-error': viewService.clue.submitted && clueForm.clue.$invalid }"
+                                h22-enter-action="giveClue()"
+                                required />
 
-                    <input type="text"
-                            name="numMatches"
-                            placeholder="# words"
-                            ng-model="viewService.clue.numMatches"
-                            class="numMatches"
-                            ng-class="{ 'field-error': viewService.clue.submitted && clueForm.numMatches.$invalid }"
-                            pattern="[1-9]"
-                            h22-enter-action="giveClue()"
-                            required />
+                        <input type="text"
+                                name="numMatches"
+                                placeholder="# words"
+                                ng-model="viewService.clue.numMatches"
+                                class="numMatches"
+                                ng-class="{ 'field-error': viewService.clue.submitted && clueForm.numMatches.$invalid }"
+                                pattern="[1-9]"
+                                h22-enter-action="giveClue()"
+                                required />
+
+                        <button type="button" 
+                                ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Action.CLUE)" 
+                                ng-click="giveClue()">Give Clue</button>
+
+                    </form><!-- clueForm -->
+
+                </div><!-- ng-show="isSpymaster()" -->
+
+                <div class="guessing" ng-show="viewService.game.isActive() && isSpy()">
 
                     <button type="button" 
-                            ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Action.CLUE)" 
-                            ng-click="giveClue()">Give Clue</button>
+                            ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Action.GUESS)" 
+                            ng-click="passTurn()">Pass Turn</button>
 
-                </form><!-- clueForm -->
+                </div><!-- ng-show="isSpy()" -->
 
-            </div><!-- ng-show="isSpymaster()" -->
+            </div><!-- clues -->
 
-            <div class="pass" ng-show="viewService.game.isActive() && isSpy()">
-
-                <button type="button" 
-                        ng-disabled="!viewService.game.isMyTurn(viewService.session.userID, Action.GUESS)" 
-                        ng-click="passTurn()">Pass Turn</button>
-
-            </div><!-- ng-show="isSpy()" -->
 
             <div class="div-show-words">
 
@@ -112,6 +117,21 @@
                 <div ng-show="viewService.game.isComplete()"><label><input type="checkbox" ng-model="viewService.options.showRemaining" value="true" />Show remaining</label></div>
 
             </div>
+
+            <div>
+                Scale: <select ng-model="viewService.options.zoom">
+                            <option value="0.25">25%</option>
+                            <option value="0.5">50%</option>
+                            <option value="0.6">60%</option>
+                            <option value="0.7">70%</option>
+                            <option value="0.8">80%</option>
+                            <option value="0.9">90%</option>
+                            <option value="1">100%</option>
+                            <option value="1.5">150%</option>
+                            <option value="2">200%</option>
+                        </select>
+            </div>
+
 
         </div><!-- game-state -->
         <div class="game-moves">
@@ -173,20 +193,6 @@
 
     <div class="div-board">
        
-        <div>
-            Scale: <select ng-model="viewService.options.zoom">
-                        <option value="0.25">25%</option>
-                        <option value="0.5">50%</option>
-                        <option value="0.6">60%</option>
-                        <option value="0.7">70%</option>
-                        <option value="0.8">80%</option>
-                        <option value="0.9">90%</option>
-                        <option value="1">100%</option>
-                        <option value="1.5">150%</option>
-                        <option value="2">200%</option>
-                    </select>
-        </div>
-
         <div class="board" ng-style="{ zoom: viewService.options.zoom }">
 
             <div 
