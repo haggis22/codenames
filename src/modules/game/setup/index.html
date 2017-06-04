@@ -1,132 +1,141 @@
 ﻿<div ng-controller="codenames.game.SetupCtrl" class="panel-game-setup">
 
-    <div class="folder-tabs">
-        <div class="tab" ng-show="viewService.game.isPlaying(viewService.session.username)" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.ROLES}">
-            <a ng-click="selectTab(viewConstants.TABS.SETUP.ROLES)" 
-                title="Choose your team (RED or BLUE) and then your role">Pick a team</a>
+    <div class="folders">
+
+        <div class="folder-tabs">
+            <div class="tab" ng-show="viewService.game.isPlaying(viewService.session.username)" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.ROLES}">
+                <a ng-click="selectTab(viewConstants.TABS.SETUP.ROLES)" 
+                    title="Choose your team (RED or BLUE) and then your role">Pick a team</a>
+            </div>
+            <div class="tab" ng-show="isOwner()" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.INVITE }">
+                <a ng-click="selectTab(viewConstants.TABS.SETUP.INVITE)"
+                    title="Invite other users to join your game">Invite more players</a>
+            </div>
         </div>
-        <div class="tab" ng-show="isOwner()" ng-class="{ 'active': viewService.tabs.setup == viewConstants.TABS.SETUP.INVITE }">
-            <a ng-click="selectTab(viewConstants.TABS.SETUP.INVITE)"
-                title="Invite other users to join your game">Invite more players</a>
-        </div>
-    </div>
 
-    <div class="folder">
+        <div class="folder">
 
-        <div ng-show="viewService.tabs.setup == viewConstants.TABS.SETUP.INVITE" class="folder-invitations">
+            <div ng-show="viewService.tabs.setup == viewConstants.TABS.SETUP.INVITE" class="folder-invitations">
 
-            <div class="inviter">
+                <div class="inviter">
         
-                <form name="inviteForm" novalidate>
+                    <form name="inviteForm" novalidate>
 
-                    <div class="div-form">
-                        <div class="header">
-                            Invite players
-                        </div><!-- header -->
-                        <div class="form-row">
-                            <div class="label">
-                                Username:
-                            </div><!-- label -->
-                            <div class="field">
-                                <input type="text" 
-                                    class="username" 
-                                    ng-class="{ 'field-error': viewService.invitation.submitted && inviteForm.username.$invalid }"
-                                    name="username" 
-                                    ng-model="viewService.invitation.username"
-                                    required 
-                                    h22-enter-action="invite()" />                            
-                            </div><!-- field -->
-                        </div>
-                        <div class="buttons">
-                            <button type="button" ng-click="invite()">Invite</button>
-                        </div>
+                        <div class="div-form">
+                            <div class="header">
+                                Invite players
+                            </div><!-- header -->
+                            <div class="form-row">
+                                <div class="label">
+                                    Username:
+                                </div><!-- label -->
+                                <div class="field">
+                                    <input type="text" 
+                                        class="username" 
+                                        ng-class="{ 'field-error': viewService.invitation.submitted && inviteForm.username.$invalid }"
+                                        name="username" 
+                                        ng-model="viewService.invitation.username"
+                                        required 
+                                        h22-enter-action="invite()" />                            
+                                </div><!-- field -->
+                            </div>
+                            <div class="buttons">
+                                <button type="button" ng-click="invite()">Invite</button>
+                            </div>
 
-                    </div><!-- invitations div-form -->
+                        </div><!-- invitations div-form -->
 
-                </form><!-- inviteForm -->
+                    </form><!-- inviteForm -->
 
-            </div><!-- inviter -->
+                </div><!-- inviter -->
             
-            <div class="invitations">
+                <div class="invitations">
 
-                <div ng-hide="viewService.game.invitations.length" class="no-invitations">
-                    There are no open invitations for this game.
-                </div>
+                    <div ng-hide="viewService.game.invitations.length" class="no-invitations">
+                        There are no open invitations for this game.
+                    </div>
                 
-                <div ng-repeat="invitee in viewService.game.invitations" class="invitation">
-                    {{ invitee }}
-                </div><!-- invitee -->
+                    <div ng-repeat="invitee in viewService.game.invitations" class="invitation">
+                        {{ invitee }}
+                    </div><!-- invitee -->
 
-            </div><!-- invitations -->
-
-
-        </div><!-- INVITE -->
-
-        <div ng-show="viewService.tabs.setup == viewConstants.TABS.SETUP.ROLES" class="teams">
-
-            <div class="row header">
-                <div class="label role">Role</div>
-                <div class="team red">Red</div>
-                <div class="team blue">Blue</div>
-            </div><!-- row -->
-
-            <div class="row">
-                <div class="label role">Spymaster</div>
-                <div class="team red">
-                    <div ng-hide="findSpymaster(Team.RED)"><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPYMASTER)">Choose</button></div>
-                    <div class="players">
-                        <div class="spymaster" ng-show="findSpymaster(Team.RED)">{{ findSpymaster(Team.RED).first }}</div>
-                        <div class="spymaster" ng-hide="findSpymaster(Team.RED)">CPU</div>
-                    </div><!-- players -->
-                </div><!-- red team spymaster -->
-                <div class="team blue">
-                    <div ng-hide="findSpymaster(Team.BLUE)"><button type="button" ng-click="apply(Team.BLUE, Team.ROLES.SPYMASTER)">Choose</button></div>
-                    <div class="players">
-                        <div class="spymaster" ng-show="findSpymaster(Team.BLUE)">{{ findSpymaster(Team.BLUE).first }}</div>
-                        <div class="spymaster" ng-hide="findSpymaster(Team.BLUE)">CPU</div>
-                    </div><!-- players -->
-                </div><!-- blue team spymaster -->
-            </div><!-- row -->
-
-            <div class="row">
-                <div class="label role">Spies</div>
-                <div class="team red">
-                    <div ng-hide="iAmSpyFor(Team.RED)"><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPY)">Choose</button></div>
-                    <div class="players">
-                        <div ng-show="findSpies(Team.RED).length == 0">
-                            <div class="spy">CPU</div>
-                        </div>
-                        <div ng-show="findSpies(Team.RED).length > 0">
-                            <div class="spy" ng-repeat="spy in findSpies(Team.RED)">{{ spy.first }}</div>
-                        </div>
-                    </div><!-- players -->
-                </div><!-- red team spymaster -->
-                <div class="team blue">
-                    <div ng-hide="iAmSpyFor(Team.BLUE)"><button type="button" ng-click="apply(Team.BLUE, Team.ROLES.SPY)">Choose</button></div>
-                    <div class="players">
-                        <div ng-show="findSpies(Team.BLUE).length > 0">
-                            <div class="spy" ng-repeat="spy in findSpies(Team.BLUE)">{{ spy.first }}</div>
-                        </div>
-                        <div ng-show="findSpies(Team.BLUE).length == 0">
-                            <div class="spy">CPU</div>
-                        </div>
-                    </div><!-- players -->
-                </div><!-- blue team spymaster -->
-            </div><!-- row -->
-
-        </div><!-- teams -->
+                </div><!-- invitations -->
 
 
+            </div><!-- INVITE -->
 
-    </div><!-- folder -->
+            <div ng-show="viewService.tabs.setup == viewConstants.TABS.SETUP.ROLES" class="teams">
 
+                <div class="row header">
+                    <div class="label role">Role</div>
+                    <div class="team red">Red</div>
+                    <div class="team blue">Blue</div>
+                </div><!-- row -->
+
+                <div class="row">
+                    <div class="label role">Spymaster</div>
+                    <div class="team red">
+                        <div ng-hide="findSpymaster(Team.RED)"><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPYMASTER)">Choose</button></div>
+                        <div class="players">
+                            <div class="spymaster" ng-show="findSpymaster(Team.RED)">{{ findSpymaster(Team.RED).first }}</div>
+                            <div class="spymaster" ng-hide="findSpymaster(Team.RED)">CPU</div>
+                        </div><!-- players -->
+                    </div><!-- red team spymaster -->
+                    <div class="team blue">
+                        <div ng-hide="findSpymaster(Team.BLUE)"><button type="button" ng-click="apply(Team.BLUE, Team.ROLES.SPYMASTER)">Choose</button></div>
+                        <div class="players">
+                            <div class="spymaster" ng-show="findSpymaster(Team.BLUE)">{{ findSpymaster(Team.BLUE).first }}</div>
+                            <div class="spymaster" ng-hide="findSpymaster(Team.BLUE)">CPU</div>
+                        </div><!-- players -->
+                    </div><!-- blue team spymaster -->
+                </div><!-- row -->
+
+                <div class="row">
+                    <div class="label role">Field Operatives</div>
+                    <div class="team red">
+                        <div ng-hide="iAmSpyFor(Team.RED)"><button type="button" ng-click="apply(Team.RED, Team.ROLES.SPY)">Choose</button></div>
+                        <div class="players">
+                            <div ng-show="findSpies(Team.RED).length == 0">
+                                <div class="spy">CPU</div>
+                            </div>
+                            <div ng-show="findSpies(Team.RED).length > 0">
+                                <div class="spy" ng-repeat="spy in findSpies(Team.RED)">{{ spy.first }}</div>
+                            </div>
+                        </div><!-- players -->
+                    </div><!-- red team spymaster -->
+                    <div class="team blue">
+                        <div ng-hide="iAmSpyFor(Team.BLUE)"><button type="button" ng-click="apply(Team.BLUE, Team.ROLES.SPY)">Choose</button></div>
+                        <div class="players">
+                            <div ng-show="findSpies(Team.BLUE).length > 0">
+                                <div class="spy" ng-repeat="spy in findSpies(Team.BLUE)">{{ spy.first }}</div>
+                            </div>
+                            <div ng-show="findSpies(Team.BLUE).length == 0">
+                                <div class="spy">CPU</div>
+                            </div>
+                        </div><!-- players -->
+                    </div><!-- blue team spymaster -->
+                </div><!-- row -->
+
+            </div><!-- teams -->
+
+
+
+        </div><!-- folder -->
+
+    </div><!-- folders -->
+
+    <div class="instructions">
+        <div class="para">Spymasters take turns giving one-word clues. A clue may relate to multiple words on the table. The field operatives try to guess which words their spymaster meant.</div>
+        <div class="para">When a field operative selects a word, its secret identity is revealed. If the field operative guesses correctly, they may continue guessing, until they run out of ideas
+        for the given clue or until they hit a wrong person. Then it is the other team's turn to give a clue and guess.</div>
+        <div class="para">The first team to contact all their agents wins the game.</div>
+    </div><!-- instructions -->
 
     <div class="invitee-panels" ng-show="viewService.game.isInvited(viewService.session.username)">
         
         <button type="button" ng-click="acceptInvitation()">Accept Invitation</button>
 
     </div>
-
 
     <div class="buttons">
         <button type="button" class="start" ng-click="startGame()">Start the game!</button>
