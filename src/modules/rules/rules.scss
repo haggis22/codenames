@@ -1,0 +1,94 @@
+﻿.panel-main
+{
+	.masthead
+	{
+		position: relative;
+		border-bottom: 1px solid $borderColor;
+		background-color: $backgroundColor;
+		height: 35px;
+		width: 100%;
+		z-index: 1001;
+		box-sizing: border-box;
+
+		.header
+		{
+			position: relative;
+			top: 0;
+			left: 0;
+			width: 100%;
+			max-width: $page-width;
+
+			.title
+			{
+				position: absolute;
+				top: 5px;
+				left: 5px;
+				font-size: 20px;
+			}
+
+			.login-info
+			{
+				position: absolute;
+				top: 12px;
+				right: 5px;
+				font-size: 14px;
+
+				.name
+				{
+					text-align: right;
+					font-weight: bold;
+					cursor: pointer;
+				}
+
+			}
+
+
+			.menu
+			{
+				display: inline-block;
+				position: absolute;
+				width: 100px;
+				top: 37px;
+				right: 0;
+				font-size: 14px;
+
+				border: 1px solid $borderColor;
+				background-color: $backgroundColor;
+				padding: 5px;
+
+
+				.option
+				{
+					text-align: right;
+
+					&:hover
+					{
+						background-color: $borderColor;
+						color: #fff;
+					}
+
+				}
+
+				.option + .option
+				{
+					margin-top: 5px;
+				}
+
+
+			}
+
+		}  /* header */
+
+
+	}
+
+	.content
+	{
+		margin-top: 5px;
+		padding: 10px;
+		width: 100%;
+		max-width: $page-width;
+
+	}
+
+}

@@ -70,6 +70,15 @@
 
             };
 
+            $scope.goToRules = function () {
+
+                // hide the menu
+                viewService.menu.display = false;
+
+                return $state.go('main.rules');
+
+            };
+
 
         }  // outer function
 

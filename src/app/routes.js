@@ -27,6 +27,10 @@
                     url: "/lobby",
                     templateUrl: "/modules/lobby/index.html?v=" + (new Date()).getTime()
                 })
+                .state('main.rules', {
+                    url: "/rules",
+                    templateUrl: "/modules/rules/index.html?v=" + (new Date()).getTime()
+                })
 
                 .state('main.game', {
                     url: "/game/:gameID",
