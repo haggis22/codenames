@@ -41,23 +41,43 @@ class UserManager
     // Success: returns a Session object
     login(username, password) {
 
+        let repo = this.repo;
+
         // pull by email address
-        return this.repo.fetchByEmail(username)
+        return repo.fetchByEmail(username)
 
             .then(function(userResult) {
 
-                if (!userResult.data)
+                if (userResult.error)
                 {
-                    return userResult;
+                    return q(userResult);
                 }
 
-                let user = userResult.data;
+                if (userResult.data)
+                {
+                    // we found the user, so jump to the next step
+                    return q(userResult.data);
+                }
 
-                if (user == null) {
+                // We did not find the user by email, so check by username instead
+                return repo.fetchByUsername(username);
+
+            })
+            .then(function(userResult) {
+
+                if (userResult.error)
+                {
+                    throw new Error("Could not fetch user from database");
+                }
+
+                // we don't want to throw an exception, but we do want to indicate that the login failed
+                if (userResult.data === null) {
 
                     return { error: 'Unknown user or incorrect password' };
 
                 }
+
+                let user = userResult.data;
 
                 return cryptographer.compare(password, user.password)
 
