@@ -49,7 +49,7 @@ app.use(express.static(__dirname + '/../client'));
 
 app.use(function (err, req, res, next) {
     logger.error(err.stack);
-    res.status(500).send('Something broke!');
+    res.status(500).send('There was a server error processing the request');
     next();
 });
 
