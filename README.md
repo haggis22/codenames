@@ -4,6 +4,11 @@ This project is a basic online implementation of the board game Codenames by Cze
 fun and in no way endorsed by Vlaada Chvátil or Czech Games. This is simply one of my pet projects to work 
 on when I want to try out something new.
 
+I own their game (two copies! one to keep and one to give away) 
+and heartily recommend it - it's simple and fun. You can learn more 
+about it at their website at http://czechgames.com/en/codenames/.
+
+
 ### Prerequisites
 
 Depends up on AngularJS version 1.x to run. Needs Gulp to rebuild the project if changes are made.
