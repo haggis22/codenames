@@ -40,6 +40,7 @@
     <None Include="logs\empty.log" />
     <None Include="package.json" />
     <None Include="configs\dev\log4js_config.json" />
+    <None Include="README.md" />
     <None Include="src\css\base.scss" />
     <None Include="src\css\instructions.scss" />
     <None Include="src\css\imports.scss" />
@@ -75,6 +76,7 @@
     <Content Include="js\users\User.js" />
     <Content Include="lib\haggis22\haggis22.css" />
     <Content Include="lib\haggis22\haggis22.js" />
+    <Content Include="LICENSE.txt" />
     <Content Include="server\cpu-runner.js" />
     <Content Include="server\crypto\cryptographer.js" />
     <Content Include="server\managers\games\BoardManager.js" />
