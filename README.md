@@ -8,6 +8,10 @@ I own their game (two copies! one to keep and one to give away)
 and heartily recommend it - it's simple and fun. You can learn more 
 about it at their website at http://czechgames.com/en/codenames/.
 
+### Demo
+
+You can try this code out online at https://www.haggis22.com. It runs on an Ubuntu deployment of Node.js,
+with a MongoDB back-end.
 
 ### Prerequisites
 
