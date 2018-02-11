@@ -36,7 +36,7 @@ Node and npm are required - with them installed you can set up the dev dependenc
 npm install
 ```
 
-The default gulp task will re-build both the haggis22.js and haggis22.css files and put them in the `build` folder.
+The default gulp task will build the server and client files and put them in the `build` folder.
 
 ```
 gulp 
