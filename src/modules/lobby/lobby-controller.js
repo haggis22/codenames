@@ -36,6 +36,7 @@
             };   // createGame
 
 
+            // Simple comment just to test checkin
             $scope.getSetupGames = function () {
 
                 if (viewService.games && viewService.session)
