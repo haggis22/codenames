@@ -3,8 +3,8 @@
 	.masthead
 	{
 		position: relative;
-		border-bottom: 1px solid $borderColor;
-		background-color: $backgroundColor;
+		border-bottom: 1px solid $border-color;
+		background-color: $background-color;
 		height: 35px;
 		width: 100%;
 		z-index: 1001;
@@ -53,8 +53,8 @@
 				right: 0;
 				font-size: 14px;
 
-				border: 1px solid $borderColor;
-				background-color: $backgroundColor;
+				border: 1px solid $border-color;
+				background-color: $background-color;
 				padding: 5px;
 
 
@@ -64,7 +64,7 @@
 
 					&:hover
 					{
-						background-color: $borderColor;
+						background-color: $border-color;
 						color: #fff;
 					}
 
