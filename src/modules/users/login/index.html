@@ -1,61 +1,74 @@
 ﻿<div ng-controller="codenames.users.loginCtrl" class="panel-login">
 
-    <form name="loginForm">
-        
-        <div class="login div-form">
-
-            <div class="form-row">
-                <div class="label">
-                    Username:
-                </div><!-- label -->
-                <div class="field">
-                    <input type="text" 
-                        name="username"
-                        ng-model="username" 
-                        ng-class="{ 'field-error': loginSubmitted && loginForm.username.$invalid }"
-                        h22-focus-me="true"
-                        h22-enter-action="login()"
-                        required />
-                </div><!-- field -->
-            </div><!-- form-row -->
-            <div class="form-row">
-                <div class="label">
-                    Password:
-                </div><!-- label -->
-                <div class="field">
-                    <input type="password" 
-                            name="password"
-                            ng-model="password" 
-                            ng-class="{ 'field-error': loginSubmitted && loginForm.password.$invalid }"
-                            h22-enter-action="login()"
-                            required />
-                </div><!-- field -->
-            </div><!-- form-row -->
-            <div class="buttons">
-				<h22-ajax-message ng-show="viewService.loggingIn" message="Logging in"></h22-ajax-message>
-				<div ng-hide="viewService.loggingIn">			
-	                <button type="button" ng-click="login()">Log In</button>
-				</div>
-            </div><!-- footer -->
-        
-        </div>
-
-    </form>
-
-    <div class="invitation">Don't have a username?  Click <a ui-sref="main.register">here</a> to register.</div>
-    <div class="invitation">Don't want to bother registering?  Click <span class="text-link" ng-click="loginAsGuest()">here</span> to log in as a guest. You will be able to create your own games and play them, but once logged out you will not have access to them.</div>
-
     <div class="instructions">
-        <div class="title game-name">Codenames</div>
-        <div class="para">The two rival spymasters know the secret identities of 25 agents. Their teammates know the agents only by their <span class="game-name">codenames</span>.</div>
-        <div class="para">The teams compete to see who can make contact with all of their agents first. Spymasters give one-word clues that can point to multiple words on the board. Their
-        teammates try to guess the words of the right colour while avoiding those that belong to the opposing team. And everyone wants to avoid the assassin.</div>
+        <div class="para intro">The two rival spymasters know the secret identities of 25 agents. Their teammates know the agents only by their <span class="game-name">codenames</span>.</div>
+        <div class="para">
+            The teams compete to see who can make contact with all of their agents first. Spymasters give one-word clues that can point to multiple words on the board. Their
+            teammates try to guess the words of the right colour while avoiding those that belong to the opposing team. And everyone wants to avoid the assassin.
+        </div>
     </div><!-- instructions -->
 
+
+    <div class="div-form">
+
+        <div class="login">
+
+            <div class="header">Login</div>
+
+            <form name="loginForm">
+
+                <div class="form-row">
+                    <div class="label">
+                        Username:
+                    </div><!-- label -->
+                    <div class="field">
+                        <input type="text"
+                               name="username"
+                               ng-model="username"
+                               ng-class="{ 'field-error': loginSubmitted && loginForm.username.$invalid }"
+                               h22-focus-me="true"
+                               h22-enter-action="login()"
+                               required />
+                    </div><!-- field -->
+                </div><!-- form-row -->
+                <div class="form-row">
+                    <div class="label">
+                        Password:
+                    </div><!-- label -->
+                    <div class="field">
+                        <input type="password"
+                               name="password"
+                               ng-model="password"
+                               ng-class="{ 'field-error': loginSubmitted && loginForm.password.$invalid }"
+                               h22-enter-action="login()"
+                               required />
+                    </div><!-- field -->
+                </div><!-- form-row -->
+                <div class="buttons">
+                    <h22-ajax-message ng-show="viewService.loggingIn" message="Logging in"></h22-ajax-message>
+                    <div ng-hide="viewService.loggingIn">
+                        <button type="button" ng-click="login()">Log In</button>
+                    </div>
+                </div><!-- footer -->
+
+            </form>
+        
+        </div><!-- .login -->
+        
+        <hr />
+
+        <div class="invitation">Don't have a username?  Click <a ui-sref="main.register">here</a> to register.</div>
+        <div class="invitation">Don't want to bother registering?  Click <span class="text-link" ng-click="loginAsGuest()">here</span> to log in as a guest. You will be able to create your own games and play them, but once logged out you will not have access to them.</div>
+
+    </div><!-- login div-form -->
+
+
     <div class="disclaimer">
-        <p>This project is a basic online implementation of the board game <strong>Codenames</strong> by <a href="http://czechgames.com/" target="_blank">Czech Games Edition</a>, purely for fun and in no way endorsed by 
-        Vlaada Chv&aacute;til or Czech Games. This is simply a pet project of mine to work on when I want to try out something new.</p>
-        <p>I own their game (two copies! one to keep and one to give away) and heartily recommend it - it's simple and fun.  You can learn more about it at <a href="http://czechgames.com/en/codenames/" target="_blank">their website</a>.</p>
+        <section>
+            This project is a basic online implementation of the board game <strong>Codenames</strong> by <a href="http://czechgames.com/" target="_blank">Czech Games Edition</a>, purely for fun and in no way endorsed by
+            Vlaada Chv&aacute;til or Czech Games. This is simply a pet project of mine to work on when I want to try out something new.
+        </section>
+        <section>I own their game (two copies! one to keep and one to give away) and heartily recommend it - it's simple and fun.  You can learn more about it at <a href="http://czechgames.com/en/codenames/" target="_blank">their website</a>.</section>
     </div><!-- disclaimer -->
 
 </div>
