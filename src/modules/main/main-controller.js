@@ -63,8 +63,7 @@
 
             $scope.goToLobby = function () {
 
-                // hide the menu
-                viewService.menu.display = false;
+                hideMenu();
 
                 return $state.go('main.lobby');
 
@@ -72,12 +71,31 @@
 
             $scope.goToRules = function () {
 
-                // hide the menu
-                viewService.menu.display = false;
+                hideMenu();
 
                 return $state.go('main.rules');
 
             };
+
+            $scope.createGame = function () {
+
+                gameService.create()
+
+                    .then(function (newGame) {
+
+                        hideMenu();
+
+                        return $state.go('main.game.setup', { gameID: newGame._id }, { reload: true });
+
+                    });
+
+
+            };  // createGame
+
+            function hideMenu()
+            {
+                viewService.menu.display = false;
+            }
 
 
         }  // outer function

@@ -99,10 +99,10 @@
 
                     .then(function (result) {
 
-                        viewService.game = convertGame(result);
-
                         // update the overall list of games as well
                         pullGames();
+
+                        return convertGame(result);
 
                     })
                     .catch(function(error) { 

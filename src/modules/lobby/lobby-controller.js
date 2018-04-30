@@ -2,10 +2,10 @@
 
     "use strict";
 
-    app.controller('codenames.lobbyCtrl', ['$scope', '$q', 
+    app.controller('codenames.lobbyCtrl', ['$scope', '$q', '$state',
                                                 'codenames.viewConstants', 'codenames.viewService', 'codenames.gameService',
 
-        function ($scope, $q,
+        function ($scope, $q, $state,
                     viewConstants, viewService, gameService) {
 
             $scope.viewConstants = viewConstants;
@@ -26,10 +26,9 @@
 
                 gameService.create()
 
-                    .then(function() {
+                    .then(function (newGame) {
 
-                        // change the tab as well
-                        $scope.selectTab(viewConstants.TABS.LOBBY.SETUP);
+                        return $state.go('main.game.setup', { gameID: newGame._id }, { reload: true });
 
                     });
 
