@@ -20,11 +20,15 @@
 		text-transform: uppercase;
 	}
 
-
-
 	.para
 	{
 		margin-top: 15px;
+
+        .term
+        {
+            font-weight: bold;
+        }
+
 	}
 
 }
