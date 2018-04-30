@@ -3,6 +3,7 @@
 *.suo
 bin
 obj
+.vs
 
 # Node.js dependencies that need to be installed separately
 node_modules
